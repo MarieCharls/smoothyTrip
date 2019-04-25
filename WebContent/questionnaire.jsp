@@ -4,14 +4,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Associer</title>
+<title>Questionnaire</title>
 </head>
 <body>
-<form action="/Smoothy Trip/ServletOp" method="post">
+	
+<form action="/Smoothy Trip/questionnaire" method="post">
 	As-tu une idée précise de la destination ou désires-tu une suggestion adaptée à tes attentes ?  <br>
 	<input type="radio" name="reponse1" value="1-insipireMoi" checked> <label> Insipire moi </label> <br>
 	<input type="radio" name="reponse1" value="2-nimporteOu" checked> <label> N'importe-où </label> <br>
 	<input type="radio" name="reponse1" value="3-Jesais" checked> <label> Je sais où aller ! </label> <br>
+	Si tu as une idée précise, dis-le nous <input type="text" name="destination"/> <br>
 	Qu'est ce que tu aimes lorsque tu voyages ? <br>
 	<input type="radio" name="reponse2" value="1-amoureux" checked> <label> En amoureux </label> <br>
 	<input type="radio" name="reponse2" value="2-culinaire" checked> <label> Culinaire </label> <br>
@@ -71,8 +73,8 @@
 	<option value="0"> année
 	<option value="1"> 2019
 	<option value="2"> 2020
-	</select>
-	Quel est le Nombre de personnes ? <br>
+	</select> 
+	<br> Quel est le Nombre de personnes ? <br>
 	<select name="response4" size="1">
 	<option value="0"> Nombre de personnes
 	<option value="1"> 1
@@ -80,8 +82,8 @@
 	<option value="3"> 3
 	<option value="4"> 4
 	<option value="5"> 5
-	</select>
-	Quelle est la durée du séjour ? <br>
+	</select> 
+	<br> Quelle est la durée du séjour ? <br>
 	<select name="response5" size="1">
 	<option value="0"> Nombre de jours
 	<option value="1"> 1
@@ -97,8 +99,8 @@
 	<option value="12"> 12
 	<option value="13"> 13
 	<option value="14"> 14
-	</select>
-	Quel est ton budget / pers ? <br>
+	</select> 
+	<br> Quel est ton budget / pers ? <br>
 	<input type="radio" name="reponse6" value="1-200" checked> <label> Max 200€ </label> <br>
 	<input type="radio" name="reponse6" value="2-300" checked> <label> Max 300€ </label> <br>
 	<input type="radio" name="reponse6" value="3-500" checked> <label> Max 500€ </label> <br>

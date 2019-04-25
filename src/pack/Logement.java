@@ -13,38 +13,20 @@ public class Logement {
 	@Column
 	private String cityCode;
 	
-	/** Date de début */
+	/** Nom de l'hôtel*/
 	@Column
-	private Date checkInDate;
+	private String nom;
 	
-	/** Date de fin*/
+	/** Adresse*/
 	@Column
-	private Date checkOutDate;
-	
-	/** Nombre de chambres */
-	@Column
-	private int roomQuantity;
-	
-	/** Nombre d'adultes */
-	@Column
-	private int adults;
+	private String adresse;
 	
 	/** Distance du centre */
+	@Column
 	private int radius;
 	
-	/** Unité de distance (par défaut nous garderons le km */
-	private String radiusUnit = "KM";
-	
-	/** Echelon de prix sous la forme 'min-max' */
-	private String priceRange;
-	
-	/** Monnaie (par défaut EUR) */
-	private String currency = "EUR";
-	
-	/** Classement des résultats NONE, DISTANCE, PRICE*/
-	private enum sort { 
-		NONE, DISTANCE, PRICE;
-		}
+	/** Liste de commodités*/
+	List<String> commodites;
 	
 	/** Voyage associé au logement*/
 	@OneToOne
@@ -52,14 +34,6 @@ public class Logement {
 	
 	/** Contructeur de base */
 	public Logement() {}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getCityCode() {
 		return cityCode;
@@ -69,36 +43,20 @@ public class Logement {
 		this.cityCode = cityCode;
 	}
 
-	public Date getCheckInDate() {
-		return checkInDate;
+	public String getNom() {
+		return nom;
 	}
 
-	public void setCheckInDate(Date checkInDate) {
-		this.checkInDate = checkInDate;
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 
-	public Date getCheckOutDate() {
-		return checkOutDate;
+	public String getAdresse() {
+		return adresse;
 	}
 
-	public void setCheckOutDate(Date checkOutDate) {
-		this.checkOutDate = checkOutDate;
-	}
-
-	public int getRoomQuantity() {
-		return roomQuantity;
-	}
-
-	public void setRoomQuantity(int roomQuantity) {
-		this.roomQuantity = roomQuantity;
-	}
-
-	public int getAdults() {
-		return adults;
-	}
-
-	public void setAdults(int adults) {
-		this.adults = adults;
+	public void setAdresse(String adresse) {
+		this.adresse = adresse;
 	}
 
 	public int getRadius() {
@@ -109,21 +67,14 @@ public class Logement {
 		this.radius = radius;
 	}
 
-	public String getRadiusUnit() {
-		return radiusUnit;
+	public List<String> getCommodites() {
+		return commodites;
 	}
 
-	public String getPriceRange() {
-		return priceRange;
+	public void setCommodites(List<String> commodites) {
+		this.commodites = commodites;
 	}
 
-	public void setPriceRange(String priceRange) {
-		this.priceRange = priceRange;
-	}
-
-	public String getCurrency() {
-		return currency;
-	};
 	
 	
 	/**public void demandeToken(){
