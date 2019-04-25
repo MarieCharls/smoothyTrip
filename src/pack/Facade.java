@@ -1,5 +1,8 @@
 package pack;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.persistence.*;
@@ -20,4 +23,10 @@ public class Facade {
     public Facade() {     
     }
     
+    /** Initialiser/créer un voyage */
+    public void creerVoyage(String destination, String origine, Date dateDepart, Date dateRetour, int nbPersonnes, int budgetMax){
+    	// Initialisation du voyage
+    	// Recherche de logements
+    }
+    public List<Logement> chercherLogement(){ return null; }
 }

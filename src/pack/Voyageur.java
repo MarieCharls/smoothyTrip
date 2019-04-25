@@ -1,6 +1,7 @@
 package pack;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -19,11 +20,11 @@ public class Voyageur {
 	@Column
 	private String prenom;
 	
-	@Column
-	private List<String> centresInterets;
+	/**@Column
+	private List<String> centresInterets;*/
 	
 	@OneToMany(mappedBy="voyageur", fetch = FetchType.EAGER)
-	List<Voyage> listVoyage;
+	Set<Voyage> listVoyage;
 
 	public String getNom() {
 		return nom;
@@ -41,19 +42,19 @@ public class Voyageur {
 		this.prenom = prenom;
 	}
 
-	public List<String> getCentresInterets() {
+	/**public List<String> getCentresInterets() {
 		return centresInterets;
 	}
 
 	public void setCentresInterets(List<String> centresInterets) {
 		this.centresInterets = centresInterets;
-	}
+	}*/
 
-	public List<Voyage> getListVoyage() {
+	public Set<Voyage> getListVoyage() {
 		return listVoyage;
 	}
 
-	public void setListVoyage(List<Voyage> listVoyage) {
+	public void setListVoyage(Set<Voyage> listVoyage) {
 		this.listVoyage = listVoyage;
 	}
 		

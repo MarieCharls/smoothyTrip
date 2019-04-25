@@ -26,7 +26,8 @@ public class Logement {
 	private int radius;
 	
 	/** Liste de commodités*/
-	List<String> commodites;
+	/**@Column
+	List<String> commodites;*/
 	
 	/** Voyage associé au logement*/
 	@OneToOne
@@ -67,13 +68,13 @@ public class Logement {
 		this.radius = radius;
 	}
 
-	public List<String> getCommodites() {
+	/**public List<String> getCommodites() {
 		return commodites;
 	}
 
 	public void setCommodites(List<String> commodites) {
 		this.commodites = commodites;
-	}
+	}*/
 
 	
 	

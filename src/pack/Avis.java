@@ -1,32 +1,34 @@
 package pack;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Avis {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	
 	/** Destinataire de l'avis **/
 	@Column
 	private String sujet;
-	/** Type de destinataire **/
 	
+	/** Type de destinataire **/
 	private enum TypeDest { 
 		LOGEMENT,PROFESSIONNEL,ACTIVITE;
 	}
 	@Column
 	private TypeDest type;
+	
 	/** Note **/
 	@Column
 	private int note;
+	
 	/** Commentaire **/
 	@Column
 	private String review;
+	
+	@ManyToOne
+	private Professionnel pro;
 	
 	public Avis(){};
 	public void setSujet(String sujet){

@@ -39,9 +39,10 @@ public class Activite {
 	private int nbPart;
 	
 	/** Avis sur l'activite **/ 
-	private List<Avis> listAvis;
+	/**private List<Avis> listAvis;*/
 	
 	/** Professionel proposant l'activite **/
+	@ManyToOne
 	private Professionnel pro;
 	
 	/** Classement des résultats NONE, DISTANCE, PRICE*/
@@ -99,12 +100,12 @@ public class Activite {
 	public String getType() {
 		return this.type;
 	}
-	public void setAvis(List<Avis> avis){
+	/**public void setAvis(List<Avis> avis){
 		this.listAvis = avis;
 	}
 	public List<Avis> getAvis(){
 		return this.listAvis;
-	}	
+	}*/	
 	public void setSort(sort typesort){
 		this.typeSort = typesort;
 	}
@@ -117,7 +118,7 @@ public class Activite {
 	public Professionnel getPro(){
 		return this.pro;
 	}
-	public void addAvis(Avis avis){
+	/**public void addAvis(Avis avis){
 		this.listAvis.add(avis);
-	}
+	}*/
 }

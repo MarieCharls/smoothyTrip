@@ -1,12 +1,10 @@
 package pack;
 
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 @Entity
 public class Professionnel {
 	@Id
@@ -22,8 +20,15 @@ public class Professionnel {
 	@Column
 	private String tel;
 	/** Services proposes **/
-	@Column
-	private List<Object> services;
+	/**@Column
+	private List<Object> services;*/
+	
+	@OneToMany(mappedBy="pro", fetch = FetchType.EAGER)
+	Set<Activite> listeActivite;
+	
+	@OneToMany(mappedBy="pro", fetch = FetchType.EAGER)
+	Set<Avis> listeAvis;
+	
 	
 	public Professionnel(){}
 	public void setName(String name){
@@ -44,7 +49,7 @@ public class Professionnel {
 	public String getTel(){
 		return this.tel;
 	}
-	public void setServ(List<Object> serv){
+	/**public void setServ(List<Object> serv){
 		this.services = serv;
 	}
 	public List<Object> getServ(){
@@ -52,5 +57,5 @@ public class Professionnel {
 	}
 	public void addServ(Object serv){
 		this.services.add(serv);
-	}
+	}*/
 }
