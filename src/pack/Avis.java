@@ -7,7 +7,8 @@ public class Avis {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	
+	@ManyToOne
+	private Activite act;
 	/** Destinataire de l'avis **/
 	@Column
 	private String sujet;

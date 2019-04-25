@@ -1,6 +1,7 @@
 package pack;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Activite {
@@ -38,8 +40,10 @@ public class Activite {
 	/** Nombre de participants **/
 	private int nbPart;
 	
-	/** Avis sur l'activite **/ 
+	/** Avis sur l'activite **/
 	/**private List<Avis> listAvis;*/
+	@OneToMany(mappedBy="act", fetch = FetchType.EAGER)
+	Set<Avis> listeAvis;
 	
 	/** Professionel proposant l'activite **/
 	@ManyToOne
