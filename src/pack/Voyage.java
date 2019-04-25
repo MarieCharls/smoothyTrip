@@ -22,6 +22,9 @@ public class Voyage {
 	
 	@OneToOne(fetch=FetchType.EAGER)
 	Logement logement;
+	
+	@ManyToOne
+	Voyageur voyageur;
 
 	public Vol getVolAller() {
 		return volAller;
