@@ -35,7 +35,7 @@ public class ServletOp extends HttpServlet {
 		if (operation.equals("questionnaire")){
 			String destination= request.getParameter("destination");
 			String origine = request.getParameter("origine");
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-jj");
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			Date dateDepart = null;
 			Date dateRetour = null;
 			try {
