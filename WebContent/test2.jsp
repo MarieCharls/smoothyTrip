@@ -21,12 +21,14 @@
 		.and("checkOutDate",checkOut)
 		.and("adults",Integer.parseInt("2")));
 	Location[] location = amadeus.referenceData.locations.get(Params
-			.with("keyword","London")
+			.with("keyword","london")
 			.and("subType",Locations.CITY));
 	
 %>
 <%=offers.length %> <br>
 <%=location.length %>
+<%=location[0].getAddress().getCityName() %>
+<%=location[0].getAddress().getCityCode() %>
 <%-- <%= offers[1].getHotel().getName()%> --%>
 </body>
 </html>
