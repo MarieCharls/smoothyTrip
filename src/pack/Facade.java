@@ -35,25 +35,31 @@ public class Facade {
     }
     
     /** Initialiser/créer un voyage */
-    public void creerVoyage(String destination, String origine, Date dateDepart, Date dateRetour, int nbPersonnes, int budgetMax){
-    	// Initialisation du voyage
-    	// Recherche de logements
+    public int creerVoyage(){
+    	Voyage voyage = new Voyage();
+    	return voyage.getId();
     }
+    
     /** Recherche tous les logements disponibles sous certaines contraintes posées en entrée*/
-	public List<Logement> chercherLogement(String cityCode, Date checkInDate, Date checkOutDate, int nbAdults, String budget, int radius) throws ResponseException{ 
+	public List<Logement> chercherLogement(String cityCode, Date checkInDate, Date checkOutDate, int nbAdults, double budget, int radius) throws ResponseException{ 
     	//Initialisation de la connection
     	Amadeus amadeus =this.initialiserAmadeus();
     	
+    	//Conversion en integer
+    	budget = Math.floor(budget);
+    	
+    	int nbJours = checkInDate.compareTo(checkOutDate);
     	// Initialiser la liste de logement
     	List<Logement> listeLogements = Collections.synchronizedList(new ArrayList<Logement>());
     	//Recherche de logement dans l'API
+    	String budget_string = "0-"+String.valueOf(budget);
     	
 		HotelOffer[] offers=amadeus.shopping.hotelOffers.get(Params
 				.with("cityCode", cityCode)
 				.and("checkInDate", checkInDate)
 				.and("checkOutDate",checkOutDate)
 				.and("adults",nbAdults)
-				.and("priceRange",budget)
+				.and("priceRange",budget_string)
 				.and("sort","PRICE")
 				.and("radius",radius)
 				.and("currency", "EUR"));
@@ -70,7 +76,9 @@ public class Facade {
     		// On garde la première offre = la plus intéressante pour chaque hôtel
     		// On pourrait choisir entre plusierus offres dans la suite
     		logement.setPrix(offers[i].getOffers()[0].getPrice().getTotal());
+    		logement.setPrixBase(offers[i].getOffers()[0].getPrice().getBase());
     		logement.setMonnaire(offers[i].getOffers()[0].getPrice().getCurrency());
+    		em.persist(logement);
     		listeLogements.add(logement);
     	}
 		return listeLogements;
@@ -78,6 +86,7 @@ public class Facade {
     /** Récupérer le city code d'une ville à partir de son nom
      * @throws ResponseException */
     public String toCityCode(String cityName) throws ResponseException{
+    	cityName.toLowerCase();
     	Amadeus amadeus = this.initialiserAmadeus();
     	Location[] location = amadeus.referenceData.locations.get(Params
     			.with("keyword",cityName)
@@ -97,5 +106,14 @@ public class Facade {
     public boolean checkDate(Date dateDepart, Date dateRetour){
     	Date dateCourante = new Date();
     	return dateDepart.after(dateCourante) && dateRetour.after(dateDepart);
+    }
+    
+    public void associerLogement(int idLogement,int idVoyage){
+    	// On récupère le dernier voyage créé
+    	Voyage voyage = em.find(Voyage.class, idVoyage);
+    	// On récupère le logement
+    	Logement logement = em.find(Logement.class, idLogement);
+    	// On associe le logement au voyage
+    	voyage.setLogement(logement); 	
     }
 }

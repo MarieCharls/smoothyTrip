@@ -26,12 +26,20 @@ public class Logement {
 	private double radius;
 	
 	/** Unité de distance*/
+	@Column
 	private String radiusUnit;
 	
 	/** Prix */
+	@Column
 	private String prix;
 	
+	/** Prix base*/
+	@Column
+	private String prixBase;
+	
+	
 	/** monnaire */
+	@Column
 	private String monnaire;
 	
 	/** Liste de commodités*/
@@ -45,6 +53,9 @@ public class Logement {
 	/** Contructeur de base */
 	public Logement() {}
 
+	public int getId(){
+		return id;
+	}
 	public String getCityCode() {
 		return cityCode;
 	}
@@ -85,6 +96,14 @@ public class Logement {
 		this.radiusUnit = radiusUnit;
 	}
 
+	public String getMonnaire() {
+		return monnaire;
+	}
+
+	public void setMonnaire(String monnaire) {
+		this.monnaire = monnaire;
+	}
+
 	public String getPrix() {
 		return prix;
 	}
@@ -93,13 +112,15 @@ public class Logement {
 		this.prix = prix;
 	}
 
-	public String getMonnaire() {
-		return monnaire;
+	public String getPrixBase() {
+		return prixBase;
 	}
 
-	public void setMonnaire(String monnaire) {
-		this.monnaire = monnaire;
+	public void setPrixBase(String prixBase) {
+		this.prixBase = prixBase;
 	}
+
+
 
 	/**public List<String> getCommodites() {
 		return commodites;

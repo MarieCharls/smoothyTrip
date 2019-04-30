@@ -26,6 +26,9 @@ public class Voyage {
 	@ManyToOne
 	Voyageur voyageur;
 
+	public int getId(){
+		return id;
+	}
 	public Vol getVolAller() {
 		return volAller;
 	}

@@ -9,12 +9,20 @@
 <body>
 <form action="/Smoothy trip/ServletOp" method="post">
 	<%Collection<Logement> logements = (Collection<Logement>) request.getAttribute("listeLogement");
+	if (logements==null){
+		%> 
+		Aucun logement disponible avec le budget restant <br>
+		<input type="submit" name="Validation" value="Recommencer la recherche">
+	<%
+	}else{
 	for (Logement logement : logements){ 
 		int i =0;%>
 		
-		<input type="radio" name="indexLogement" value="<%=i%>" checked> <label><%=logement.getNom()%>  Distance du centre ville : <%=logement.getRadius()%><%=logement.getRadiusUnit()%> Prix : <%=logement.getPrix()%> <%=logement.getMonnaire()%></label> <br>
+		<input type="radio" name="idLogement" value="<%=logement.getId()%>" checked> <label><%=logement.getNom()%>  Distance du centre ville : <%=logement.getRadius()%><%=logement.getRadiusUnit()%> Prix /nuit: <%=logement.getPrix()%> <%=logement.getMonnaire()%></label> <br>
 	<% i++; } %>
-	<input type="submit" value="Valider">
+	<input type="submit" name="Validation" value="Valider">  <%} %>
 	<input type="hidden" name="op" value="validerLogement">
+	<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>">
+	
 </body>
 </html>

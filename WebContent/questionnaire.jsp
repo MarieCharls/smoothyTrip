@@ -34,10 +34,10 @@
 	<option value="5"> 5
 	</select>
 	<br> Quel est ton budget maximum par personnes ? <br>
-	<input type="radio" name="response6" value="0-200" checked> <label> Max 200€ </label> <br>
-	<input type="radio" name="response6" value="0-300" checked> <label> Max 300€ </label> <br>
-	<input type="radio" name="response6" value="0-500" checked> <label> Max 500€ </label> <br>
-	<input type="radio" name="response6" value="0-10000" checked> <label> Plus de 500€ </label> <br>
+	<input type="radio" name="response6" value="200" checked> <label> Max 200€ </label> <br>
+	<input type="radio" name="response6" value="300" checked> <label> Max 300€ </label> <br>
+	<input type="radio" name="response6" value="500" checked> <label> Max 500€ </label> <br>
+	<input type="radio" name="response6" value="10000" checked> <label> Plus de 500€ </label> <br>
 	<br> A quelle distance du centre-ville veux tu loger? <br>
 	<select name="response7" size="1">
 	<option value="0"> Nombre de KM

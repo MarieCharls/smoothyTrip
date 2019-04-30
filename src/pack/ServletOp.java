@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,6 +28,7 @@ import com.amadeus.resources.Location;
 @WebServlet("/ServletOp")
 public class ServletOp extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	@EJB
 	Facade facade;
        
     /**
@@ -43,6 +45,7 @@ public class ServletOp extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String operation = request.getParameter("op");
 		if (operation.equals("questionnaire")){
+			int idVoyage = facade.creerVoyage();
 			String destination= request.getParameter("destination");
 			
 			String origine = request.getParameter("origine");
@@ -58,23 +61,19 @@ public class ServletOp extends HttpServlet {
 			}
 			// Vérification de la validité des dates insérées
 			boolean dateValide = facade.checkDate(dateDepart,dateRetour);
+			int nbJours = dateDepart.compareTo(dateRetour);
+			
 			int nbPersonnes= Integer.parseInt(request.getParameter("response5"));
-			String budget = request.getParameter("response6");
+			double budget = Integer.parseInt(request.getParameter("response6"));
 			int radius = Integer.parseInt(request.getParameter("response7"));
 			
 			
-//			// Obtenir le cityCode
-//			destination.toLowerCase();
-			String cityCode = new String();
-
+			// Obtenir le cityCode
+			String cityCode_destination = new String();
+			String cityCode_origine = new String();
 			try {
-				Amadeus amadeus = Amadeus
-			              .builder("9fu39sHfnYgpnuoADIwAYhs4PZfO6iLq", "66cmOYECyA6mwb01")
-			              .build();
-				Location[] location = amadeus.referenceData.locations.get(Params
-		    			.with("keyword",destination)
-		    			.and("subType",Locations.CITY));
-		    	cityCode = location[0].getAddress().getCityCode();
+				cityCode_destination = facade.toCityCode(destination);
+				cityCode_origine = facade.toCityCode(origine);
 			} catch (ResponseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -82,58 +81,47 @@ public class ServletOp extends HttpServlet {
 				
 			// Chercher un vol
 			// Faire choisir le vol à l'utilisateur
-			// Calculer le budget restant 
+			// Calculer le budget restant (AVOIR UN STRING POUR AMAEDUS)
+			// budget_int = budget_int - prix avions
+			// budget_string = "0-"+toString(budget_int)
+			// Donner le jour de l'arrivée du vol aller, et jour départ du vol retour
 			// Chercher un logement 
 			///!\ ce date départ doit être le j d'arrivée à l'aéroport
 			// /!\Date retour est le jour où le vol retour part pas celui où l'utilisateur veut etre rentre
 			
 				List<Logement> listeLogements = Collections.synchronizedList(new ArrayList<Logement>());
 			try {
-				// Initialiser la liste de logement
-				Amadeus amadeus = Amadeus
-			              .builder("9fu39sHfnYgpnuoADIwAYhs4PZfO6iLq", "66cmOYECyA6mwb01")
-			              .build();
-		    	//Recherche de logement dans l'API
-				//response.getWriter().append("Served at: " + cityCode + dateDepart + dateRetour );
-				HotelOffer[] offers=amadeus.shopping.hotelOffers.get(Params
-						.with("cityCode", cityCode)
-						.and("checkInDate", dateDepart)
-						.and("checkOutDate",dateRetour)
-						.and("adults",nbPersonnes)
-						.and("priceRange",budget)
-						.and("sort","PRICE")
-						.and("radius",radius)
-						.and("currency", "EUR"));
-			
-		    	// Récupération des données
-				int i;
-				
-		    	for (i=0; i<offers.length;i++){
-		    		Logement logement = new Logement();
-		    		logement.setCityCode(offers[i].getHotel().getCityCode());
-		    		logement.setNom(offers[i].getHotel().getName());
-		    		logement.setAdresse(offers[i].getHotel().getAddress().getLines());
-		    		logement.setRadius(offers[i].getHotel().getHotelDistance().getDistance());
-		    		logement.setRadiusUnit(offers[i].getHotel().getHotelDistance().getDistanceUnit());
-		    		// On garde la première offre = la plus intéressante pour chaque hôtel
-		    		// On pourrait choisir entre plusierus offres dans la suite
-		    		logement.setPrix(offers[i].getOffers()[0].getPrice().getTotal());
-		    		logement.setMonnaire(offers[i].getOffers()[0].getPrice().getCurrency());
-		    		listeLogements.add(logement);
-		    	}
+				// ------------------ DATEALLER ET DATE RETOUR  ET BUDGET A MAJ APRES APPEL DE VOLS --------------
+				listeLogements = facade.chercherLogement(cityCode_destination, dateDepart, dateRetour, nbPersonnes, budget, radius);
 			} catch (ResponseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			request.setAttribute("listeLogement", listeLogements);
-			request.getRequestDispatcher("logement.jsp").forward(request, response);
 			
 			
 			// Faire choisir le logement à l'utilisateur
+			request.setAttribute("listeLogement", listeLogements);
+			request.setAttribute("idVoyage", idVoyage);
+			request.getRequestDispatcher("logement.jsp").forward(request, response);
+			// Calculer le budget restant (AVOIR UN STRING POUR AMAEDUS) /!\ monnaie
+			// int prix_logement = logementChoisi.getPrix()*nbJours;
+			// budget_int = budget_int - prix_logement
+			// budget_string = "0-"+toString(budget_int)
 			// Calculer le budget restant
 			// Proposer des activités
 			
 			// Créer le voyage et instancier les attributs
+		}
+		if (operation.equals("ValiderLogement")){
+			String validation = request.getParameter("Validation");
+			if (validation.equals("Recommencer la recherche")){
+				request.getRequestDispatcher("questionnaire.jsp");
+			}else{
+				int idLogement = Integer.parseInt(request.getParameter("idLogement"));
+				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
+				facade.associerLogement(idLogement,idVoyage);
+				
+			}
 		}
 	}
 
