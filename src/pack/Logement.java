@@ -120,7 +120,9 @@ public class Logement {
 		this.prixBase = prixBase;
 	}
 
-
+	public void setVoyage(Voyage voyage){
+		this.voyage=voyage;
+	}
 
 	/**public List<String> getCommodites() {
 		return commodites;

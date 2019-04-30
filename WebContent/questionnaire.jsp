@@ -9,6 +9,7 @@
 <body>
 	
 <form action="/smoothy_trip/ServletOp" method="post">
+	Quel nom veux-tu donner au voyage  ? <input type="text" name="nom"/> <br>
 	Où souhaites-tu aller ? <input type="text" name="destination"/> <br>
 	D'où souhaites-tu partir ? <input type="text" name="origine"/> <br>
 	Qu'est ce que tu aimes lorsque tu voyages ? <br>

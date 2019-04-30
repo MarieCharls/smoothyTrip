@@ -45,7 +45,8 @@ public class ServletOp extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String operation = request.getParameter("op");
 		if (operation.equals("questionnaire")){
-			int idVoyage = facade.creerVoyage();
+			String nom= request.getParameter("nom");
+			int idVoyage = facade.creerVoyage(nom);
 			String destination= request.getParameter("destination");
 			
 			String origine = request.getParameter("origine");
@@ -112,14 +113,16 @@ public class ServletOp extends HttpServlet {
 			
 			// Créer le voyage et instancier les attributs
 		}
-		if (operation.equals("ValiderLogement")){
+		if (operation.equals("validerLogement")){
 			String validation = request.getParameter("Validation");
-			if (validation.equals("Recommencer la recherche")){
-				request.getRequestDispatcher("questionnaire.jsp");
-			}else{
+			if (validation.equals("Valider")){
+				response.getWriter().append("Served at: " + request.getParameter("idLogement")+"bisfff" + request.getParameter("idVoyage"));
 				int idLogement = Integer.parseInt(request.getParameter("idLogement"));
 				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
 				facade.associerLogement(idLogement,idVoyage);
+				
+			}else{
+				request.getRequestDispatcher("questionnaire.jsp");
 				
 			}
 		}

@@ -7,7 +7,7 @@
 <title>Questionnaire</title>
 </head>
 <body>
-<form action="/Smoothy trip/ServletOp" method="post">
+<form action="/smoothy_trip/ServletOp" method="post">
 	<%Collection<Logement> logements = (Collection<Logement>) request.getAttribute("listeLogement");
 	if (logements==null){
 		%> 

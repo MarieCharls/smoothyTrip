@@ -35,8 +35,10 @@ public class Facade {
     }
     
     /** Initialiser/créer un voyage */
-    public int creerVoyage(){
+    public int creerVoyage(String nom){
     	Voyage voyage = new Voyage();
+    	voyage.setNom(nom);
+    	em.persist(voyage);
     	return voyage.getId();
     }
     
@@ -45,12 +47,12 @@ public class Facade {
     	//Initialisation de la connection
     	Amadeus amadeus =this.initialiserAmadeus();
     	
+    	// Initialiser la liste de logement
+    	List<Logement> listeLogements = Collections.synchronizedList(new ArrayList<Logement>());
+    	
     	//Conversion en integer
     	budget = Math.floor(budget);
     	
-    	int nbJours = checkInDate.compareTo(checkOutDate);
-    	// Initialiser la liste de logement
-    	List<Logement> listeLogements = Collections.synchronizedList(new ArrayList<Logement>());
     	//Recherche de logement dans l'API
     	String budget_string = "0-"+String.valueOf(budget);
     	
@@ -62,12 +64,11 @@ public class Facade {
 				.and("priceRange",budget_string)
 				.and("sort","PRICE")
 				.and("radius",radius)
-				.and("currency", "EUR"));
-	
-    	// Récupération des données
+				.and("currency", "GBP"));
 		int i;
-		Logement logement = new Logement();
-    	for (i=0; i<=offers.length;i++){
+		
+    	for (i=0; i<offers.length;i++){
+    		Logement logement = new Logement();
     		logement.setCityCode(offers[i].getHotel().getCityCode());
     		logement.setNom(offers[i].getHotel().getName());
     		logement.setAdresse(offers[i].getHotel().getAddress().getLines());
@@ -114,6 +115,9 @@ public class Facade {
     	// On récupère le logement
     	Logement logement = em.find(Logement.class, idLogement);
     	// On associe le logement au voyage
-    	voyage.setLogement(logement); 	
+    	logement.setVoyage(voyage); 	
+    }
+    public void ajouterLogement(Logement logement){
+    	em.persist(logement);
     }
 }

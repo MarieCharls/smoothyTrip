@@ -11,6 +11,9 @@ public class Voyage {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
+	@Column
+	private String nom;
+	
 	@OneToOne(mappedBy="voyage",fetch=FetchType.EAGER)
 	private Vol volAller;
 	
@@ -20,12 +23,18 @@ public class Voyage {
 	@OneToMany(mappedBy="voyage",fetch=FetchType.EAGER)
 	List<Activite> listeActivites;
 	
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne(mappedBy="voyage",fetch=FetchType.EAGER)
 	Logement logement;
 	
 	@ManyToOne
 	Voyageur voyageur;
 
+	public void setNom(String nom){
+		this.nom = nom;
+	}
+	public String getNom(){
+		return nom;
+	}
 	public int getId(){
 		return id;
 	}
