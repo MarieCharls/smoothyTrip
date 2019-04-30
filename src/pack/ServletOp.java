@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,6 +28,7 @@ import com.amadeus.resources.Location;
 @WebServlet("/ServletOp")
 public class ServletOp extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	@EJB
 	Facade facade;
        
     /**
