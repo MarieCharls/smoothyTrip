@@ -14,6 +14,14 @@ public class Voyage {
 	@Column
 	private String nom;
 	
+	@Column
+	/** budget restant par personnes*/
+	private double budgetRestantIndiv;
+	
+	@Column
+	/** nbPersonnes participant au voyage*/
+	private int nbPersonnes;
+	
 	@OneToOne(mappedBy="voyage",fetch=FetchType.EAGER)
 	private Vol volAller;
 	
@@ -68,6 +76,18 @@ public class Voyage {
 
 	public void setLogement(Logement logement) {
 		this.logement = logement;
+	}
+	public int getNbPersonnes() {
+		return nbPersonnes;
+	}
+	public void setNbPersonnes(int nbPersonnes) {
+		this.nbPersonnes = nbPersonnes;
+	}
+	public double getBudgetRestantIndiv() {
+		return budgetRestantIndiv;
+	}
+	public void setBudgetRestantIndiv(double budgetRestantIndiv) {
+		this.budgetRestantIndiv = budgetRestantIndiv;
 	}
 	
 	

@@ -17,10 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.amadeus.Amadeus;
 import com.amadeus.Params;
+//import com.amadeus.Amadeus;
+//import com.amadeus.Params;
 import com.amadeus.exceptions.ResponseException;
-import com.amadeus.referenceData.Locations;
+//import com.amadeus.referenceData.Locations;
+//import com.amadeus.resources.HotelOffer;
+//import com.amadeus.resources.Location;
 import com.amadeus.resources.HotelOffer;
-import com.amadeus.resources.Location;
 
 /**
  * Servlet implementation class ServletOp
@@ -46,9 +49,12 @@ public class ServletOp extends HttpServlet {
 		String operation = request.getParameter("op");
 		if (operation.equals("questionnaire")){
 			String nom= request.getParameter("nom");
-			int idVoyage = facade.creerVoyage(nom);
+			
 			String destination= request.getParameter("destination");
 			
+//			String destination_uk = facade.frToAnglais(destination);
+//			response.getWriter().append("Served at: "+destination+" uk version "+destination_uk);
+					
 			String origine = request.getParameter("origine");
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			Date dateDepart = null;
@@ -62,12 +68,16 @@ public class ServletOp extends HttpServlet {
 			}
 			// Vérification de la validité des dates insérées
 			boolean dateValide = facade.checkDate(dateDepart,dateRetour);
+			if (dateValide==false){
+				request.setAttribute("dateInvalide", "true");
+				request.getRequestDispatcher("questionnaire.jsp").forward(request, response);
+			}
 			int nbJours = dateDepart.compareTo(dateRetour);
 			
 			int nbPersonnes= Integer.parseInt(request.getParameter("response5"));
-			double budget = Integer.parseInt(request.getParameter("response6"));
+			double budget = Double.parseDouble(request.getParameter("response6"));
 			int radius = Integer.parseInt(request.getParameter("response7"));
-			
+			int idVoyage = facade.creerVoyage(nom,budget,nbPersonnes);
 			
 			// Obtenir le cityCode
 			String cityCode_destination = new String();
@@ -93,7 +103,8 @@ public class ServletOp extends HttpServlet {
 				List<Logement> listeLogements = Collections.synchronizedList(new ArrayList<Logement>());
 			try {
 				// ------------------ DATEALLER ET DATE RETOUR  ET BUDGET A MAJ APRES APPEL DE VOLS --------------
-				listeLogements = facade.chercherLogement(cityCode_destination, dateDepart, dateRetour, nbPersonnes, budget, radius);
+				listeLogements = facade.chercherLogement(cityCode_destination, dateDepart, dateRetour, nbPersonnes, idVoyage, radius);
+				
 			} catch (ResponseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -112,16 +123,20 @@ public class ServletOp extends HttpServlet {
 			// Proposer des activités
 			
 			// Créer le voyage et instancier les attributs
+			
 		}
 		if (operation.equals("validerLogement")){
 			String validation = request.getParameter("Validation");
 			if (validation.equals("Valider")){
-				response.getWriter().append("Served at: " + request.getParameter("idLogement")+"bisfff" + request.getParameter("idVoyage"));
+				//response.getWriter().append("Served at: " + request.getParameter("idLogement")+" "+ request.getParameter("idVoyage"));
 				int idLogement = Integer.parseInt(request.getParameter("idLogement"));
 				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
 				facade.associerLogement(idLogement,idVoyage);
+				// Envoyer la liste des activites
+				// request.getRequestDispatcher("activites.jsp").forward(request,response);
 				
 			}else{
+				response.getWriter().append("Served at: else");
 				request.getRequestDispatcher("questionnaire.jsp");
 				
 			}
