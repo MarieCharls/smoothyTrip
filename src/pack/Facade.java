@@ -15,7 +15,7 @@ import com.amadeus.exceptions.ResponseException;
 import com.amadeus.referenceData.Locations;
 import com.amadeus.resources.HotelOffer;
 import com.amadeus.resources.Location;
-
+import com.amadeus.resources.PointOfInterest;
 import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.Translate.TranslateOption;
 import com.google.cloud.translate.TranslateOptions;
@@ -62,7 +62,7 @@ public class Facade {
      * */
 	public List<Logement> chercherLogement(String cityCode, Date checkInDate, Date checkOutDate, int nbAdults, int idVoyage, int radius) throws ResponseException{ 
     	//Initialisation de la connection
-    	Amadeus amadeus =this.initialiserAmadeus();
+    	Amadeus amadeus =this.initialiserAmadeusHotel();
     	
     	// Initialiser la liste de logement
     	List<Logement> listeLogements = Collections.synchronizedList(new ArrayList<Logement>());
@@ -114,7 +114,7 @@ public class Facade {
      * @throws ResponseException */
     public String toCityCode(String cityName) throws ResponseException{
     	cityName.toLowerCase();
-    	Amadeus amadeus = this.initialiserAmadeus();
+    	Amadeus amadeus = this.initialiserAmadeusHotel();
     	Location[] location = amadeus.referenceData.locations.get(Params
     			.with("keyword",cityName)
     			.and("subType",Locations.CITY));
@@ -122,14 +122,14 @@ public class Facade {
     	return cityCode;
     }
     
-    /** Initialiser une connection Amadeus**/
-    public Amadeus initialiserAmadeus(){
+    /** Initialiser une connection AmadeusHotel**/
+    public Amadeus initialiserAmadeusHotel(){
     	Amadeus amadeus = Amadeus
               .builder("9fu39sHfnYgpnuoADIwAYhs4PZfO6iLq", "66cmOYECyA6mwb01")
               .build();
     	return amadeus;
     }
-    
+
     /** Vérifier la validité des dates fournies 
      * @param Date dateDepart date début du voyage
      * @param Date dateRetour date de fin du voyage
@@ -176,5 +176,65 @@ public class Facade {
     			TranslateOption.sourceLanguage("fr"),
     			TranslateOption.targetLanguage("en") );
     	return translation.getTranslatedText();
+    }
+    
+    /** Initialiser une connection AmadeusActivite**/
+    public Amadeus initialiserAmadeusActivite(){
+    	Amadeus amadeus = Amadeus
+              .builder("jvcgO6WcMxZkKmDQYrPQ9l0XG1LBkKPy", "OIJ03moU3renCAPs")
+              .build();
+    	return amadeus;
+    }
+    /** Récupérer la longitude d'une ville à partir de son nom
+     * @param String cityCode code de la ville 
+     * @throws ResponseException */
+    public double toLong(String cityCode) throws ResponseException{
+    	Amadeus amadeus = this.initialiserAmadeusHotel();
+    	Location[] location = amadeus.referenceData.locations.get(Params
+    			.with("keyword",cityCode)
+    			.and("subType",Locations.CITY));
+    	double longitude = location[0].getGeoCode().getLongitude();
+    	return longitude;
+    }
+    /** Récupérer la latitude d'une ville à partir de son nom
+     * @param String cityName nom de la ville 
+     * @throws ResponseException */
+    public double toLat(String cityName) throws ResponseException{
+    	/**cityName.toLowerCase();**/
+    	Amadeus amadeus = this.initialiserAmadeusHotel();
+    	Location[] location = amadeus.referenceData.locations.get(Params
+    			.with("keyword",cityName)
+    			.and("subType",Locations.CITY));
+    	double latitude= location[0].getGeoCode().getLongitude();
+    	return latitude;
+    }
+    /** Recherche toutes les activites sous certaines contraintes posées en entrée
+     * @param String cityCode Code de la ville destination
+     * @param int nbAdults Nombre de personnes à loger
+     * @param double budget budget total pour le logement par personnes
+     * @param int radius distance au centre ville (en km)
+     * @return List<Logement> liste des logements correspondant à la recherche
+     * @throws ResponseException
+     * */
+	public List<Activite> chercherActivite(String cityName) throws ResponseException{ 
+    	//Initialisation de la connection
+	Amadeus amadeusAct = this.initialiserAmadeusActivite();
+    	
+    	// Initialiser la liste d'activites
+    	List<Activite> listeActivites = Collections.synchronizedList(new ArrayList<Activite>());
+    	double lat = toLat(cityName);
+    	double longi = toLong(cityName);
+		PointOfInterest[] offers=amadeusAct.referenceData.locations.pointsOfInterest.get(Params.with("longitude", 41).and("latitude", 2.4));
+		int i;
+		
+    	for (i=0; i<offers.length;i++){
+    		Activite activite = new Activite();
+    		activite.setName(offers[i].getName());
+    		activite.setType(offers[i].getCategory());
+    		activite.setTags(offers[i].getTags());
+    		em.persist(activite);
+    		listeActivites.add(activite);
+    	}
+		return listeActivites;
     }
 }

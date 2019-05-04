@@ -21,25 +21,12 @@ public class Activite {
 	@ManyToOne(fetch=FetchType.EAGER)
 	Voyage voyage;
 	
-	/** Code IATA de la ville */
-	@Column
-	private String cityCode;
-	
-	/** Distance du centre */
-	private int radius;
-	
-	/** Unité de distance (par défaut nous garderons le km */
-	private String radiusUnit = "KM";
-	
 	/** Nom de l'activité */
 	private String name;
 	
 	/** Type d'activité */
 	private String type;
 
-	/** Nombre de participants **/
-	private int nbPart;
-	
 	/** Avis sur l'activite **/
 	/**private List<Avis> listAvis;*/
 	@OneToMany(mappedBy="act", fetch = FetchType.EAGER)
@@ -49,11 +36,9 @@ public class Activite {
 	@ManyToOne
 	private Professionnel pro;
 	
-	/** Classement des résultats NONE, DISTANCE, PRICE*/
-	private enum sort { 
-		NONE, DISTANCE, PRICE;
-		}
-	private sort typeSort;
+	/** Tags decrivant l'activite **/
+	private String[] tags;
+	
 	/** Contructeur de base */
 	public Activite() {}
 
@@ -63,34 +48,6 @@ public class Activite {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getCityCode() {
-		return cityCode;
-	}
-
-	public void setCityCode(String cityCode) {
-		this.cityCode = cityCode;
-	}
-
-	public int getNbPart() {
-		return nbPart;
-	}
-
-	public void setNbPart(int part) {
-		this.nbPart = part;
-	}
-
-	public int getRadius() {
-		return radius;
-	}
-
-	public void setRadius(int radius) {
-		this.radius = radius;
-	}
-
-	public String getRadiusUnit() {
-		return radiusUnit;
 	}
 	public void setName(String name){
 		this.name=name;
@@ -110,12 +67,6 @@ public class Activite {
 	public List<Avis> getAvis(){
 		return this.listAvis;
 	}*/	
-	public void setSort(sort typesort){
-		this.typeSort = typesort;
-	}
-	public sort getSort(){
-		return this.typeSort;
-	}	
 	public void setPro(Professionnel pro){
 		this.pro = pro;
 	}
@@ -125,4 +76,10 @@ public class Activite {
 	/**public void addAvis(Avis avis){
 		this.listAvis.add(avis);
 	}*/
+	public void setTags(String[] tags) {
+		this.tags = tags;
+	}
+	public String[] getTags(){
+		return this.tags;
+	}
 }

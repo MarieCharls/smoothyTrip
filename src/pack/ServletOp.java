@@ -33,7 +33,7 @@ public class ServletOp extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB
 	Facade facade;
-       
+	String cityCode_destination;    
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -46,7 +46,7 @@ public class ServletOp extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String operation = request.getParameter("op");
+		String operation = request.getParameter("op");;
 		if (operation.equals("questionnaire")){
 			String nom= request.getParameter("nom");
 			
@@ -80,7 +80,7 @@ public class ServletOp extends HttpServlet {
 			int idVoyage = facade.creerVoyage(nom,budget,nbPersonnes);
 			
 			// Obtenir le cityCode
-			String cityCode_destination = new String();
+			cityCode_destination = new String();
 			String cityCode_origine = new String();
 			try {
 				cityCode_destination = facade.toCityCode(destination);
@@ -133,7 +133,17 @@ public class ServletOp extends HttpServlet {
 				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
 				facade.associerLogement(idLogement,idVoyage);
 				// Envoyer la liste des activites
-				// request.getRequestDispatcher("activites.jsp").forward(request,response);
+				List<Activite> listeActivites = Collections.synchronizedList(new ArrayList<Activite>());
+				try {
+					listeActivites = facade.chercherActivite(cityCode_destination);
+				} catch (ResponseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				// Faire choisir le logement à l'utilisateur
+				request.setAttribute("listeActivite", listeActivites);
+				request.setAttribute("idVoyage", idVoyage);
+				request.getRequestDispatcher("activites.jsp").forward(request,response);
 				
 			}else{
 				response.getWriter().append("Served at: else");
