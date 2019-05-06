@@ -1,5 +1,7 @@
 package pack;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -262,7 +264,8 @@ public class Facade {
     	
     	// On récupère le vol
     	Vol vol = em.find(Vol.class, idVol);
-    	
+    	//On récupère le vol aller
+    	Vol volAller=vol
     	// Maj du budget restant
     	double budget = voyage.getBudgetRestantIndiv();
     	int nbPersonnes = voyage.getNbPersonnes();
@@ -274,7 +277,17 @@ public class Facade {
     	return vol;
     }
 	
-    
+    public Date toDate(String d){
+    	SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
+    	Date date=null;
+		try {
+			date = sd.parse(d);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return date;
+    }
     
 	 /** Recherche tous les vols disponibles sous certaines contraintes posées en entrée
      * @param String cityCodeD Code de la ville de départ
@@ -290,7 +303,7 @@ public class Facade {
     	Amadeus amadeus =this.initialiserAmadeusVol();
     	
     	// Initialiser la liste des vols
-    	List<Vol> listeVols = Collections.synchronizedList(new ArrayList<Vols>());
+    	List<Vol> listeVols = Collections.synchronizedList(new ArrayList<Vol>());
     	
     	// Récupération du budget restant
     	Voyage voyage = em.find(Voyage.class, idVoyage);
@@ -304,7 +317,7 @@ public class Facade {
     	
     	//Recherche de vol dans l'API
     	String budget_string = "0-"+String.valueOf(budget);
-    	FlightOffer[] offers =amadeus.shopping.flightOffers.get(Params
+    	FlightOffer[] vols =amadeus.shopping.flightOffers.get(Params
     			.with("origin", cityCode_origine)
     			.and("destination",cityCode_destination)
     			.and("departureDate", departDate)
@@ -319,19 +332,18 @@ public class Facade {
 		
     	for (i=0; i<vols.length;i++){
     		Vol vol = new Vol();
-    		Segment[] sousVols = offers[i].getOfferItems()[0].getServices()[0].getSegments();
-    		FlightStop premierSousVol = sousVols[0].getFlightSegment().getStops()[0];
-    		FlightStop dernierSousVol = sousVols[sousVols.length-1].getFlightSegment().getStops()[(sousVols[sousVols.length-1].getFlightSegment().getStops().length)-1];
-    		vol.setDateDepart(premierSousVol.getDepartureAt());
-    		vol.setDateArrivee(dernierSousVol.getArrivalAt());
-    		vol.setDestination(sousVols[sousVols.length-1].getFlightSegment().getArrival().getIataCode());
+    		Segment[] sousVols = vols[i].getOfferItems()[0].getServices()[0].getSegments();
+    		
+    		vol.setDateDepart(toDate(sousVols[0].getFlightSegment().getDeparture().getAt()));
+    		vol.setDateArrivee(toDate(sousVols[1].getFlightSegment().getArrival().getAt()));
+    		vol.setDestination(sousVols[1].getFlightSegment().getDeparture().getIataCode());
     		vol.setOrigine(sousVols[0].getFlightSegment().getDeparture().getIataCode());
-    		vol.setPrix(offers[i].getOfferItems()[1].getPrice().toString());
+    		vol.setPrix(vols[i].getOfferItems()[1].getPrice().toString());
     		vol.setMonnaie("EUR");
     		em.persist(vol);
     		listeVols.add(vol);
     	}
-		return listeLogements;
+		return listeVols;
     }
 	
 }

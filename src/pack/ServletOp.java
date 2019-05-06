@@ -33,13 +33,7 @@ public class ServletOp extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB
 	Facade facade;
-	String cityCode_destination;
-	int nbPersonnes;
-	String cityCode_origine;
-	Date dateDepart;
-	Date dateRetour;
-	int idVoyage;
-	int radius;
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -63,8 +57,8 @@ public class ServletOp extends HttpServlet {
 					
 			String origine = request.getParameter("origine");
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			dateDepart = null;
-			dateRetour = null;
+			Date dateDepart = null;
+			Date dateRetour = null;
 			try {
 				dateDepart = formatter.parse(request.getParameter("dateDebut"));
 				dateRetour = formatter.parse(request.getParameter("dateFin"));
@@ -80,19 +74,18 @@ public class ServletOp extends HttpServlet {
 			}
 			int nbJours = dateDepart.compareTo(dateRetour);
 			
-			nbPersonnes= Integer.parseInt(request.getParameter("response5"));
+			int nbPersonnes= Integer.parseInt(request.getParameter("response5"));
 			double budget = Double.parseDouble(request.getParameter("response6"));
-			radius = Integer.parseInt(request.getParameter("response7"));
-			idVoyage = facade.creerVoyage(nom,budget,nbPersonnes);
+			double radius = Integer.parseInt(request.getParameter("response7"));
+			int idVoyage = facade.creerVoyage(nom,budget,nbPersonnes);
 			
 			// Obtenir le cityCode
-			cityCode_destination = new String();
-			cityCode_origine = new String();
+			String cityCode_destination = new String();
+			String cityCode_origine = new String();
 			try {
 				cityCode_destination = facade.toCityCode(destination);
 				cityCode_origine = facade.toCityCode(origine);
 			} catch (ResponseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 				
@@ -123,8 +116,8 @@ public class ServletOp extends HttpServlet {
 			if (validation.equals("Valider")){
 				//response.getWriter().append("Served at: " + request.getParameter("idLogement")+" "+ request.getParameter("idVoyage"));
 				int idVol = Integer.parseInt(request.getParameter("idVol"));
-				int idVoy = Integer.parseInt(request.getParameter("idVoyage"));
-				Vol volChoisi = facade.associerVol(idVol,idVoy);
+				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
+				Vol volChoisi = facade.associerVol(idVol,idVoyage);
 				
 				List<Logement> listeLogements = Collections.synchronizedList(new ArrayList<Logement>());
 				try {
