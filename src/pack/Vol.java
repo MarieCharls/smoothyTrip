@@ -28,7 +28,7 @@ public class Vol {
 	
 	/** prix du vol **/
 	@Column
-	private String prix;
+	private double prix;
 	
 	/** monnaie */
 	@Column
@@ -37,7 +37,8 @@ public class Vol {
 	@OneToOne
 	Voyage voyage;
 
-	
+	@OneToOne
+	Vols deplacement;
 	
 	public int getId() {
 		return id;
@@ -48,10 +49,10 @@ public class Vol {
 	
 	
 	
-	public String getPrix() {
-		return origine;
+	public double getPrix() {
+		return prix;
 	}
-	public void setPrix(String prix) {
+	public void setPrix(double prix) {
 		this.prix = prix;
 	}
 	
@@ -102,7 +103,7 @@ public class Vol {
 		this.dateArrivee = dateArrivee;
 	}
 	
-	
+
 	
 	
 	public void setVoyage(Voyage voyage){

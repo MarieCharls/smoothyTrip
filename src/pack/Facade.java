@@ -258,23 +258,23 @@ public class Facade {
      * @param idVol
      * @param idVoyage
      */
-    public Vol associerVol(int idVol,int idVoyage){
+    public void associerVol(int idVol,int idVoyage){
     	// On récupère le voyage courant
     	Voyage voyage = em.find(Voyage.class, idVoyage);
     	
     	// On récupère le vol
-    	Vol vol = em.find(Vol.class, idVol);
+    	Vols vols = em.find(Vols.class, idVol);
     	//On récupère le vol aller
-    	Vol volAller=vol
+    
     	// Maj du budget restant
     	double budget = voyage.getBudgetRestantIndiv();
     	int nbPersonnes = voyage.getNbPersonnes();
-    	double coutVolIndiv = Double.parseDouble(vol.getPrix())/nbPersonnes;
+    	double coutVolIndiv = vols.getPrix()/nbPersonnes;
 		budget = budget - coutVolIndiv;
 		voyage.setBudgetRestantIndiv(budget);
     	// On associe le logement au voyage
-    	vol.setVoyage(voyage); 
-    	return vol;
+    	vols.getVolAller().setVoyage(voyage);
+    	vols.getVolRetour().setVoyage(voyage);
     }
 	
     public Date toDate(String d){
@@ -283,7 +283,6 @@ public class Facade {
 		try {
 			date = sd.parse(d);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	return date;
@@ -298,12 +297,12 @@ public class Facade {
      * @return List<Vol> liste des vols correspondant à la recherche
      * @throws ResponseException
      * */
-	public List<Vol> chercherVol(String cityCode_origine,String cityCode_destination, Date departDate, Date retourDate, int nbAdults, int idVoyage) throws ResponseException{ 
+	public List<Vols> chercherVol(String cityCode_origine,String cityCode_destination, Date departDate, Date retourDate, int nbAdults, int idVoyage) throws ResponseException{ 
     	//Initialisation de la connection
     	Amadeus amadeus =this.initialiserAmadeusVol();
     	
     	// Initialiser la liste des vols
-    	List<Vol> listeVols = Collections.synchronizedList(new ArrayList<Vol>());
+    	List<Vols> listeVols = Collections.synchronizedList(new ArrayList<Vols>());
     	
     	// Récupération du budget restant
     	Voyage voyage = em.find(Voyage.class, idVoyage);
@@ -331,17 +330,34 @@ public class Facade {
 		int i;
 		
     	for (i=0; i<vols.length;i++){
-    		Vol vol = new Vol();
+    		Vols deplacement = new Vols();
+    		deplacement.setPrix(vols[i].getOfferItems()[1].getPrice().getTotal());
+    		
     		Segment[] sousVols = vols[i].getOfferItems()[0].getServices()[0].getSegments();
     		
-    		vol.setDateDepart(toDate(sousVols[0].getFlightSegment().getDeparture().getAt()));
-    		vol.setDateArrivee(toDate(sousVols[1].getFlightSegment().getArrival().getAt()));
-    		vol.setDestination(sousVols[1].getFlightSegment().getDeparture().getIataCode());
-    		vol.setOrigine(sousVols[0].getFlightSegment().getDeparture().getIataCode());
-    		vol.setPrix(vols[i].getOfferItems()[1].getPrice().toString());
-    		vol.setMonnaie("EUR");
-    		em.persist(vol);
-    		listeVols.add(vol);
+    		Vol volAller = new Vol();
+    		volAller.setDateDepart(toDate(sousVols[0].getFlightSegment().getDeparture().getAt()));
+    		volAller.setDateArrivee(toDate(sousVols[0].getFlightSegment().getArrival().getAt()));
+    		volAller.setDestination(sousVols[0].getFlightSegment().getArrival().getIataCode());
+    		volAller.setOrigine(sousVols[0].getFlightSegment().getDeparture().getIataCode());
+    		volAller.setMonnaie("EUR");
+    		
+    		Vol volRetour = new Vol();
+    		volRetour.setDateDepart(toDate(sousVols[1].getFlightSegment().getDeparture().getAt()));
+    		volRetour.setDateArrivee(toDate(sousVols[1].getFlightSegment().getArrival().getAt()));
+    		volRetour.setDestination(sousVols[1].getFlightSegment().getArrival().getIataCode());
+    		volRetour.setOrigine(sousVols[1].getFlightSegment().getDeparture().getIataCode());
+    		volRetour.setMonnaie("EUR");
+    		
+
+    		em.persist(volAller);
+    		em.persist(volRetour);
+
+    		deplacement.setVolAller(volAller);
+    		deplacement.setVolRetour(volRetour);
+    		em.persist(deplacement);
+    		
+    		listeVols.add(deplacement);
     	}
 		return listeVols;
     }

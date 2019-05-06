@@ -90,7 +90,7 @@ public class ServletOp extends HttpServlet {
 			}
 				
 			// Chercher un vol
-			List<Vol> listeVols = Collections.synchronizedList(new ArrayList<Vol>());
+			List<Vols> listeVols = Collections.synchronizedList(new ArrayList<Vols>());
 			try {
 				listeVols = facade.chercherVol(cityCode_origine, cityCode_destination, dateDepart, dateRetour, nbPersonnes, idVoyage);
 				
@@ -117,12 +117,12 @@ public class ServletOp extends HttpServlet {
 				//response.getWriter().append("Served at: " + request.getParameter("idLogement")+" "+ request.getParameter("idVoyage"));
 				int idVol = Integer.parseInt(request.getParameter("idVol"));
 				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
-				Vol volChoisi = facade.associerVol(idVol,idVoyage);
+				facade.associerVol(idVol ,idVoyage);
 				
-				List<Logement> listeLogements = Collections.synchronizedList(new ArrayList<Logement>());
+			/**	List<Logement> listeLogements = Collections.synchronizedList(new ArrayList<Logement>());
 				try {
 					// ------------------ DATEALLER ET DATE RETOUR  ET BUDGET A MAJ APRES APPEL DE VOLS --------------
-					listeLogements = facade.chercherLogement(cityCode_destination, dateDepart, dateRetour, nbPersonnes, idVoyage, radius);
+					listeLogements = facade.chercherLogement(idVoyage);
 					
 				} catch (ResponseException e) {
 					// TODO Auto-generated catch block
@@ -134,7 +134,7 @@ public class ServletOp extends HttpServlet {
 				request.setAttribute("listeLogement", listeLogements);
 				request.setAttribute("idVoyage", idVoyage);
 				request.getRequestDispatcher("logement.jsp").forward(request, response);
-				
+				**/
 				
 			} else {
 				response.getWriter().append("Served at: else");
@@ -143,7 +143,7 @@ public class ServletOp extends HttpServlet {
 			}
 		}
 		
-		if (operation.equals("validerLogement")){
+	/**	if (operation.equals("validerLogement")){
 			String validation = request.getParameter("Validation");
 			if (validation.equals("Valider")){
 				//response.getWriter().append("Served at: " + request.getParameter("idLogement")+" "+ request.getParameter("idVoyage"));
@@ -168,7 +168,7 @@ public class ServletOp extends HttpServlet {
 				request.getRequestDispatcher("questionnaire.jsp");
 				
 			}
-		}
+		}**/
 	}
 
 	/**
