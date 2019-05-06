@@ -33,7 +33,13 @@ public class ServletOp extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB
 	Facade facade;
-	String cityCode_destination;    
+	String cityCode_destination;
+	int nbPersonnes;
+	String cityCode_origine;
+	Date dateDepart;
+	Date dateRetour;
+	int idVoyage;
+	int radius;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -57,8 +63,8 @@ public class ServletOp extends HttpServlet {
 					
 			String origine = request.getParameter("origine");
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			Date dateDepart = null;
-			Date dateRetour = null;
+			dateDepart = null;
+			dateRetour = null;
 			try {
 				dateDepart = formatter.parse(request.getParameter("dateDebut"));
 				dateRetour = formatter.parse(request.getParameter("dateFin"));
@@ -74,14 +80,14 @@ public class ServletOp extends HttpServlet {
 			}
 			int nbJours = dateDepart.compareTo(dateRetour);
 			
-			int nbPersonnes= Integer.parseInt(request.getParameter("response5"));
+			nbPersonnes= Integer.parseInt(request.getParameter("response5"));
 			double budget = Double.parseDouble(request.getParameter("response6"));
-			int radius = Integer.parseInt(request.getParameter("response7"));
-			int idVoyage = facade.creerVoyage(nom,budget,nbPersonnes);
+			radius = Integer.parseInt(request.getParameter("response7"));
+			idVoyage = facade.creerVoyage(nom,budget,nbPersonnes);
 			
 			// Obtenir le cityCode
 			cityCode_destination = new String();
-			String cityCode_origine = new String();
+			cityCode_origine = new String();
 			try {
 				cityCode_destination = facade.toCityCode(destination);
 				cityCode_origine = facade.toCityCode(origine);
@@ -91,40 +97,59 @@ public class ServletOp extends HttpServlet {
 			}
 				
 			// Chercher un vol
+			List<Vol> listeVols = Collections.synchronizedList(new ArrayList<Vol>());
+			try {
+				listeVols = facade.chercherVol(cityCode_origine, cityCode_destination, dateDepart, dateRetour, nbPersonnes, idVoyage);
+				
+			} catch (ResponseException e) {
+				e.printStackTrace();
+			}
 			// Faire choisir le vol à l'utilisateur
+			request.setAttribute("listeVol", listeVols);
+			request.setAttribute("idVoyage", idVoyage);
+			request.getRequestDispatcher("vol.jsp").forward(request, response);
 			// Calculer le budget restant (AVOIR UN STRING POUR AMAEDUS)
+			
 			// budget_int = budget_int - prix avions
 			// budget_string = "0-"+toString(budget_int)
 			// Donner le jour de l'arrivée du vol aller, et jour départ du vol retour
+			
 			// Chercher un logement 
 			///!\ ce date départ doit être le j d'arrivée à l'aéroport
 			// /!\Date retour est le jour où le vol retour part pas celui où l'utilisateur veut etre rentre
-			
-				List<Logement> listeLogements = Collections.synchronizedList(new ArrayList<Logement>());
-			try {
-				// ------------------ DATEALLER ET DATE RETOUR  ET BUDGET A MAJ APRES APPEL DE VOLS --------------
-				listeLogements = facade.chercherLogement(cityCode_destination, dateDepart, dateRetour, nbPersonnes, idVoyage, radius);
-				
-			} catch (ResponseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-			// Faire choisir le logement à l'utilisateur
-			request.setAttribute("listeLogement", listeLogements);
-			request.setAttribute("idVoyage", idVoyage);
-			request.getRequestDispatcher("logement.jsp").forward(request, response);
-			// Calculer le budget restant (AVOIR UN STRING POUR AMAEDUS) /!\ monnaie
-			// int prix_logement = logementChoisi.getPrix()*nbJours;
-			// budget_int = budget_int - prix_logement
-			// budget_string = "0-"+toString(budget_int)
-			// Calculer le budget restant
-			// Proposer des activités
-			
-			// Créer le voyage et instancier les attributs
-			
 		}
+		if (operation.equals("validerVol")) {
+			String validation = request.getParameter("Validation");
+			if (validation.equals("Valider")){
+				//response.getWriter().append("Served at: " + request.getParameter("idLogement")+" "+ request.getParameter("idVoyage"));
+				int idVol = Integer.parseInt(request.getParameter("idVol"));
+				int idVoy = Integer.parseInt(request.getParameter("idVoyage"));
+				Vol volChoisi = facade.associerVol(idVol,idVoy);
+				
+				List<Logement> listeLogements = Collections.synchronizedList(new ArrayList<Logement>());
+				try {
+					// ------------------ DATEALLER ET DATE RETOUR  ET BUDGET A MAJ APRES APPEL DE VOLS --------------
+					listeLogements = facade.chercherLogement(cityCode_destination, dateDepart, dateRetour, nbPersonnes, idVoyage, radius);
+					
+				} catch (ResponseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+				// Faire choisir le logement à l'utilisateur
+				request.setAttribute("listeLogement", listeLogements);
+				request.setAttribute("idVoyage", idVoyage);
+				request.getRequestDispatcher("logement.jsp").forward(request, response);
+				
+				
+			} else {
+				response.getWriter().append("Served at: else");
+				request.getRequestDispatcher("questionnaire.jsp");
+				
+			}
+		}
+		
 		if (operation.equals("validerLogement")){
 			String validation = request.getParameter("Validation");
 			if (validation.equals("Valider")){

@@ -1,0 +1,13 @@
+Etat de la branche de test Joris
+--------------------------------
+
+V0: Vol avec requête précise (dateD, dateA, prix max, nb personnes, lieux dep, lieux d'arrivée)
+
+
+V1: Gérer les différents cas possible
+
+depart-arrivé : meilleures dates
+dates, départ : meilleure destination
+depart: meilleurs destinations avec dates
+
+V2: Connecter API qui redirige vers site de réservation

@@ -15,11 +15,15 @@ import com.amadeus.exceptions.ResponseException;
 import com.amadeus.referenceData.Locations;
 import com.amadeus.resources.HotelOffer;
 import com.amadeus.resources.Location;
+import com.amadeus.resources.FlightOffer;
+import com.amadeus.resources.FlightOffer.FlightStop;
+import com.amadeus.resources.FlightOffer.Segment;
 import com.amadeus.resources.PointOfInterest;
 import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.Translate.TranslateOption;
 import com.google.cloud.translate.TranslateOptions;
 import com.google.cloud.translate.Translation;
+
 /**
  * Session Bean implementation class Facade
  */
@@ -237,4 +241,97 @@ public class Facade {
     	}
 		return listeActivites;
     }
+	
+	/** Initialiser une connection AmadeusVol**/
+    public Amadeus initialiserAmadeusVol(){
+    	Amadeus amadeus = Amadeus
+              .builder("6nRL5xnhTjIla3lB9DZDozVolhFxQWtH", "oKTXhjPY2rFKMoGs")
+              .build();
+    	return amadeus;
+    }
+	
+    
+    /** Faire le lien BD entre vol choisi et voyage courant. Et
+     * maj le budget restant sur le voyage
+     * @param idVol
+     * @param idVoyage
+     */
+    public Vol associerVol(int idVol,int idVoyage){
+    	// On récupère le voyage courant
+    	Voyage voyage = em.find(Voyage.class, idVoyage);
+    	
+    	// On récupère le vol
+    	Vol vol = em.find(Vol.class, idVol);
+    	
+    	// Maj du budget restant
+    	double budget = voyage.getBudgetRestantIndiv();
+    	int nbPersonnes = voyage.getNbPersonnes();
+    	double coutVolIndiv = Double.parseDouble(vol.getPrix())/nbPersonnes;
+		budget = budget - coutVolIndiv;
+		voyage.setBudgetRestantIndiv(budget);
+    	// On associe le logement au voyage
+    	vol.setVoyage(voyage); 
+    	return vol;
+    }
+	
+    
+    
+	 /** Recherche tous les vols disponibles sous certaines contraintes posées en entrée
+     * @param String cityCodeD Code de la ville de départ
+     * @param Date checkInDate Date de début de séjour dans le logement
+     * @param Date checkOutDate Date de fin de séjour dans le logement
+     * @param int nbAdults Nombre de personnes à loger
+     * @param double budget budget total pour le logement par personnes
+     * @return List<Vol> liste des vols correspondant à la recherche
+     * @throws ResponseException
+     * */
+	public List<Vol> chercherVol(String cityCode_origine,String cityCode_destination, Date departDate, Date retourDate, int nbAdults, int idVoyage) throws ResponseException{ 
+    	//Initialisation de la connection
+    	Amadeus amadeus =this.initialiserAmadeusVol();
+    	
+    	// Initialiser la liste des vols
+    	List<Vol> listeVols = Collections.synchronizedList(new ArrayList<Vols>());
+    	
+    	// Récupération du budget restant
+    	Voyage voyage = em.find(Voyage.class, idVoyage);
+    	double budget = voyage.getBudgetRestantIndiv();
+    	
+    	// Recherche du budget vol pour tout le monde
+    	double budgetVol=budget*nbAdults;
+    	
+    	//Conversion en integer
+    	budget = Math.floor(budgetVol);
+    	
+    	//Recherche de vol dans l'API
+    	String budget_string = "0-"+String.valueOf(budget);
+    	FlightOffer[] offers =amadeus.shopping.flightOffers.get(Params
+    			.with("origin", cityCode_origine)
+    			.and("destination",cityCode_destination)
+    			.and("departureDate", departDate)
+    			.and("returnDate", retourDate)
+    			.and("maxPrice", budget_string)
+    			.and("currency", "EUR")
+    			.and("adults", nbAdults)
+    			);
+    			
+    			
+		int i;
+		
+    	for (i=0; i<vols.length;i++){
+    		Vol vol = new Vol();
+    		Segment[] sousVols = offers[i].getOfferItems()[0].getServices()[0].getSegments();
+    		FlightStop premierSousVol = sousVols[0].getFlightSegment().getStops()[0];
+    		FlightStop dernierSousVol = sousVols[sousVols.length-1].getFlightSegment().getStops()[(sousVols[sousVols.length-1].getFlightSegment().getStops().length)-1];
+    		vol.setDateDepart(premierSousVol.getDepartureAt());
+    		vol.setDateArrivee(dernierSousVol.getArrivalAt());
+    		vol.setDestination(sousVols[sousVols.length-1].getFlightSegment().getArrival().getIataCode());
+    		vol.setOrigine(sousVols[0].getFlightSegment().getDeparture().getIataCode());
+    		vol.setPrix(offers[i].getOfferItems()[1].getPrice().toString());
+    		vol.setMonnaie("EUR");
+    		em.persist(vol);
+    		listeVols.add(vol);
+    	}
+		return listeLogements;
+    }
+	
 }
