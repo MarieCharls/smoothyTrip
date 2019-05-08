@@ -175,14 +175,14 @@ public class Facade {
     	em.persist(logement);
     }
     
-    /** Traduire la ville de français à Anglais*/
-    public String frToAnglais(String nomVille){
+   /** Traduire la ville de français à Anglais*/
+    /**  public String frToAnglais(String nomVille){
     	Translate translate = TranslateOptions.getDefaultInstance().getService();
     	Translation translation = translate.translate(nomVille,
     			TranslateOption.sourceLanguage("fr"),
     			TranslateOption.targetLanguage("en") );
     	return translation.getTranslatedText();
-    }
+    } **/
     
     /** Initialiser une connection AmadeusActivite**/
     public Amadeus initialiserAmadeusActivite(){

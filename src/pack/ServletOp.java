@@ -15,15 +15,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.amadeus.Amadeus;
-import com.amadeus.Params;
 //import com.amadeus.Amadeus;
 //import com.amadeus.Params;
 import com.amadeus.exceptions.ResponseException;
 //import com.amadeus.referenceData.Locations;
 //import com.amadeus.resources.HotelOffer;
 //import com.amadeus.resources.Location;
-import com.amadeus.resources.HotelOffer;
 
 /**
  * Servlet implementation class ServletOp
