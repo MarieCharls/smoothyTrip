@@ -26,6 +26,10 @@ public class Vol {
 	@Column
 	private Date dateArrivee;
 	
+	/** Durée*/
+	@Column
+	private Date duree;
+	
 	/** prix du vol **/
 	@Column
 	private double prix;
@@ -108,5 +112,11 @@ public class Vol {
 	
 	public void setVoyage(Voyage voyage){
 		this.voyage=voyage;
+	}
+	public Date getDuree() {
+		return duree;
+	}
+	public void setDuree(Date duree) {
+		this.duree = duree;
 	}
 }

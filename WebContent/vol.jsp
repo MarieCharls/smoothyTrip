@@ -23,8 +23,9 @@
 			<li> Retour: <%=vol.getVolRetour().getOrigine()%> -> <%=vol.getVolRetour().getDestination() %>  Départ : <%=vol.getVolRetour().getDateDepart().toString() %> Arrivée: <%=vol.getVolRetour().getDateArrivee().toString() %></li>	
 		</ul>
 	<% } %>
+	<%} %>
 
-	<input type="submit" name="Validation" value="Valider">  <%} %>
+	<input type="submit" name="Validation" value="Valider">  
 	<input type="hidden" name="op" value="validerVol">
 	<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>">
 	

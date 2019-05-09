@@ -2,6 +2,7 @@ package pack;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -47,14 +48,77 @@ public class Facade {
     /** Initialiser/créer un voyage nommé
      * @param nom Nom du voyage 
      * @return int id du voyage dans la BD*/
-    public int creerVoyage(String nom, double budget,int nbPersonnes){
+    public int creerVoyage(String nom, double budget,int nbPersonnes,double radius){
     	Voyage voyage = new Voyage();
     	voyage.setNom(nom);
     	voyage.setBudgetRestantIndiv(budget);
     	voyage.setNbPersonnes(nbPersonnes);
+    	voyage.setRadius(radius);
     	em.persist(voyage);
     	return voyage.getId();
     }
+    
+    /** Recherche tous les logements disponibles sous certaines contraintes posées en entrée
+     * @param int identifiant du voyage
+     * @return List<Logement> liste des logements correspondant à la recherche
+     * @throws ResponseException
+     * */
+	public List<Logement> chercherLogement(int idVoyage) throws ResponseException{ 
+    	//Initialisation de la connection
+    	Amadeus amadeus =this.initialiserAmadeusHotel();
+    	
+    	// Initialiser la liste de logement
+    	List<Logement> listeLogements = Collections.synchronizedList(new ArrayList<Logement>());
+    	
+    	// Récupération du budget restant
+    	Voyage voyage = em.find(Voyage.class, idVoyage);
+    	double budget = voyage.getBudgetRestantIndiv();
+    	
+    	//Recuperer paramètre de recherches
+    	Date checkInDate = voyage.getVolAller().getDateArrivee();
+    	Date checkOutDate = voyage.getVolRetour().getDateDepart();
+    	int nbAdults = voyage.getNbPersonnes();
+    	String cityCode = voyage.getDestination();
+    	double radius = voyage.getRadius();
+    	// Recherche du budget par nuit, pour tout le monde
+    	double nbJours = checkInDate.compareTo(checkOutDate);
+    	double budgetNuite=budget*nbAdults/Math.abs(nbJours);
+    	
+    	//Conversion en integer
+    	budget = Math.floor(budgetNuite);
+    	
+    	//Recherche de logement dans l'API
+    	String budget_string = "0-"+String.valueOf(budget);
+    	
+		HotelOffer[] offers=amadeus.shopping.hotelOffers.get(Params
+				.with("cityCode", cityCode)
+				.and("checkInDate", checkInDate)
+				.and("checkOutDate",checkOutDate)
+				.and("adults",nbAdults)
+				.and("priceRange",budget_string)
+				.and("sort","PRICE")
+				.and("radius",radius)
+				.and("currency", "EUR"));
+		int i;
+		
+    	for (i=0; i<offers.length;i++){
+    		Logement logement = new Logement();
+    		logement.setCityCode(offers[i].getHotel().getCityCode());
+    		logement.setNom(offers[i].getHotel().getName());
+    		logement.setAdresse(offers[i].getHotel().getAddress().getLines());
+    		logement.setRadius(offers[i].getHotel().getHotelDistance().getDistance());
+    		logement.setRadiusUnit(offers[i].getHotel().getHotelDistance().getDistanceUnit());
+    		// On garde la première offre = la plus intéressante pour chaque hôtel
+    		// On pourrait choisir entre plusierus offres dans la suite
+    		logement.setPrix(offers[i].getOffers()[0].getPrice().getTotal());
+    		logement.setPrixBase(offers[i].getOffers()[0].getPrice().getBase());
+    		logement.setMonnaire(offers[i].getOffers()[0].getPrice().getCurrency());
+    		em.persist(logement);
+    		listeLogements.add(logement);
+    	}
+		return listeLogements;
+    }
+    
     
     /** Recherche tous les logements disponibles sous certaines contraintes posées en entrée
      * @param String cityCode Code de la ville destination
@@ -288,6 +352,29 @@ public class Facade {
     	return date;
     }
     
+//    public Duration toDuree(String d){
+//Duration date=null;
+//		try {
+//			date = sd.parse(d);
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
+//    	return date;
+//    } 
+//    
+//    public Duration calculDureeTotale(FlightOffer offer){
+// 
+//    	Duration duree=null;
+//    	Segment[] segmentAller = offer.getOfferItems()[0].getServices()[0].getSegments();
+//		Segment[] segmentRetour = offer.getOfferItems()[0].getServices()[1].getSegments();
+//		for (int i=0;i<segmentAller.length;i++ ){
+//			Date dSeg = toDuree(segmentAller[i].getFlightSegment().getDuration());
+//			
+//		}
+//			
+//		
+//    	return duree
+//    }
 	 /** Recherche tous les vols disponibles sous certaines contraintes posées en entrée
      * @param String cityCodeD Code de la ville de départ
      * @param Date checkInDate Date de début de séjour dans le logement
@@ -298,7 +385,8 @@ public class Facade {
      * @throws ResponseException
      * */
 	public List<Vols> chercherVol(String cityCode_origine,String cityCode_destination, Date departDate, Date retourDate, int nbAdults, int idVoyage) throws ResponseException{ 
-    	//Initialisation de la connection
+		SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
+		//Initialisation de la connection
     	Amadeus amadeus =this.initialiserAmadeusVol();
     	
     	// Initialiser la liste des vols
@@ -308,55 +396,58 @@ public class Facade {
     	Voyage voyage = em.find(Voyage.class, idVoyage);
     	double budget = voyage.getBudgetRestantIndiv();
     	
+    	// Envoi de la destination au voyage
+    	voyage.setDestination(cityCode_destination);
+
     	// Recherche du budget vol pour tout le monde
     	double budgetVol=budget*nbAdults;
     	
     	//Conversion en integer
-    	budget = Math.floor(budgetVol);
+    	int budget_int = (int)Math.floor(budgetVol);
     	
     	//Recherche de vol dans l'API
-    	String budget_string = "0-"+String.valueOf(budget);
+    	String budget_string = String.valueOf(budget);
     	FlightOffer[] vols =amadeus.shopping.flightOffers.get(Params
     			.with("origin", cityCode_origine)
     			.and("destination",cityCode_destination)
-    			.and("departureDate", departDate)
-    			.and("returnDate", retourDate)
-    			.and("maxPrice", budget_string)
+    			.and("departureDate", formater.format(departDate))
+    			.and("returnDate", formater.format(retourDate))
+    			.and("maxPrice", budget_int)
     			.and("currency", "EUR")
     			.and("adults", nbAdults)
     			);
     			
     			
-		int i;
-		
+    	int i;
     	for (i=0; i<vols.length;i++){
     		Vols deplacement = new Vols();
-    		deplacement.setPrix(vols[i].getOfferItems()[1].getPrice().getTotal());
+    		deplacement.setPrix(vols[i].getOfferItems()[0].getPrice().getTotal());
     		
-    		Segment[] sousVols = vols[i].getOfferItems()[0].getServices()[0].getSegments();
+    		Segment[] segmentAller = vols[i].getOfferItems()[0].getServices()[0].getSegments();
+    		Segment[] segmentRetour = vols[i].getOfferItems()[0].getServices()[1].getSegments();
     		
     		Vol volAller = new Vol();
-    		volAller.setDateDepart(toDate(sousVols[0].getFlightSegment().getDeparture().getAt()));
-    		volAller.setDateArrivee(toDate(sousVols[0].getFlightSegment().getArrival().getAt()));
-    		volAller.setDestination(sousVols[0].getFlightSegment().getArrival().getIataCode());
-    		volAller.setOrigine(sousVols[0].getFlightSegment().getDeparture().getIataCode());
+    		int nbAller = segmentAller.length; 
+    		volAller.setDateDepart(toDate(segmentAller[0].getFlightSegment().getDeparture().getAt()));
+    		volAller.setDateArrivee(toDate(segmentAller[nbAller-1].getFlightSegment().getArrival().getAt()));
+    		volAller.setDestination(segmentAller[0].getFlightSegment().getArrival().getIataCode());
+    		volAller.setOrigine(segmentAller[0].getFlightSegment().getDeparture().getIataCode());
     		volAller.setMonnaie("EUR");
+
     		
     		Vol volRetour = new Vol();
-    		volRetour.setDateDepart(toDate(sousVols[1].getFlightSegment().getDeparture().getAt()));
-    		volRetour.setDateArrivee(toDate(sousVols[1].getFlightSegment().getArrival().getAt()));
-    		volRetour.setDestination(sousVols[1].getFlightSegment().getArrival().getIataCode());
-    		volRetour.setOrigine(sousVols[1].getFlightSegment().getDeparture().getIataCode());
+    		int nbRetour = segmentRetour.length; 
+    		volRetour.setDateDepart(toDate(segmentRetour[0].getFlightSegment().getDeparture().getAt()));
+    		volRetour.setDateArrivee(toDate(segmentRetour[nbRetour-1].getFlightSegment().getArrival().getAt()));
+    		volRetour.setDestination(segmentRetour[0].getFlightSegment().getArrival().getIataCode());
+    		volRetour.setOrigine(segmentRetour[0].getFlightSegment().getDeparture().getIataCode());
     		volRetour.setMonnaie("EUR");
-    		
 
     		em.persist(volAller);
     		em.persist(volRetour);
-
     		deplacement.setVolAller(volAller);
     		deplacement.setVolRetour(volRetour);
     		em.persist(deplacement);
-    		
     		listeVols.add(deplacement);
     	}
 		return listeVols;

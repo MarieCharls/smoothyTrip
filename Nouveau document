@@ -11,3 +11,13 @@ dates, départ : meilleure destination
 depart: meilleurs destinations avec dates
 
 V2: Connecter API qui redirige vers site de réservation
+
+
+
+
+
+PROBLEME:
+09/10/19:
+Attention ne pas utiliser city code de logement pour chercher vol
+Peut être proposer villes et listes des aeroports (iata different de city code)
+plusieurs aeroports -> plusieurs iata pour un city code

@@ -19,8 +19,16 @@ public class Voyage {
 	private double budgetRestantIndiv;
 	
 	@Column
+	/** Distance logement-centre*/
+	private double radius;
+	
+	@Column
 	/** nbPersonnes participant au voyage*/
 	private int nbPersonnes;
+	
+	@Column
+	/** Destination du voyage*/
+	private String destination;
 	
 	@OneToOne(mappedBy="voyage",fetch=FetchType.EAGER)
 	private Vol volAller;
@@ -88,6 +96,18 @@ public class Voyage {
 	}
 	public void setBudgetRestantIndiv(double budgetRestantIndiv) {
 		this.budgetRestantIndiv = budgetRestantIndiv;
+	}
+	public String getDestination() {
+		return destination;
+	}
+	public void setDestination(String destination) {
+		this.destination = destination;
+	}
+	public double getRadius() {
+		return radius;
+	}
+	public void setRadius(double radius) {
+		this.radius = radius;
 	}
 	
 	

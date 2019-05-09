@@ -12,21 +12,21 @@
 		.builder("6nRL5xnhTjIla3lB9DZDozVolhFxQWtH", "oKTXhjPY2rFKMoGs")
 		.build();
 	SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-DD");
-	Date departDate = formatter.parse("2019-06-16");
-	Date retourDate = formatter.parse("2019-06-20");
-	String budget_string = String.valueOf(500);
+	Date departDate = formatter.parse("2019-06-15");
+	Date retourDate = formatter.parse("2019-06-18");
+	String budget_string = String.valueOf(1000);
 	FlightOffer[] vols =amadeus.shopping.flightOffers.get(Params
-			.with("origin","TLS")
+			.with("origin","BOS")
 			.and("destination","LON")
-			.and("departureDate", "2019-06-16")
-			.and("returnDate", "2019-06-20")
+			.and("departureDate", "2019-06-15")
+			.and("returnDate", "2019-06-18")
 			.and("maxPrice", budget_string)
 			.and("currency", "EUR")
-			.and("adults", 2)
+			.and("adults", 1)
 			);
 %>
 
-<%=vols.length %>  bonjouuuur <br>
+<%=vols.length %>  <br>
 <%-- <%= offers[1].getHotel().getName()%> --%>
 </body>
 </html>

@@ -22,6 +22,7 @@ public class Vols {
 	@OneToOne
 	private Vol volRetour;
 	
+	@Column
 	private double prix;
 
 	

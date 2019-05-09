@@ -15,12 +15,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.amadeus.Amadeus;
+import com.amadeus.Params;
 //import com.amadeus.Amadeus;
 //import com.amadeus.Params;
 import com.amadeus.exceptions.ResponseException;
 //import com.amadeus.referenceData.Locations;
 //import com.amadeus.resources.HotelOffer;
 //import com.amadeus.resources.Location;
+import com.amadeus.resources.FlightOffer;
+import com.amadeus.resources.FlightOffer.Segment;
 
 /**
  * Servlet implementation class ServletOp
@@ -74,7 +78,7 @@ public class ServletOp extends HttpServlet {
 			int nbPersonnes= Integer.parseInt(request.getParameter("response5"));
 			double budget = Double.parseDouble(request.getParameter("response6"));
 			double radius = Integer.parseInt(request.getParameter("response7"));
-			int idVoyage = facade.creerVoyage(nom,budget,nbPersonnes);
+			int idVoyage = facade.creerVoyage(nom,budget,nbPersonnes,radius);
 			
 			// Obtenir le cityCode
 			String cityCode_destination = new String();
@@ -88,9 +92,9 @@ public class ServletOp extends HttpServlet {
 				
 			// Chercher un vol
 			List<Vols> listeVols = Collections.synchronizedList(new ArrayList<Vols>());
+			
 			try {
-				listeVols = facade.chercherVol(cityCode_origine, cityCode_destination, dateDepart, dateRetour, nbPersonnes, idVoyage);
-				
+				listeVols = facade.chercherVol(cityCode_origine, cityCode_destination, dateDepart, dateRetour, nbPersonnes, idVoyage);				
 			} catch (ResponseException e) {
 				e.printStackTrace();
 			}
@@ -116,7 +120,7 @@ public class ServletOp extends HttpServlet {
 				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
 				facade.associerVol(idVol ,idVoyage);
 				
-			/**	List<Logement> listeLogements = Collections.synchronizedList(new ArrayList<Logement>());
+				List<Logement> listeLogements = Collections.synchronizedList(new ArrayList<Logement>());
 				try {
 					// ------------------ DATEALLER ET DATE RETOUR  ET BUDGET A MAJ APRES APPEL DE VOLS --------------
 					listeLogements = facade.chercherLogement(idVoyage);
@@ -131,7 +135,7 @@ public class ServletOp extends HttpServlet {
 				request.setAttribute("listeLogement", listeLogements);
 				request.setAttribute("idVoyage", idVoyage);
 				request.getRequestDispatcher("logement.jsp").forward(request, response);
-				**/
+				
 				
 			} else {
 				response.getWriter().append("Served at: else");
@@ -140,7 +144,7 @@ public class ServletOp extends HttpServlet {
 			}
 		}
 		
-	/**	if (operation.equals("validerLogement")){
+		if (operation.equals("validerLogement")){
 			String validation = request.getParameter("Validation");
 			if (validation.equals("Valider")){
 				//response.getWriter().append("Served at: " + request.getParameter("idLogement")+" "+ request.getParameter("idVoyage"));
@@ -148,24 +152,25 @@ public class ServletOp extends HttpServlet {
 				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
 				facade.associerLogement(idLogement,idVoyage);
 				// Envoyer la liste des activites
-				List<Activite> listeActivites = Collections.synchronizedList(new ArrayList<Activite>());
-				try {
-					listeActivites = facade.chercherActivite(cityCode_destination);
-				} catch (ResponseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				// Faire choisir le logement à l'utilisateur
-				request.setAttribute("listeActivite", listeActivites);
-				request.setAttribute("idVoyage", idVoyage);
-				request.getRequestDispatcher("activites.jsp").forward(request,response);
+//				List<Activite> listeActivites = Collections.synchronizedList(new ArrayList<Activite>());
+//				try {
+//					listeActivites = facade.chercherActivite(cityCode_destination);
+//				} catch (ResponseException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				// Faire choisir le logement à l'utilisateur
+//				request.setAttribute("listeActivite", listeActivites);
+//				request.setAttribute("idVoyage", idVoyage);
+//				request.getRequestDispatcher("activites.jsp").forward(request,response);
 				
 			}else{
 				response.getWriter().append("Served at: else");
 				request.getRequestDispatcher("questionnaire.jsp");
 				
 			}
-		}**/
+
+	}
 	}
 
 	/**
