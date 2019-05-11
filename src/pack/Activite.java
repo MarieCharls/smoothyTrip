@@ -36,8 +36,9 @@ public class Activite {
 	@ManyToOne
 	private Professionnel pro;
 	
-	/** Tags decrivant l'activite **/
-	private String[] tags;
+	private String tel;
+	private String idAct;
+	private String address;
 	
 	/** Contructeur de base */
 	public Activite() {}
@@ -76,10 +77,35 @@ public class Activite {
 	/**public void addAvis(Avis avis){
 		this.listAvis.add(avis);
 	}*/
-	public void setTags(String[] tags) {
-		this.tags = tags;
+//	public void setTags(String[] tags) {
+//		this.tags = tags;
+//	}
+//	public String[] getTags(){
+//		return this.tags;
+//	}
+
+	public void setIdAct(String id) {
+		this.idAct = id;
+		
 	}
-	public String[] getTags(){
-		return this.tags;
+    public String getIdAct(){
+    	return this.idAct;
+    }
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getAddress(){
+		return this.address;
+	}
+
+	public void setTel(String phone) {
+		this.tel = phone;	
+	}
+	public String getTel(){
+		return this.tel;
+	}
+
+	public void setVoyage(Voyage voyage) {
+		this.voyage = voyage;	
 	}
 }
