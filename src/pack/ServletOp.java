@@ -15,15 +15,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.amadeus.Amadeus;
-import com.amadeus.Params;
 //import com.amadeus.Amadeus;
 //import com.amadeus.Params;
 import com.amadeus.exceptions.ResponseException;
-//import com.amadeus.referenceData.Locations;
-//import com.amadeus.resources.HotelOffer;
-//import com.amadeus.resources.Location;
-import com.amadeus.resources.HotelOffer;
+
+import fi.foyt.foursquare.api.FoursquareApiException;
 
 /**
  * Servlet implementation class ServletOp
@@ -33,7 +29,7 @@ public class ServletOp extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB
 	Facade facade;
-	String cityCode_destination;    
+	String destination = new String();;    
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -50,7 +46,7 @@ public class ServletOp extends HttpServlet {
 		if (operation.equals("questionnaire")){
 			String nom= request.getParameter("nom");
 			
-			String destination= request.getParameter("destination");
+			destination= request.getParameter("destination");
 			
 //			String destination_uk = facade.frToAnglais(destination);
 //			response.getWriter().append("Served at: "+destination+" uk version "+destination_uk);
@@ -80,7 +76,7 @@ public class ServletOp extends HttpServlet {
 			int idVoyage = facade.creerVoyage(nom,budget,nbPersonnes);
 			
 			// Obtenir le cityCode
-			cityCode_destination = new String();
+			String cityCode_destination = new String();
 			String cityCode_origine = new String();
 			try {
 				cityCode_destination = facade.toCityCode(destination);
@@ -135,20 +131,35 @@ public class ServletOp extends HttpServlet {
 				// Envoyer la liste des activites
 				List<Activite> listeActivites = Collections.synchronizedList(new ArrayList<Activite>());
 				try {
-					listeActivites = facade.chercherActivite(cityCode_destination);
-				} catch (ResponseException e) {
+					listeActivites = facade.chercherActivite(destination);
+				} catch (ResponseException | ParseException | InterruptedException | FoursquareApiException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				// Faire choisir le logement à l'utilisateur
+				// Faire choisir les activites à l'utilisateur
 				request.setAttribute("listeActivite", listeActivites);
 				request.setAttribute("idVoyage", idVoyage);
 				request.getRequestDispatcher("activites.jsp").forward(request,response);
-				
 			}else{
 				response.getWriter().append("Served at: else");
-				request.getRequestDispatcher("questionnaire.jsp");
-				
+				request.getRequestDispatcher("questionnaire.jsp");	
+			}
+		}
+		if (operation.equals("validerActivites")){
+			String validation = request.getParameter("Validation");
+			if (validation.equals("Valider")){
+				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
+				String[] listId = request.getParameterValues("idActivite");
+				Voyage voy = null;
+				for(int i=0;i<listId.length;i++){
+					int idAct = Integer.parseInt(listId[i]);
+					voy = facade.associerActivite(idAct,idVoyage);
+				}
+				request.setAttribute("voyage", voy);
+				request.getRequestDispatcher("test3.jsp").forward(request, response);
+			}else{
+				response.getWriter().append("Served at: else");
+				request.getRequestDispatcher("questionnaire.jsp");	
 			}
 		}
 	}
