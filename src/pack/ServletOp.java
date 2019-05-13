@@ -92,7 +92,7 @@ public class ServletOp extends HttpServlet {
 				
 			// Chercher un vol
 			List<Vols> listeVols = Collections.synchronizedList(new ArrayList<Vols>());
-			
+			System.out.println("ATTENTIOOOON VILLE OR:"+cityCode_origine);
 			try {
 				listeVols = facade.chercherVol(cityCode_origine, cityCode_destination, dateDepart, dateRetour, nbPersonnes, idVoyage);				
 			} catch (ResponseException e) {

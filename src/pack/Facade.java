@@ -73,7 +73,7 @@ public class Facade {
     	// Récupération du budget restant
     	Voyage voyage = em.find(Voyage.class, idVoyage);
     	double budget = voyage.getBudgetRestantIndiv();
-    	
+    	System.out.println("budgetRestant : "+budget);
     	//Recuperer paramètre de recherches
     	Date checkInDate = voyage.getVolAller().getDateArrivee();
     	Date checkOutDate = voyage.getVolRetour().getDateDepart();
@@ -81,9 +81,12 @@ public class Facade {
     	String cityCode = voyage.getDestination();
     	double radius = voyage.getRadius();
     	// Recherche du budget par nuit, pour tout le monde
-    	double nbJours = checkInDate.compareTo(checkOutDate);
-    	double budgetNuite=budget*nbAdults/Math.abs(nbJours);
-    	
+    	double nbJours = Math.abs((checkOutDate.getTime()-checkInDate.getTime())/(1000*60*60*24));
+    	double budgetNuite=budget*nbAdults/nbJours;
+    	System.out.println("date aller : "+ checkInDate);
+    	System.out.println("dat retour : "+ checkOutDate);
+    	System.out.println("nombre jours : "+ nbJours);
+    	System.out.println("budgetRestant : "+budgetNuite);
     	//Conversion en integer
     	budget = Math.floor(budgetNuite);
     	
@@ -140,11 +143,11 @@ public class Facade {
     	// Récupération du budget restant
     	Voyage voyage = em.find(Voyage.class, idVoyage);
     	double budget = voyage.getBudgetRestantIndiv();
-    	
+    	System.out.println("budgetRestant : "+budget);
     	// Recherche du budget par nuit, pour tout le monde
     	double nbJours = checkInDate.compareTo(checkOutDate);
     	double budgetNuite=budget*nbAdults/Math.abs(nbJours);
-    	
+    	System.out.println("budgetRestant : "+budgetNuite);
     	//Conversion en integer
     	budget = Math.floor(budgetNuite);
     	
@@ -332,9 +335,11 @@ public class Facade {
     
     	// Maj du budget restant
     	double budget = voyage.getBudgetRestantIndiv();
+    	
     	int nbPersonnes = voyage.getNbPersonnes();
     	double coutVolIndiv = vols.getPrix()/nbPersonnes;
 		budget = budget - coutVolIndiv;
+		System.out.println("BUDGEEET"+budget);
 		voyage.setBudgetRestantIndiv(budget);
     	// On associe le logement au voyage
     	vols.getVolAller().setVoyage(voyage);
@@ -415,6 +420,7 @@ public class Facade {
     			.and("maxPrice", budget_int)
     			.and("currency", "EUR")
     			.and("adults", nbAdults)
+    			.and("max", 7)
     			);
     			
     			
@@ -430,7 +436,7 @@ public class Facade {
     		int nbAller = segmentAller.length; 
     		volAller.setDateDepart(toDate(segmentAller[0].getFlightSegment().getDeparture().getAt()));
     		volAller.setDateArrivee(toDate(segmentAller[nbAller-1].getFlightSegment().getArrival().getAt()));
-    		volAller.setDestination(segmentAller[0].getFlightSegment().getArrival().getIataCode());
+    		volAller.setDestination(segmentAller[nbAller-1].getFlightSegment().getArrival().getIataCode());
     		volAller.setOrigine(segmentAller[0].getFlightSegment().getDeparture().getIataCode());
     		volAller.setMonnaie("EUR");
 
@@ -439,7 +445,7 @@ public class Facade {
     		int nbRetour = segmentRetour.length; 
     		volRetour.setDateDepart(toDate(segmentRetour[0].getFlightSegment().getDeparture().getAt()));
     		volRetour.setDateArrivee(toDate(segmentRetour[nbRetour-1].getFlightSegment().getArrival().getAt()));
-    		volRetour.setDestination(segmentRetour[0].getFlightSegment().getArrival().getIataCode());
+    		volRetour.setDestination(segmentRetour[nbRetour-1].getFlightSegment().getArrival().getIataCode());
     		volRetour.setOrigine(segmentRetour[0].getFlightSegment().getDeparture().getIataCode());
     		volRetour.setMonnaie("EUR");
 
