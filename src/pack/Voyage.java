@@ -27,6 +27,10 @@ public class Voyage {
 	private int nbPersonnes;
 	
 	@Column
+	/**CityCode destination*/
+	private String cityCodeDestination;
+	
+	@Column
 	/** Destination du voyage*/
 	private String destination;
 	
@@ -98,6 +102,12 @@ public class Voyage {
 	}
 	public void setRadius(double radius) {
 		this.radius = radius;
+	}
+	public String getCityCodeDestination() {
+		return cityCodeDestination;
+	}
+	public void setCityCodeDestination(String cityCodeDestination) {
+		this.cityCodeDestination = cityCodeDestination;
 	}
 	
 	

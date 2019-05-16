@@ -21,12 +21,6 @@ import com.amadeus.resources.FlightOffer;
 import com.amadeus.resources.FlightOffer.FlightStop;
 import com.amadeus.resources.FlightOffer.Segment;
 import com.amadeus.resources.Location;
-import com.amadeus.resources.PointOfInterest;
-
-import com.google.cloud.translate.Translate;
-import com.google.cloud.translate.Translate.TranslateOption;
-import com.google.cloud.translate.TranslateOptions;
-import com.google.cloud.translate.Translation;
 
 import fi.foyt.foursquare.api.FoursquareApi;
 import fi.foyt.foursquare.api.FoursquareApiException;
@@ -61,12 +55,14 @@ public class Facade {
      * @param nombre de personnes
      * @param rayon proximite du centre de la ville
      * @return int id du voyage dans la BD*/
-    public int creerVoyage(String nom, double budget,int nbPersonnes,double radius){
+    public int creerVoyage(String nom,String destination, double budget,int nbPersonnes,double radius){
     	Voyage voyage = new Voyage();
     	voyage.setNom(nom);
     	voyage.setBudgetRestantIndiv(budget);
     	voyage.setNbPersonnes(nbPersonnes);
     	voyage.setRadius(radius);
+    	voyage.setDestination(destination);
+    
     	em.persist(voyage);
     	return voyage.getId();
     }
@@ -93,15 +89,11 @@ public class Facade {
     	req = em.createQuery("SELECT dateDepart FROM Vol v WHERE v.estAller = false and VOYAGE_ID="+idVoyage,Date.class);
     	Date checkOutDate = req.getSingleResult();
     	int nbAdults = voyage.getNbPersonnes();
-    	String cityCode = voyage.getDestination();
+    	String cityCode = voyage.getCityCodeDestination();
     	double radius = voyage.getRadius();
     	// Recherche du budget par nuit, pour tout le monde
-    	double nbJours = Math.abs((checkOutDate.getTime()-checkInDate.getTime())/(1000*60*60*24));
+    	double nbJours = Math.abs((checkOutDate.getTime()-checkInDate.getTime())/(1000*60*60*24))+1;
     	double budgetNuite=budget*nbAdults/nbJours;
-    	System.out.println("date aller : "+ checkInDate);
-    	System.out.println("dat retour : "+ checkOutDate);
-    	System.out.println("nombre jours : "+ nbJours);
-    	System.out.println("budgetRestant : "+budgetNuite);
     	//Conversion en integer
     	budget = Math.floor(budgetNuite);
     	
@@ -197,15 +189,15 @@ public class Facade {
     public void ajouterLogement(Logement logement){
     	em.persist(logement);
     }
-    
-    /** Traduire la ville de français à Anglais*/
-    public String frToAnglais(String nomVille){
-    	Translate translate = TranslateOptions.getDefaultInstance().getService();
-    	Translation translation = translate.translate(nomVille,
-    			TranslateOption.sourceLanguage("fr"),
-    			TranslateOption.targetLanguage("en") );
-    	return translation.getTranslatedText();
-    }
+//    
+//    /** Traduire la ville de français à Anglais*/
+//    public String frToAnglais(String nomVille){
+//    	Translate translate = TranslateOptions.getDefaultInstance().getService();
+//    	Translation translation = translate.translate(nomVille,
+//    			TranslateOption.sourceLanguage("fr"),
+//    			TranslateOption.targetLanguage("en") );
+//    	return translation.getTranslatedText();
+//    }
     
     /** Initialiser une connection AmadeusActivite**/
     public Amadeus initialiserAmadeusActivite(){
@@ -217,10 +209,10 @@ public class Facade {
     /** Récupérer la longitude d'une ville à partir de son nom
      * @param String cityCode code de la ville 
      * @throws ResponseException */
-    public double toLong(String cityCode) throws ResponseException{
-    	Amadeus amadeus = this.initialiserAmadeusHotel();
+    public double toLong(String cityName) throws ResponseException{
+    	Amadeus amadeus = this.initialiserAmadeusActivite();
     	Location[] location = amadeus.referenceData.locations.get(Params
-    			.with("keyword",cityCode)
+    			.with("keyword",cityName)
     			.and("subType",Locations.CITY));
     	double longitude = location[0].getGeoCode().getLongitude();
     	return longitude;
@@ -234,7 +226,7 @@ public class Facade {
     	Location[] location = amadeus.referenceData.locations.get(Params
     			.with("keyword",cityName)
     			.and("subType",Locations.CITY));
-    	double latitude= location[0].getGeoCode().getLongitude();
+    	double latitude= location[0].getGeoCode().getLatitude();
     	return latitude;
     }
     public static double roundDown1(double d) {
@@ -258,8 +250,7 @@ public class Facade {
 		
 		// Récupérer le voyage
 		Voyage voyage=em.find(Voyage.class,idVoyage);
-		String cityName = voyage.getDestination();
-		
+		String cityName = voyage.getDestination().toLowerCase();
 		// Initialisation de la connection à Foursquare
 		FoursquareApi client = new FoursquareApi("VRJSV30LMWA4M0YFLPDAQRWCE1ZI1E4KZJPQL4B5SOYZP1G5","DPECN41FFRIW2YFAEGKJGU2LE3DJQPPIKSWDFX2CP5VUL1SP", null);
     	// Initialiser la liste d'activites
@@ -346,7 +337,6 @@ public class Facade {
     	int nbPersonnes = voyage.getNbPersonnes();
     	double coutVolIndiv = vols.getPrix()/nbPersonnes;
 		budget = budget - coutVolIndiv;
-		System.out.println("BUDGEEET"+budget);
 		voyage.setBudgetRestantIndiv(budget);
     	// On associe le logement au voyage
 		vols.getVolAller().setVoyage(voyage);
@@ -409,7 +399,7 @@ public class Facade {
     	double budget = voyage.getBudgetRestantIndiv();
     	
     	// Envoi de la destination au voyage
-    	voyage.setDestination(cityCode_destination);
+    	voyage.setCityCodeDestination(cityCode_destination);
 
     	// Recherche du budget vol pour tout le monde
     	double budgetVol=budget*nbAdults;

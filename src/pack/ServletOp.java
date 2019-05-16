@@ -53,6 +53,7 @@ public class ServletOp extends HttpServlet {
 			String nom= request.getParameter("nom");
 			
 			String destination= request.getParameter("destination");
+			destination=destination.toLowerCase();
 			
 //			String destination_uk = facade.frToAnglais(destination);
 //			response.getWriter().append("Served at: "+destination+" uk version "+destination_uk);
@@ -79,7 +80,7 @@ public class ServletOp extends HttpServlet {
 			int nbPersonnes= Integer.parseInt(request.getParameter("response5"));
 			double budget = Double.parseDouble(request.getParameter("response6"));
 			double radius = Integer.parseInt(request.getParameter("response7"));
-			int idVoyage = facade.creerVoyage(nom,budget,nbPersonnes,radius);
+			int idVoyage = facade.creerVoyage(nom,destination,budget,nbPersonnes,radius);
 			
 			// Obtenir le cityCode
 			String cityCode_destination = new String();
