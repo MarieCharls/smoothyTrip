@@ -17,12 +17,12 @@
 	}else{ %>
 		Activites disponibles :
 	<% for (Activite activite : activites){ %>
-		<input type="radio" name="idActivite" value="<%=activite.getId()%>" checked> <label><%=activite.getName()%>  Type d'activite : <%=activite.getType()%> Tags de l'activite : <%=activite.getTags()%></label> <br>
+		<input type="checkbox" name="idActivite" value="<%=activite.getId()%>" unchecked> <label><%=activite.getName()%>  Type d'activite : <%=activite.getType()%> Adresse de l'activite : <%=activite.getAddress()%> Contact de l'activite : <%=activite.getTel()%></label> <br>
 	<%} %>
 	
 	<input type="submit" name="Validation" value="Valider">  
 	<%} %>
-	<input type="hidden" name="op" value="validerActivite">
+	<input type="hidden" name="op" value="validerActivites">
 	<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>">
 	</form>
 </body>
