@@ -72,15 +72,15 @@ public class Facade {
     	double budget = voyage.getBudgetRestantIndiv();
     	
     	// Recherche du budget par nuit, pour tout le monde
-    	double nbJours = checkInDate.compareTo(checkOutDate);
+    	double nbJours = Math.abs((checkOutDate.getTime()-checkInDate.getTime())/(1000*60*60*24));
     	double budgetNuite=budget*nbAdults/Math.abs(nbJours);
     	
     	//Conversion en integer
-    	budget = Math.floor(budgetNuite);
+    	double budgetbis = Math.floor(budgetNuite);
     	
     	//Recherche de logement dans l'API
-    	String budget_string = "0-"+String.valueOf(budget);
-    	
+    	String budget_string = "0-"+String.valueOf(budgetbis);
+    	System.out.println("budget nuite :  " + budgetbis + "    budget restant :"+ budget+"nombre de jorus"+nbJours);
 		HotelOffer[] offers=amadeus.shopping.hotelOffers.get(Params
 				.with("cityCode", cityCode)
 				.and("checkInDate", checkInDate)
