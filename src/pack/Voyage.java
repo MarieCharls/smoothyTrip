@@ -31,10 +31,7 @@ public class Voyage {
 	private String destination;
 	
 	@OneToOne(mappedBy="voyage",fetch=FetchType.EAGER)
-	private Vol volAller;
-	
-	@OneToOne(mappedBy="voyage",fetch=FetchType.EAGER)
-	private Vol volRetour;
+	private Vols vols;
 	
 	@OneToMany(mappedBy="voyage",fetch=FetchType.EAGER)
 	List<Activite> listeActivites;
@@ -54,22 +51,15 @@ public class Voyage {
 	public int getId(){
 		return id;
 	}
-	public Vol getVolAller() {
-		return volAller;
+	public Vols getVols() {
+		return vols;
 	}
 
-	public void setVolAller(Vol volAller) {
-		this.volAller = volAller;
+	public void setVols(Vols v) {
+		this.vols = v;
 	}
 
-	public Vol getVolRetour() {
-		return volRetour;
-	}
-
-	public void setVolRetour(Vol volRetour) {
-		this.volRetour = volRetour;
-	}
-
+	
 	public List<Activite> getListeActivites() {
 		return listeActivites;
 	}

@@ -37,7 +37,8 @@ public class Vol {
 	/** monnaie */
 	@Column
 	private String monnaie;
-
+	
+	
 	@OneToOne
 	Voyage voyage;
 
@@ -50,7 +51,6 @@ public class Vol {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
 	
 	
 	public double getPrix() {

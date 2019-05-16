@@ -25,22 +25,23 @@ public class Vols {
 	@Column
 	private double prix;
 
-	
+
 	public Vol getVolAller() {
 		return volAller;
 	}
 
-	public void setVolAller(Vol volAller) {
-		this.volAller = volAller;
+	public void setVolAller(Vol v) {
+		this.volAller = v;
 	}
 
 	public Vol getVolRetour() {
 		return volRetour;
 	}
 
-	public void setVolRetour(Vol volRetour) {
-		this.volRetour = volRetour;
+	public void setVolRetour(Vol v) {
+		this.volRetour = v;
 	}
+
 
 	public double getPrix() {
 		return prix;

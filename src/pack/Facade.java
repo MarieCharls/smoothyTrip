@@ -75,8 +75,8 @@ public class Facade {
     	double budget = voyage.getBudgetRestantIndiv();
     	System.out.println("budgetRestant : "+budget);
     	//Recuperer paramètre de recherches
-    	Date checkInDate = voyage.getVolAller().getDateArrivee();
-    	Date checkOutDate = voyage.getVolRetour().getDateDepart();
+    	Date checkInDate = voyage.getVols().getVolAller().getDateArrivee();
+    	Date checkOutDate = voyage.getVols().getVolRetour().getDateDepart();
     	int nbAdults = voyage.getNbPersonnes();
     	String cityCode = voyage.getDestination();
     	double radius = voyage.getRadius();
@@ -342,8 +342,8 @@ public class Facade {
 		System.out.println("BUDGEEET"+budget);
 		voyage.setBudgetRestantIndiv(budget);
     	// On associe le logement au voyage
-    	vols.getVolAller().setVoyage(voyage);
-    	vols.getVolRetour().setVoyage(voyage);
+		vols.getVolAller().setVoyage(voyage);
+		vols.getVolRetour().setVoyage(voyage);
     }
 	
     public Date toDate(String d){
