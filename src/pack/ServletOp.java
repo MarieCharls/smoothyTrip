@@ -125,6 +125,7 @@ public class ServletOp extends HttpServlet {
 				List<Logement> listeLogements = Collections.synchronizedList(new ArrayList<Logement>());
 				try {
 					// ------------------ DATEALLER ET DATE RETOUR  ET BUDGET A MAJ APRES APPEL DE VOLS --------------
+					System.out.println("id voyageeee----"+idVoyage);
 					listeLogements = facade.chercherLogement(idVoyage);
 					
 				} catch (ResponseException e) {
@@ -140,7 +141,6 @@ public class ServletOp extends HttpServlet {
 				
 				
 			} else {
-				response.getWriter().append("Served at: else");
 				request.getRequestDispatcher("questionnaire.jsp");
 				
 			}
@@ -166,7 +166,6 @@ public class ServletOp extends HttpServlet {
 				request.getRequestDispatcher("activites.jsp").forward(request,response);
 				
 			}else{
-				response.getWriter().append("Served at: else");
 				request.getRequestDispatcher("questionnaire.jsp");
 				
 			}
@@ -181,10 +180,17 @@ public class ServletOp extends HttpServlet {
 					int idAct = Integer.parseInt(listId[i]);
 					voy = facade.associerActivite(idAct,idVoyage);
 				}
-				request.setAttribute("voyage", voy);
-				request.getRequestDispatcher("test3.jsp").forward(request, response);
+				Logement logementChoisi=facade.getLogement(idVoyage);
+				List<Activite> listeActivite =facade.getActivites(idVoyage);
+				Vols vols=facade.getVols(idVoyage);
+				request.setAttribute("logementChoisi", logementChoisi );
+				request.setAttribute("listeActivite", listeActivite);
+				request.setAttribute("vols", vols);
+				System.out.println("tailleeee activitéééééé -----" + listeActivite.size());
+				System.out.println("logemennnnnntt -------"+ logementChoisi.getNom());
+				System.out.println("avionnnnnnnnn ------"+vols.getVolAller().getDestination());
+				request.getRequestDispatcher("recapitulatif.jsp").forward(request, response);
 			}else{
-				response.getWriter().append("Served at: else");
 				request.getRequestDispatcher("questionnaire.jsp");	
 			}
 }

@@ -61,6 +61,14 @@ public class Vols {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	public Voyage getVoyage() {
+		return voyage;
+	}
+
+	public void setVoyage(Voyage voyage) {
+		this.voyage = voyage;
+	}
 	
 	
 	

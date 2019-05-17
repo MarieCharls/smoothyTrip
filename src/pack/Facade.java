@@ -73,7 +73,8 @@ public class Facade {
      * @throws ResponseException
      * */
 	public List<Logement> chercherLogement(int idVoyage) throws ResponseException{ 
-    	//Initialisation de la connection
+    	System.out.println("Rentre dans chercher");
+		//Initialisation de la connection
     	Amadeus amadeus =this.initialiserAmadeusHotel();
     	
     	// Initialiser la liste de logement
@@ -81,13 +82,16 @@ public class Facade {
     	
     	// Récupération du budget restant
     	Voyage voyage = em.find(Voyage.class, idVoyage);
+    	System.out.println("Après recup voyage");
     	double budget = voyage.getBudgetRestantIndiv();
     	System.out.println("budgetRestant : "+budget);
     	//Recuperer paramètre de recherches
-    	TypedQuery<Date> req = em.createQuery("SELECT dateArrivee FROM Vol v WHERE v.estAller = true and VOYAGE_ID="+idVoyage,Date.class);
-    	Date checkInDate = req.getSingleResult();
-    	req = em.createQuery("SELECT dateDepart FROM Vol v WHERE v.estAller = false and VOYAGE_ID="+idVoyage,Date.class);
-    	Date checkOutDate = req.getSingleResult();
+//    	TypedQuery<Date> req = em.createQuery("SELECT dateArrivee FROM Vol v WHERE v.estAller = true and VOYAGE_ID="+idVoyage,Date.class);
+//    	Date checkInDate = req.getSingleResult();
+//    	req = em.createQuery("SELECT dateDepart FROM Vol v WHERE v.estAller = false and VOYAGE_ID="+idVoyage,Date.class);
+//    	Date checkOutDate = req.getSingleResult();
+    	Date checkInDate = voyage.getVols().getVolAller().getDateArrivee();
+    	Date checkOutDate = voyage.getVols().getVolRetour().getDateDepart();
     	int nbAdults = voyage.getNbPersonnes();
     	String cityCode = voyage.getCityCodeDestination();
     	double radius = voyage.getRadius();
@@ -339,8 +343,7 @@ public class Facade {
 		budget = budget - coutVolIndiv;
 		voyage.setBudgetRestantIndiv(budget);
     	// On associe le logement au voyage
-		vols.getVolAller().setVoyage(voyage);
-		vols.getVolRetour().setVoyage(voyage);
+		vols.setVoyage(voyage);
     }
 	
     public Date toDate(String d){
@@ -450,6 +453,8 @@ public class Facade {
 
     		em.persist(volAller);
     		em.persist(volRetour);
+    		volAller.setDeplacement(deplacement);
+    		volRetour.setDeplacement(deplacement);
     		deplacement.setVolAller(volAller);
     		deplacement.setVolRetour(volRetour);
     		em.persist(deplacement);
@@ -457,4 +462,19 @@ public class Facade {
     	}
 		return listeVols;
     }
+	
+	public Logement getLogement(int idVoyage){
+		Voyage voyage=em.find(Voyage.class, idVoyage);
+		return voyage.getLogement();
+	}
+	
+	public Vols getVols(int idVoyage){
+		Voyage voyage=em.find(Voyage.class, idVoyage);
+		return voyage.getVols();
+	}
+	
+	public List<Activite> getActivites(int idVoyage){
+		Voyage voyage=em.find(Voyage.class, idVoyage);
+		return voyage.getListeActivites();
+	}
 }

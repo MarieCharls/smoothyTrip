@@ -127,4 +127,10 @@ public class Vol {
 	public void setEstAller(boolean estAller) {
 		this.estAller = estAller;
 	}
+	public Vols getDeplacement() {
+		return deplacement;
+	}
+	public void setDeplacement(Vols deplacement) {
+		this.deplacement = deplacement;
+	}
 }
