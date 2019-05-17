@@ -78,9 +78,9 @@
 			<div class="row inline-columns">
 				<div id="illdy_service-2" class="col-sm-4 widget_illdy_service">
 					<div class="service" data-service-color="#f18b6d">
-						<div class="service-icon">
-							<span class="fa fa-plane"></span>
-						</div><!--/.service-icon-->
+<!-- 						<div class="service-icon"> -->
+<!-- 							<span class="fa fa-plane"></span> -->
+<!-- 						</div>/.service-icon -->
 						<div class="service-title">
 							<h5> Vols </h5>
 						</div><!--/.service-title-->
@@ -97,9 +97,9 @@
 				</div>
 				<div id="illdy_service-3" class="col-sm-4 widget_illdy_service">
 					<div class="service" data-service-color="#f1d204">
-						<div class="service-icon">
-							<i class="fa fa-code"></i>
-						</div><!--/.service-icon-->
+<!-- 						<div class="service-icon"> -->
+<!-- 							<i class="fa fa-code"></i> -->
+<!-- 						</div>/.service-icon -->
 						<div class="service-title">
 							<h5>Logement</h5>
 						</div><!--/.service-title-->
@@ -113,9 +113,9 @@
 				</div>
 				<div id="illdy_service-4" class="col-sm-4 widget_illdy_service">
 					<div class="service" data-service-color="#6a4d8a">
-						<div class="service-icon">
-							<i class="fa fa-search"></i>
-						</div><!--/.service-icon-->
+<!-- 						<div class="service-icon"> -->
+<!-- 							<i class="fa fa-search"></i> -->
+<!-- 						</div>/.service-icon -->
 						<div class="service-title">
 							<h5>Activités</h5>
 						</div><!--/.service-title-->
@@ -128,7 +128,6 @@
 							<input type="submit" name="Validation" value="Recommencer la recherche">
 						<%
 						}else{ %>
-							Activites disponibles :
 						<% for (Activite activite : activites){ %>
 							<label><%=activite.getName()%></label> <br>
 							Type: <%=activite.getType()%> <br>
