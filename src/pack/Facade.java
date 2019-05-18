@@ -1,7 +1,8 @@
 package pack;
 
+import java.text.SimpleDateFormat;
 import java.io.IOException;
-import java.text.ParseException;
+import java.text.ParseException; 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -9,20 +10,17 @@ import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
 
 import com.amadeus.Amadeus;
 import com.amadeus.Params;
 import com.amadeus.exceptions.ResponseException;
 import com.amadeus.referenceData.Locations;
 import com.amadeus.resources.HotelOffer;
+import com.amadeus.resources.FlightOffer;
+import com.amadeus.resources.FlightOffer.FlightStop;
+import com.amadeus.resources.FlightOffer.Segment;
 import com.amadeus.resources.Location;
-import com.google.api.gax.rpc.ApiException;
-import com.google.cloud.translate.Translate;
-import com.google.cloud.translate.Translate.TranslateOption;
-import com.google.cloud.translate.TranslateOptions;
-import com.google.cloud.translate.Translation;
 
 import fi.foyt.foursquare.api.FoursquareApi;
 import fi.foyt.foursquare.api.FoursquareApiException;
@@ -53,28 +51,30 @@ public class Facade {
     
     /** Initialiser/créer un voyage nommé
      * @param nom Nom du voyage 
+     * @param budget du voyage par pers
+     * @param nombre de personnes
+     * @param rayon proximite du centre de la ville
      * @return int id du voyage dans la BD*/
-    public int creerVoyage(String nom, double budget,int nbPersonnes){
+    public int creerVoyage(String nom,String destination, double budget,int nbPersonnes,double radius){
     	Voyage voyage = new Voyage();
     	voyage.setNom(nom);
     	voyage.setBudgetRestantIndiv(budget);
     	voyage.setNbPersonnes(nbPersonnes);
+    	voyage.setRadius(radius);
+    	voyage.setDestination(destination);
+    
     	em.persist(voyage);
     	return voyage.getId();
     }
     
     /** Recherche tous les logements disponibles sous certaines contraintes posées en entrée
-     * @param String cityCode Code de la ville destination
-     * @param Date checkInDate Date de début de séjour dans le logement
-     * @param Date checkOutDate Date de fin de séjour dans le logement
-     * @param int nbAdults Nombre de personnes à loger
-     * @param double budget budget total pour le logement par personnes
-     * @param int radius distance au centre ville (en km)
+     * @param int identifiant du voyage
      * @return List<Logement> liste des logements correspondant à la recherche
      * @throws ResponseException
      * */
-	public List<Logement> chercherLogement(String cityCode, Date checkInDate, Date checkOutDate, int nbAdults, int idVoyage, int radius) throws ResponseException{ 
-    	//Initialisation de la connection
+    public List<Logement> chercherLogement(int idVoyage) throws ResponseException{ 
+    	System.out.println("Rentre dans chercher");
+		//Initialisation de la connection
     	Amadeus amadeus =this.initialiserAmadeusHotel();
     	
     	// Initialiser la liste de logement
@@ -82,12 +82,22 @@ public class Facade {
     	
     	// Récupération du budget restant
     	Voyage voyage = em.find(Voyage.class, idVoyage);
+    	System.out.println("Après recup voyage");
     	double budget = voyage.getBudgetRestantIndiv();
-    	
+    	System.out.println("budgetRestant : "+budget);
+    	//Recuperer paramètre de recherches
+//    	TypedQuery<Date> req = em.createQuery("SELECT dateArrivee FROM Vol v WHERE v.estAller = true and VOYAGE_ID="+idVoyage,Date.class);
+//    	Date checkInDate = req.getSingleResult();
+//    	req = em.createQuery("SELECT dateDepart FROM Vol v WHERE v.estAller = false and VOYAGE_ID="+idVoyage,Date.class);
+//    	Date checkOutDate = req.getSingleResult();
+    	Date checkInDate = voyage.getVols().getVolAller().getDateArrivee();
+    	Date checkOutDate = voyage.getVols().getVolRetour().getDateDepart();
+    	int nbAdults = voyage.getNbPersonnes();
+    	String cityCode = voyage.getCityCodeDestination();
+    	double radius = voyage.getRadius();
     	// Recherche du budget par nuit, pour tout le monde
-    	double nbJours = checkInDate.compareTo(checkOutDate);
-    	double budgetNuite=budget*nbAdults/Math.abs(nbJours);
-    	
+    	double nbJours = Math.abs((checkOutDate.getTime()-checkInDate.getTime())/(1000*60*60*24))+1;
+    	double budgetNuite=budget*nbAdults/nbJours;
     	//Conversion en integer
     	budget = Math.floor(budgetNuite);
     	
@@ -122,6 +132,8 @@ public class Facade {
     	}
 		return listeLogements;
     }
+	
+	
     /** Récupérer le city code d'une ville à partir de son nom
      * @param String cityName nom de la ville 
      * @throws ResponseException */
@@ -138,7 +150,7 @@ public class Facade {
     /** Initialiser une connection AmadeusHotel**/
     public Amadeus initialiserAmadeusHotel(){
     	Amadeus amadeus = Amadeus
-              .builder("jvcgO6WcMxZkKmDQYrPQ9l0XG1LBkKPy", "OIJ03moU3renCAPs")
+              .builder("9fu39sHfnYgpnuoADIwAYhs4PZfO6iLq", "66cmOYECyA6mwb01")
               .build();
     	return amadeus;
     }
@@ -181,18 +193,16 @@ public class Facade {
     public void ajouterLogement(Logement logement){
     	em.persist(logement);
     }
+//    
+//    /** Traduire la ville de français à Anglais*/
+//    public String frToAnglais(String nomVille){
+//    	Translate translate = TranslateOptions.getDefaultInstance().getService();
+//    	Translation translation = translate.translate(nomVille,
+//    			TranslateOption.sourceLanguage("fr"),
+//    			TranslateOption.targetLanguage("en") );
+//    	return translation.getTranslatedText();
+//    }
     
-    /** Traduire la ville de français à Anglais*/
-    public String frToAnglais(String nomVille){
-    	Translate translate = TranslateOptions.getDefaultInstance().getService();
-    	Translation translation = translate.translate(nomVille,
-    			TranslateOption.sourceLanguage("fr"),
-    			TranslateOption.targetLanguage("en") );
-    	return translation.getTranslatedText();
-    }
-    
-    /** Ajout des activites **/
-
     /** Initialiser une connection AmadeusActivite**/
     public Amadeus initialiserAmadeusActivite(){
     	Amadeus amadeus = Amadeus
@@ -204,20 +214,20 @@ public class Facade {
      * @param String cityCode code de la ville 
      * @throws ResponseException */
     public double toLong(String cityName) throws ResponseException{
-    	Amadeus amadeusLong = this.initialiserAmadeusActivite();
-    	Location[] location = amadeusLong.referenceData.locations.get(Params
+    	Amadeus amadeus = this.initialiserAmadeusActivite();
+    	Location[] location = amadeus.referenceData.locations.get(Params
     			.with("keyword",cityName)
     			.and("subType",Locations.CITY));
     	double longitude = location[0].getGeoCode().getLongitude();
-       	return longitude;
+    	return longitude;
     }
     /** Récupérer la latitude d'une ville à partir de son nom
      * @param String cityName nom de la ville 
      * @throws ResponseException */
     public double toLat(String cityName) throws ResponseException{
     	/**cityName.toLowerCase();**/
-    	Amadeus amadeusLat = this.initialiserAmadeusActivite();
-    	Location[] location = amadeusLat.referenceData.locations.get(Params
+    	Amadeus amadeus = this.initialiserAmadeusHotel();
+    	Location[] location = amadeus.referenceData.locations.get(Params
     			.with("keyword",cityName)
     			.and("subType",Locations.CITY));
     	double latitude= location[0].getGeoCode().getLatitude();
@@ -240,7 +250,11 @@ public class Facade {
      * @throws FoursquareApiException 
      * @throws ApiException 
      * */
-	public List<Activite> chercherActivite(String cityName) throws ResponseException, ParseException, InterruptedException, IOException, FoursquareApiException{ 
+	public List<Activite> chercherActivite(int idVoyage) throws ResponseException, ParseException, InterruptedException, IOException, FoursquareApiException{ 
+		
+		// Récupérer le voyage
+		Voyage voyage=em.find(Voyage.class,idVoyage);
+		String cityName = voyage.getDestination().toLowerCase();
 		// Initialisation de la connection à Foursquare
 		FoursquareApi client = new FoursquareApi("VRJSV30LMWA4M0YFLPDAQRWCE1ZI1E4KZJPQL4B5SOYZP1G5","DPECN41FFRIW2YFAEGKJGU2LE3DJQPPIKSWDFX2CP5VUL1SP", null);
     	// Initialiser la liste d'activites
@@ -279,7 +293,7 @@ public class Facade {
               }
     	}
     	return listeActivites;
-    }
+	}
 	/** Faire le lien BD entre activites choisies et voyage courant. 
      * @param idActivite
      * @param idVoyage
@@ -299,4 +313,189 @@ public class Facade {
     public void ajouterActivite(Activite activite){
     	em.persist(activite);
     }
+	/** Initialiser une connection AmadeusVol**/
+    public Amadeus initialiserAmadeusVol(){
+    	Amadeus amadeus = Amadeus
+              .builder("6nRL5xnhTjIla3lB9DZDozVolhFxQWtH", "oKTXhjPY2rFKMoGs")
+              .build();
+    	return amadeus;
+    }
+	
+    /** Faire le lien BD entre vol choisi et voyage courant. Et
+     * maj le budget restant sur le voyage
+     * @param idVol
+     * @param idVoyage
+     */
+    public void associerVol(int idVol,int idVoyage){
+    	// On récupère le voyage courant
+    	Voyage voyage = em.find(Voyage.class, idVoyage);
+    	
+    	// On récupère le vol
+    	Vols vols = em.find(Vols.class, idVol);
+    	//On récupère le vol aller
+    
+    	// Maj du budget restant
+    	double budget = voyage.getBudgetRestantIndiv();
+    	
+    	int nbPersonnes = voyage.getNbPersonnes();
+    	double coutVolIndiv = vols.getPrix()/nbPersonnes;
+		budget = budget - coutVolIndiv;
+		voyage.setBudgetRestantIndiv(budget);
+    	// On associe le logement au voyage
+		vols.setVoyage(voyage);
+    }
+	
+    public Date toDate(String d){
+    	SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
+    	Date date=null;
+		try {
+			date = sd.parse(d);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+    	return date;
+    }
+    
+//    public Duration toDuree(String d){
+//Duration date=null;
+//		try {
+//			date = sd.parse(d);
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
+//    	return date;
+//    } 
+//    
+//    public Duration calculDureeTotale(FlightOffer offer){
+// 
+//    	Duration duree=null;
+//    	Segment[] segmentAller = offer.getOfferItems()[0].getServices()[0].getSegments();
+//		Segment[] segmentRetour = offer.getOfferItems()[0].getServices()[1].getSegments();
+//		for (int i=0;i<segmentAller.length;i++ ){
+//			Date dSeg = toDuree(segmentAller[i].getFlightSegment().getDuration());
+//			
+//		}
+//			
+//		
+//    	return duree
+//    }
+	 /** Recherche tous les vols disponibles sous certaines contraintes posées en entrée
+     * @param String cityCodeD Code de la ville de départ
+     * @param Date checkInDate Date de début de séjour dans le logement
+     * @param Date checkOutDate Date de fin de séjour dans le logement
+     * @param int nbAdults Nombre de personnes à loger
+     * @param double budget budget total pour le logement par personnes
+     * @return List<Vol> liste des vols correspondant à la recherche
+     * @throws ResponseException
+     * */
+	public List<Vols> chercherVol(String cityCode_origine,String cityCode_destination, Date departDate, Date retourDate, int nbAdults, int idVoyage) throws ResponseException{ 
+		SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
+		//Initialisation de la connection
+    	Amadeus amadeus =this.initialiserAmadeusVol();
+    	
+    	// Initialiser la liste des vols
+    	List<Vols> listeVols = Collections.synchronizedList(new ArrayList<Vols>());
+    	
+    	// Récupération du budget restant
+    	Voyage voyage = em.find(Voyage.class, idVoyage);
+    	double budget = voyage.getBudgetRestantIndiv();
+    	
+    	// Envoi de la destination au voyage
+    	voyage.setCityCodeDestination(cityCode_destination);
+
+    	// Recherche du budget vol pour tout le monde
+    	double budgetVol=budget*nbAdults;
+    	
+    	//Conversion en integer
+    	int budget_int = (int)Math.floor(budgetVol);
+    	
+    	//Recherche de vol dans l'API
+    	String budget_string = String.valueOf(budget);
+    	FlightOffer[] vols =amadeus.shopping.flightOffers.get(Params
+    			.with("origin", cityCode_origine)
+    			.and("destination",cityCode_destination)
+    			.and("departureDate", formater.format(departDate))
+    			.and("returnDate", formater.format(retourDate))
+    			.and("maxPrice", budget_int)
+    			.and("currency", "EUR")
+    			.and("adults", nbAdults)
+    			.and("max", 7)
+    			);
+    			
+    			
+    	int i;
+    	for (i=0; i<vols.length;i++){
+    		Vols deplacement = new Vols();
+    		deplacement.setPrix(vols[i].getOfferItems()[0].getPrice().getTotal());
+    		
+    		Segment[] segmentAller = vols[i].getOfferItems()[0].getServices()[0].getSegments();
+    		Segment[] segmentRetour = vols[i].getOfferItems()[0].getServices()[1].getSegments();
+    		
+    		Vol volAller = new Vol();
+    		int nbAller = segmentAller.length; 
+    		volAller.setDateDepart(toDate(segmentAller[0].getFlightSegment().getDeparture().getAt()));
+    		volAller.setDateArrivee(toDate(segmentAller[nbAller-1].getFlightSegment().getArrival().getAt()));
+    		volAller.setDestination(segmentAller[nbAller-1].getFlightSegment().getArrival().getIataCode());
+    		volAller.setOrigine(segmentAller[0].getFlightSegment().getDeparture().getIataCode());
+    		volAller.setMonnaie("EUR");
+    		volAller.setEstAller(true);
+
+    		
+    		Vol volRetour = new Vol();
+    		int nbRetour = segmentRetour.length; 
+    		volRetour.setDateDepart(toDate(segmentRetour[0].getFlightSegment().getDeparture().getAt()));
+    		volRetour.setDateArrivee(toDate(segmentRetour[nbRetour-1].getFlightSegment().getArrival().getAt()));
+    		volRetour.setDestination(segmentRetour[nbRetour-1].getFlightSegment().getArrival().getIataCode());
+    		volRetour.setOrigine(segmentRetour[0].getFlightSegment().getDeparture().getIataCode());
+    		volRetour.setMonnaie("EUR");
+    		volRetour.setEstAller(false);
+
+    		em.persist(volAller);
+    		em.persist(volRetour);
+    		deplacement.setVolAller(volAller);
+    		deplacement.setVolRetour(volRetour);
+    		em.persist(deplacement);
+    		listeVols.add(deplacement);
+    	}
+		return listeVols;
+    }
+	
+	/** Authentification du voyageur **/
+	
+	/** Creer un nouveau compte voyageur **/
+	public int creerVoyageur(String login, String pwd) {
+		Voyageur voyageur = new Voyageur();
+    	voyageur.setLogin(login);
+    	voyageur.setPassword(pwd);  
+    	em.persist(voyageur);
+    	return voyageur.getId();
+    }
+
+	/** Associer un voyage a un voyageur authentifié **/
+	public void associerVoyage(int idVoyageur, int idVoyage) {
+		// On récupère le voyage courant
+    	Voyage voyage = em.find(Voyage.class, idVoyage);
+    	
+    	// On récupère le voyageur
+    	Voyageur voyageur = em.find(Voyageur.class, idVoyageur);
+
+    	// On associe le voyage au voyageur
+		List<Voyage> listVoy = voyageur.getListVoyage();
+		System.out.println(listVoy.size());
+		listVoy.add(voyage);
+		System.out.println(listVoy.size());
+		voyageur.setListVoyage(listVoy);
+		voyage.setVoyageur(voyageur);
+	}
+
+	public Voyageur accederCompte(int idVoyageur) {
+		Voyageur voyageur = em.find(Voyageur.class, idVoyageur);
+		return voyageur;
+	}
+	public int getIdVoyageur(String login, String pwd) {
+		TypedQuery<Integer> req = em.createQuery("SELECT id FROM Voyageur v WHERE v.login = '"+login+"' and v.password= '"+pwd+"'",Integer.class);
+		int idVoyageur = req.getSingleResult();
+		return idVoyageur;
+	}
+	
 }

@@ -19,14 +19,23 @@ public class Voyage {
 	private double budgetRestantIndiv;
 	
 	@Column
+	/** Distance logement-centre*/
+	private double radius;
+	
+	@Column
 	/** nbPersonnes participant au voyage*/
 	private int nbPersonnes;
 	
-	@OneToOne(mappedBy="voyage",fetch=FetchType.EAGER)
-	private Vol volAller;
+	@Column
+	/**CityCode destination*/
+	private String cityCodeDestination;
+	
+	@Column
+	/** Destination du voyage*/
+	private String destination;
 	
 	@OneToOne(mappedBy="voyage",fetch=FetchType.EAGER)
-	private Vol volRetour;
+	private Vols vols;
 	
 	@OneToMany(mappedBy="voyage",fetch=FetchType.EAGER)
 	List<Activite> listeActivites;
@@ -46,22 +55,15 @@ public class Voyage {
 	public int getId(){
 		return id;
 	}
-	public Vol getVolAller() {
-		return volAller;
+	public Vols getVols() {
+		return vols;
 	}
 
-	public void setVolAller(Vol volAller) {
-		this.volAller = volAller;
+	public void setVols(Vols v) {
+		this.vols = v;
 	}
 
-	public Vol getVolRetour() {
-		return volRetour;
-	}
-
-	public void setVolRetour(Vol volRetour) {
-		this.volRetour = volRetour;
-	}
-
+	
 	public List<Activite> getListeActivites() {
 		return listeActivites;
 	}
@@ -89,7 +91,29 @@ public class Voyage {
 	public void setBudgetRestantIndiv(double budgetRestantIndiv) {
 		this.budgetRestantIndiv = budgetRestantIndiv;
 	}
-	
-	
+	public String getDestination() {
+		return destination;
+	}
+	public void setDestination(String destination) {
+		this.destination = destination;
+	}
+	public double getRadius() {
+		return radius;
+	}
+	public void setRadius(double radius) {
+		this.radius = radius;
+	}
+	public String getCityCodeDestination() {
+		return cityCodeDestination;
+	}
+	public void setCityCodeDestination(String cityCodeDestination) {
+		this.cityCodeDestination = cityCodeDestination;
+	}
+	public void setVoyageur(Voyageur voyageur){
+		this.voyageur = voyageur;
+	}
+	public Voyageur getVoyageur(){
+		return this.voyageur;
+	}	
 
 }
