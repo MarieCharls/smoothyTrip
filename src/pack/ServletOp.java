@@ -181,8 +181,14 @@ public class ServletOp extends HttpServlet {
 					int idAct = Integer.parseInt(listId[i]);
 					voy = facade.associerActivite(idAct,idVoyage);
 				}
+				Logement logementChoisi=facade.getLogement(idVoyage);
+				List<Activite> listeActivite =facade.getActivites(idVoyage);
+				Vols vols=facade.getVols(idVoyage);
+				request.setAttribute("logementChoisi", logementChoisi );
+				request.setAttribute("listeActivite", listeActivite);
+				request.setAttribute("vols", vols);
 				request.setAttribute("idVoyage", idVoyage);
-				request.getRequestDispatcher("identification.jsp").forward(request, response);
+				request.getRequestDispatcher("recapitulatif.jsp").forward(request, response);
 			}else{
 				response.getWriter().append("Served at: else");
 				request.getRequestDispatcher("questionnaire.jsp");	
@@ -199,11 +205,20 @@ public class ServletOp extends HttpServlet {
 				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
 				String login = request.getParameter("login");
 				String pwd = request.getParameter("pwd");
-				int idVoyageur = facade.creerVoyageur(login,pwd);
-				facade.associerVoyage(idVoyageur,idVoyage);
-				Voyageur voyageur = facade.accederCompte(idVoyageur);
-				request.setAttribute("voyageur", voyageur);
-				request.getRequestDispatcher("perso.jsp").forward(request, response);
+				String nom = request.getParameter("nom");
+				String prenom = request.getParameter("prenom");
+				int idVoyageur = facade.creerVoyageur(login,pwd,nom,prenom);
+				if (idVoyageur == 0){
+					request.setAttribute("idVoyage", idVoyage);
+					request.getRequestDispatcher("identification.jsp").forward(request, response);
+				} else {
+					if (idVoyage != 0){
+						facade.associerVoyage(idVoyageur,idVoyage);
+					}
+					Voyageur voyageur = facade.accederCompte(idVoyageur);
+					request.setAttribute("voyageur", voyageur);
+					request.getRequestDispatcher("perso.jsp").forward(request, response);
+				}
 			}else{
 				response.getWriter().append("Served at: else");
 				request.getRequestDispatcher("questionnaire.jsp");	
@@ -221,10 +236,17 @@ public class ServletOp extends HttpServlet {
 				String login = request.getParameter("login");
 				String pwd = request.getParameter("pwd");
 				int idVoyageur = facade.getIdVoyageur(login, pwd);
-				facade.associerVoyage(idVoyageur, idVoyage);
-				Voyageur voyageur = facade.accederCompte(idVoyageur);
-				request.setAttribute("voyageur", voyageur);
-				request.getRequestDispatcher("perso.jsp").forward(request, response);
+				if (idVoyageur == 0){
+					request.setAttribute("idVoyage", idVoyage);
+					request.getRequestDispatcher("identification.jsp").forward(request, response);
+				} else {
+					if (idVoyage != 0){
+						facade.associerVoyage(idVoyageur,idVoyage);
+					}
+					Voyageur voyageur = facade.accederCompte(idVoyageur);
+					request.setAttribute("voyageur", voyageur);
+					request.getRequestDispatcher("perso.jsp").forward(request, response);
+				}
 			}else{
 				response.getWriter().append("Served at: else");
 				request.getRequestDispatcher("questionnaire.jsp");	

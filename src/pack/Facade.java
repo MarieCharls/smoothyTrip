@@ -462,13 +462,25 @@ public class Facade {
 	
 	/** Authentification du voyageur **/
 	
-	/** Creer un nouveau compte voyageur **/
-	public int creerVoyageur(String login, String pwd) {
-		Voyageur voyageur = new Voyageur();
-    	voyageur.setLogin(login);
-    	voyageur.setPassword(pwd);  
-    	em.persist(voyageur);
-    	return voyageur.getId();
+	/** Creer un nouveau compte voyageur 
+	 * @param prenom 
+	 * @param nom **/
+	public int creerVoyageur(String login, String pwd, String nom, String prenom) {
+		TypedQuery<Integer> req = em.createQuery("SELECT id FROM Voyageur v WHERE v.login = '"+login+"' and v.password= '"+pwd+"'",Integer.class);
+		int idVoyageur;
+		try{
+			req.getSingleResult();
+			idVoyageur = 0;
+		}catch (NoResultException e){
+			Voyageur voyageur = new Voyageur();
+	    	voyageur.setLogin(login);
+	    	voyageur.setPassword(pwd);  
+	    	voyageur.setNom(nom);
+	    	voyageur.setPrenom(prenom);
+	    	em.persist(voyageur);
+	    	idVoyageur = voyageur.getId();
+		}
+		return idVoyageur;
     }
 
 	/** Associer un voyage a un voyageur authentifié **/
@@ -480,11 +492,12 @@ public class Facade {
     	Voyageur voyageur = em.find(Voyageur.class, idVoyageur);
 
     	// On associe le voyage au voyageur
-		List<Voyage> listVoy = voyageur.getListVoyage();
-		System.out.println(listVoy.size());
-		listVoy.add(voyage);
-		System.out.println(listVoy.size());
-		voyageur.setListVoyage(listVoy);
+//		List<Voyage> listVoy = voyageur.getListVoyage();
+//		System.out.println(listVoy.size());
+//		listVoy.add(voyage);
+//		System.out.println(listVoy.size());
+//		voyageur.setListVoyage(listVoy);
+		voyageur.getListVoyage().add(voyage);
 		voyage.setVoyageur(voyageur);
 	}
 
@@ -492,10 +505,30 @@ public class Facade {
 		Voyageur voyageur = em.find(Voyageur.class, idVoyageur);
 		return voyageur;
 	}
+	
 	public int getIdVoyageur(String login, String pwd) {
 		TypedQuery<Integer> req = em.createQuery("SELECT id FROM Voyageur v WHERE v.login = '"+login+"' and v.password= '"+pwd+"'",Integer.class);
-		int idVoyageur = req.getSingleResult();
+		int idVoyageur;
+		try{
+			idVoyageur = req.getSingleResult();
+		}catch (NoResultException e){
+			idVoyageur = 0;
+		}
 		return idVoyageur;
+	}
+	public Logement getLogement(int idVoyage){
+		Voyage voyage=em.find(Voyage.class, idVoyage);
+		return voyage.getLogement();
+	}
+	
+	public Vols getVols(int idVoyage){
+		Voyage voyage=em.find(Voyage.class, idVoyage);
+		return voyage.getVols();
+	}
+	
+	public List<Activite> getActivites(int idVoyage){
+		Voyage voyage=em.find(Voyage.class, idVoyage);
+		return voyage.getListeActivites();
 	}
 	
 }
