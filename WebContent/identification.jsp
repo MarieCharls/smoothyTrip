@@ -48,7 +48,7 @@
 								<h1>Voyager<span class="span-dot">.</span>Rêver<span class="span-dot">.</span> En toute simplicité </h1>
 							</div><!--/.col-sm-12-->
 										<div class="col-sm-8 col-sm-offset-2">
-													<div class="section-description">Identifie-toi ou crée un compte pour sauvegarder ton voyage !</div>
+													<div class="section-description">Erreur lors de l'identification... Réessaie !</div>
 																		<form action="/smoothy_trip/ServletOp" method="post">
 																		<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>">
 																		<input type="submit" name="op" value="Nouveau Compte">  

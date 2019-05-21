@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Espace personnel - SmoothyTrip</title>
+	<title>Recapitulatif - SmoothyTrip</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel = "stylesheet" href="css/bootstrap-theme.css">
 	<link rel = "stylesheet" href="css/bootstrap.css">
@@ -17,16 +17,7 @@
 	<link rel = "stylesheet" href="css/IonicsBis.min.css">
 	<link rel = "stylesheet" href="https://adminlte.io/themes/AdminLTE/bower_components/Ionicons/css/ionicons.min.css">
 	<style type="text/css" id="illdy-about-section-css">#header.header-front-page {background-image: url(images/planner.jpg) !important;}#header.header-front-page .bottom-header .header-button-one {background-color: rgba( 0, 0, 0, .4 );}#header.header-front-page .bottom-header .header-button-one:hover {background-color: rgba( 0, 0, 0, .1 );}#header.header-front-page .bottom-header h1 {color: #ffffff;}#header.header-front-page .bottom-header .section-description {color: #ffffff;}</style>
-	<style>
-		#myDIV {
-			  width: 100%;
-			  padding: 50px 0;
-			  text-align: center;
-			  background-color: lightblue;
-			  margin-top: 20px;
-			  ddisplay: none;
-		}
-	</style>
+
 </head>
 <body>
 	<header id="header" class="header-front-page" style ="backgroung-image:url(images/planner.jpg); background-attachment:fixed;">
@@ -65,11 +56,11 @@
 				<div class="container">
 					<div class="row">
 							<div class="col-sm-12">
-								<h1>Voici vos voyages prévus ! </h1>
+								<h1>Votre récapitulatif de voyage est prêt ! </h1>
 							</div><!--/.col-sm-12-->
 										<div class="col-sm-8 col-sm-offset-2">
-											<div class="section-description">Vous pouvez aussi ajouter un nouveau voyage ! </div>
-											<a href="questionnairebis.jsp" title="Commencer l'Aventure" class="header-button-two">Nouvelle Aventure</a>
+											<div class="section-description">Si celui-ci ne convient pas à votre recherche, n'hésitez pas à refaire une recherche</div>
+											<a href="questionnairebis.jsp" title="Commencer l'Aventure" class="header-button-two">Recommencer</a>
 										</div><!--/.col-sm-8.col-sm-offset-2-->
 					</div><!--/.row-->
 				</div><!--/.container-->
@@ -82,74 +73,60 @@
 			<div class="container">
 				<div class="row">
 											<div class="col-sm-12">
-							<h3>Voyages prévus</h3>
+							<h3>Récapitulatif</h3>
 						</div><!--/.col-sm-12-->
 						</div><!--/.row-->
 			</div><!--/.container-->
 		</div><!--/.section-header-->
-		<%Voyageur voyageur = (Voyageur) request.getAttribute("voyageur");
-		List<Voyage> listVoyage = voyageur.getListVoyage();
-		if (listVoyage.isEmpty()){%>
-		Vous n'avez pas encore de voyages prévus !
-		<%	
-		}else {
-		for (Voyage voyage : listVoyage){%>
-			
-			<button onclick="affVoyage(voyage)">
-	 				<div class="service-title"> 
-							<h5> Voyage <%=voyage.getNom() %> </h5>
-		 			</div>
-		 	</button> 
-		 	<div class="myDiv" id="test" >
-		 		<div class="section-content">
-				<div class="container">
-				<div class="row inline-columns">				
+		<div class="section-content">
+		<div class="container">
+			<div class="row inline-columns">
 				<div id="illdy_service-2" class="col-sm-4 widget_illdy_service">
 					<div class="service" data-service-color="#f18b6d">
 <!-- 						<div class="service-icon"> -->
 <!-- 							<span class="fa fa-plane"></span> -->
-<!-- 						</div> -->
+<!-- 						</div>/.service-icon -->
 						<div class="service-title">
 							<h5> Vols </h5>
-						</div>
+						</div><!--/.service-title-->
 						<div class="service-entry">
-							<%Vols vols = voyage.getVols();%>
+							<%Vols vols = (Vols) request.getAttribute("vols");%>
 							<label>Vol aller</label>
 							 De <%=vols.getVolAller().getOrigine() %> départ prévu à <%=vols.getVolAller().getDateDepart().toString() %> <br> 
 							 Vers <%=vols.getVolAller().getDestination() %> arrivée prévue à <%=vols.getVolAller().getDateArrivee().toString() %> <br>
 							 <label>Vol retour</label>
 							 De <%=vols.getVolRetour().getOrigine()%> départ prévu à <%=vols.getVolRetour().getDateDepart().toString() %> <br>
 							 Vers <%=vols.getVolRetour().getDestination() %> arrivée prévue à <%=vols.getVolRetour().getDateArrivee().toString() %>
-						</div>
-					</div>
+						</div><!--/.service-entry-->
+					</div><!--/.service-->
 				</div>
 				<div id="illdy_service-3" class="col-sm-4 widget_illdy_service">
 					<div class="service" data-service-color="#f1d204">
 <!-- 						<div class="service-icon"> -->
 <!-- 							<i class="fa fa-code"></i> -->
-<!-- 						</div>/ -->
+<!-- 						</div>/.service-icon -->
 						<div class="service-title">
 							<h5>Logement</h5>
-						</div>
+						</div><!--/.service-title-->
 						<div class="service-entry">
-							<%Logement logement = voyage.getLogement();%>
+							<%Logement logement = (Logement) request.getAttribute("logementChoisi");%>
 							<label>Nom: </label> <%=logement.getNom()%> <br>
 							<label>Adresse: </label> <%=logement.getAdresse()%> <br>
 							<label>Prix de la nuité : </label> <%=logement.getPrix()%>
-						</div>
-					</div>
+						</div><!--/.service-entry-->
+					</div><!--/.service-->
 				</div>
 				<div id="illdy_service-4" class="col-sm-4 widget_illdy_service">
 					<div class="service" data-service-color="#6a4d8a">
 <!-- 						<div class="service-icon"> -->
 <!-- 							<i class="fa fa-search"></i> -->
-<!-- 						</div> -->
+<!-- 						</div>/.service-icon -->
 						<div class="service-title">
 							<h5>Activités</h5>
 						</div><!--/.service-title-->
 						<div class="service-entry">
-						<%List<Activite> activites = voyage.getListeActivites();
-						System.out.println("------------------------------------------" + listVoyage.size());%>
+						<%System.out.println("ARRIVEEEEEE A ACTIVITES");%>
+						<%Collection<Activite> activites = (Collection<Activite>) request.getAttribute("listeActivite"); %>
 						<%if (activites.isEmpty()){
 							%> 
 							Aucune activite disponible <br>
@@ -166,27 +143,23 @@
 				</div>			
 			</div><!--/.row-->
 		</div><!--/.container-->
-		</div>
-		</div>
-		<%}%>
-		<%}%>		
 		<div class="container">
 					<div class="row">
-							<div class="col-sm-12">
+										<div class="col-sm-8 col-sm-offset-2">
+													<div class="section-description">Identifie-toi ou crée un compte pour sauvegarder ton voyage !</div>
+																		<form action="/smoothy_trip/ServletOp" method="post">
+																		<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>">
+																		<input type="submit" name="op" value="Nouveau Compte">  
+																		<input type="submit" name="op" value="Connexion">  
+																		<input type="hidden" name="Validation" value="Valider"> 
+																		</form> 
+										</div><!--/.col-sm-8.col-sm-offset-2-->
+										<div class="col-sm-12">
 								<h1>Voyager<span class="span-dot">.</span>Rêver<span class="span-dot">.</span> En toute simplicité </h1>
 							</div><!--/.col-sm-12-->
 					</div><!--/.row-->
 				</div><!--/.container-->
+	</div><!--/.section-content-->
 </section><!--/#services.front-page-section-->
-		<script type="text/javascript">
-		function affVoyage(voyage) {
-  			var x = document.getElementById(voyage.getNom());
-  			if (x.style.display === "none") {
-    			x.style.display = "block";
-  			} else {
-    			x.style.display = "none";
-  			}
-		}
-		</script>
 </body>
 </html>

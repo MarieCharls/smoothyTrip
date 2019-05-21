@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Logement</title>
+	<title>Vols</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel = "stylesheet" href="css/bootstrap-theme.css">
 	<link rel = "stylesheet" href="css/bootstrap.css">
@@ -15,11 +15,11 @@
 	<link rel = "stylesheet" href="css/owl-carousel.css">
 	<link rel = "stylesheet" href="css/pace.css">
 	<link rel ="stylesheet" href="css/stylePerso.css">
-	<style type="text/css" id="illdy-about-section-css">#header.header-front-page {background-image: url(images/logement.jpg) !important;}#header.header-front-page .bottom-header .header-button-one {background-color: rgba( 0, 0, 0, .2 );}#header.header-front-page .bottom-header .header-button-one:hover {background-color: rgba( 0, 0, 0, .1 );}#header.header-front-page .bottom-header h1 {color: #ffffff;}#header.header-front-page .bottom-header .section-description {color: #ffffff;}</style>
+	<style type="text/css" id="illdy-about-section-css">#header.header-front-page {background-image: url(images/vol.jpg) !important;}#header.header-front-page .bottom-header .header-button-one {background-color: rgba( 0, 0, 0, .2 );}#header.header-front-page .bottom-header .header-button-one:hover {background-color: rgba( 0, 0, 0, .1 );}#header.header-front-page .bottom-header h1 {color: #ffffff;}#header.header-front-page .bottom-header .section-description {color: #ffffff;}</style>
 </head>
 <body>
 
-	<header id="header" class="header-front-page" style ="backgroung-image: url(images/logement.jpg); background-attachment:fixed;">
+	<header id="header" class="header-front-page" style ="backgroung-image: url(images/vol.jpg); background-attachment:fixed;">
 		<div style="background-color:rgba(0,0,0,0.3)">
 			<div class="top-header" style="background-color:rgba(0,0,0,0.3)">
 				<div class="container">
@@ -58,35 +58,40 @@
 <!-- 				</div>/.container -->
 							<div class="col-sm-12">
 								<div class="backgroundQuest">
-									<h4> C'est le moment de choisir le logement de tes rêves </h4>
+									<h4> C'est le moment de choisir le vol parfait</h4>
 									<div class="section-description" style="color:#000">
-										Nous avons sélectionné une liste de logement spécialement pour toi. Maintenant il est l'heure de faire un choix, <br>
-										lequel souhaites-tu mettre au planning de ton voyage?
+										Tu trouveras ci-dessous tous les vols que nous avons trouvé correspondant à tes critères. Il te faut juste sélectionner le vol que tu préfère pour passer
+										à la suite.
 									</div>
 								<form action="/smoothy_trip/ServletOp" method="post">
-									<%Collection<Logement> logements = (Collection<Logement>) request.getAttribute("listeLogement");
-									if (logements==null){
+									<%Collection<Vols> vols = (Collection<Vols>) request.getAttribute("listeVol");
+										if (vols==null){
 										%> 
 
 											<div class="container">
-												<label>Aucun logement disponible avec le budget restant</label> <br>
+												<label>Aucun vol disponible avec le budget restant</label> <br>
 												<input type="submit" name="Validation" value="Recommencer la recherche">
 											</div> <!-- container -->
 
 									<%
 									}else{
-									for (Logement logement : logements){ 
-										int i =0;%>
+									for (Vols vol : vols){ 
+										%>
 										<div class="container">
 											<div class="backgroundResultat">
-												<input style="display: inline;width:auto;" type="radio" name="idLogement" value="<%=logement.getId()%>" checked> <label><%=logement.getNom()%></label>  <br>
-												 <label>Distance du centre ville :</label> <%=logement.getRadius()%><%=logement.getRadiusUnit()%> <br>
-												 <label>Prix /nuit : </label> <%=logement.getPrix()%> <%=logement.getMonnaire()%>
+												<input type="radio" name="idVol" value="<%= vol.getId() %>" checked>  <label><%=String.valueOf(vol.getPrix())%>  <%=vol.getVolAller().getMonnaie() %></label>  <br>
+												 <label>Vol aller</label>
+							 						De <%=vol.getVolAller().getOrigine() %> départ prévu à <%=vol.getVolAller().getDateDepart().toString() %> <br> 
+							 						Vers <%=vol.getVolAller().getDestination() %> arrivée prévue à <%=vol.getVolAller().getDateArrivee().toString() %> <br>
+							 						<label>Vol retour</label>
+													De <%=vol.getVolRetour().getOrigine()%> départ prévu à <%=vol.getVolRetour().getDateDepart().toString() %> <br>
+							 						Vers <%=vol.getVolRetour().getDestination() %> arrivée prévue à <%=vol.getVolRetour().getDateArrivee().toString() %>
 											</div> <!-- backgroundQuest -->
 										</div><!--/.container-->
-									<% i++; } %>
-									<input type="submit" name="Validation" value="Valider">  <%} %>
-									<input type="hidden" name="op" value="validerLogement">
+									<% } %>
+									<%} %>
+									<input type="submit" name="Validation" value="Valider">  
+									<input type="hidden" name="op" value="validerVol">
 									<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>">
 								</form>
 								</div> <!-- - backgroundQuest-->
@@ -98,8 +103,6 @@
 			</div><!--/.bottom-header.front-page-->
 	</div>
 	</header>
-
-
 
 	
 </body>
