@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.persistence.TypedQuery;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -51,7 +52,6 @@ public class ServletOp extends HttpServlet {
 		String operation = request.getParameter("op");;
 		if (operation.equals("questionnaire")){
 			String nom= request.getParameter("nom");
-			
 			String destination= request.getParameter("destination");
 			destination=destination.toLowerCase();
 			
@@ -125,7 +125,7 @@ public class ServletOp extends HttpServlet {
 				List<Logement> listeLogements = Collections.synchronizedList(new ArrayList<Logement>());
 				try {
 					// ------------------ DATEALLER ET DATE RETOUR  ET BUDGET A MAJ APRES APPEL DE VOLS --------------
-					System.out.println("id voyageeee----"+idVoyage);
+
 					listeLogements = facade.chercherLogement(idVoyage);
 					
 				} catch (ResponseException e) {
@@ -141,6 +141,8 @@ public class ServletOp extends HttpServlet {
 				
 				
 			} else {
+				response.getWriter().append("Served at: else");
+
 				request.getRequestDispatcher("questionnaire.jsp");
 				
 			}
@@ -186,14 +188,72 @@ public class ServletOp extends HttpServlet {
 				request.setAttribute("logementChoisi", logementChoisi );
 				request.setAttribute("listeActivite", listeActivite);
 				request.setAttribute("vols", vols);
-				System.out.println("tailleeee activitéééééé -----" + listeActivite.size());
-				System.out.println("logemennnnnntt -------"+ logementChoisi.getNom());
-				System.out.println("avionnnnnnnnn ------"+vols.getVolAller().getDestination());
+				request.setAttribute("idVoyage", idVoyage);
 				request.getRequestDispatcher("recapitulatif.jsp").forward(request, response);
 			}else{
+				response.getWriter().append("Served at: else");
 				request.getRequestDispatcher("questionnaire.jsp");	
 			}
-}
+		}
+		if (operation.equals("Nouveau Compte")){
+			int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
+			request.setAttribute("idVoyage",idVoyage);
+			request.getRequestDispatcher("newUser.jsp").forward(request, response);
+		}
+		if (operation.equals("createUser")){
+			String validation = request.getParameter("Validation");
+			if (validation.equals("Valider")){
+				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
+				String login = request.getParameter("login");
+				String pwd = request.getParameter("pwd");
+				String nom = request.getParameter("nom");
+				String prenom = request.getParameter("prenom");
+				int idVoyageur = facade.creerVoyageur(login,pwd,nom,prenom);
+				if (idVoyageur == 0){
+					request.setAttribute("idVoyage", idVoyage);
+					request.getRequestDispatcher("identification.jsp").forward(request, response);
+				} else {
+					if (idVoyage != 0){
+						facade.associerVoyage(idVoyageur,idVoyage);
+					}
+					Voyageur voyageur = facade.accederCompte(idVoyageur);
+					request.setAttribute("voyageur", voyageur);
+					request.getRequestDispatcher("perso.jsp").forward(request, response);
+				}
+			}else{
+				response.getWriter().append("Served at: else");
+				request.getRequestDispatcher("questionnaire.jsp");	
+			}
+		}
+		if (operation.equals("Connexion")){
+			int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
+			request.setAttribute("idVoyage",idVoyage);
+			request.getRequestDispatcher("auth.jsp").forward(request, response);
+		}
+		if (operation.equals("validerUser")){
+			String validation = request.getParameter("Validation");
+			if (validation.equals("Valider")){
+				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
+				String login = request.getParameter("login");
+				String pwd = request.getParameter("pwd");
+				int idVoyageur = facade.getIdVoyageur(login, pwd);
+				if (idVoyageur == 0){
+					request.setAttribute("idVoyage", idVoyage);
+					request.getRequestDispatcher("identification.jsp").forward(request, response);
+				} else {
+					if (idVoyage != 0){
+						facade.associerVoyage(idVoyageur,idVoyage);
+					}
+					Voyageur voyageur = facade.accederCompte(idVoyageur);
+					request.setAttribute("voyageur", voyageur);
+					request.getRequestDispatcher("perso.jsp").forward(request, response);
+				}
+			}else{
+				response.getWriter().append("Served at: else");
+				request.getRequestDispatcher("questionnaire.jsp");	
+			}
+		}
+
 	}
 
 	/**

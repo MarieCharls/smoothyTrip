@@ -127,7 +127,6 @@ public class Logement {
 	/**public List<String> getCommodites() {
 		return commodites;
 	}
-
 	public void setCommodites(List<String> commodites) {
 		this.commodites = commodites;
 	}*/

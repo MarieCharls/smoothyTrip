@@ -29,18 +29,12 @@
 				</div><!--/.col-sm-2-->
 				<div class="col-sm-8 col-xs-4">
 					<nav class="header-navigation" >
-						<form action="/smoothy_trip/ServletOp" method="post"> 
-							<ul id="menu-illdy-main" class="clearfix">
-								<li id="menu-item-18" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-16"><a href="accueil.html" aria-current="page">About</a></li>
-								<li id="menu-item-19" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-17"><a href="accueil.html" aria-current="page">Accueil</a></li>
-								<li id="menu-item-20" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-18"><a href="questionnairebis.jsp" aria-current="page">Commencer l'aventure</a></li>
-								<li id="menu-item-22" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-22"><input type="submit" name="op" value="Nouveau Compte"> 
-								<li id="menu-item-23" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-23"><input type="submit" name="op" value="Connexion">
-							</ul>	
-							<input type="hidden" name="idVoyage" value="0">
-							<input type="hidden" name="Validation" value="Valider">
-						</form>
-					</nav>
+						<ul id="menu-illdy-main" class="clearfix"><li id="menu-item-18" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-16"><a href="accueil.html" aria-current="page">About</a></li>
+							<li id="menu-item-19" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-17"><a href="accueil.html" aria-current="page">Accueil</a></li>
+							<li id="menu-item-20" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-18"><a href="questionnairebis.jsp" aria-current="page">Commencer l'aventure</a></li>
+							<li id="menu-item-22" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-22"><a href="questionnaire.jsp" aria-current="page">Our Team</a></li>
+							<li id="menu-item-23" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-23"><a href="contact.html" aria-current="page">Contact Us</a></li>
+						</ul>				</nav>
 <!-- 					<button class="open-responsive-menu"><i class="fa fa-bars"></i></button> -->
 				</div><!--/.col-sm-10-->
 			</div><!--/.row-->
@@ -51,12 +45,16 @@
 				<div class="container">
 					<div class="row">
 							<div class="col-sm-12">
-								<h1>Voyager<span class="span-dot">.</span>RÃªver<span class="span-dot">.</span> En toute simplicitÃ© </h1>
+								<h1>Voyager<span class="span-dot">.</span>Rêver<span class="span-dot">.</span> En toute simplicité </h1>
 							</div><!--/.col-sm-12-->
 										<div class="col-sm-8 col-sm-offset-2">
-													<div class="section-description">SmoothyTrip est une toute jeune entreprise dont le but est de promouvoir le voyage sur mesure. Avec beaucoup, ou peu d'argent, une multitude d'envies ou juste le besoin de chiller sur une petite plage. Nous trouverons le voyage idÃ©al et selon TES critÃ¨res</div>
-																		<a href="accueil.html" title="Learn more" class="header-button-one">Learn more</a>
-																		<a href="questionnairebis.jsp" title="Commencer l'Aventure" class="header-button-two">Commencer l'Aventure</a>
+													<div class="section-description">Erreur lors de l'identification... Réessaie !</div>
+																		<form action="/smoothy_trip/ServletOp" method="post">
+																		<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>">
+																		<input type="submit" name="op" value="Nouveau Compte">  
+																		<input type="submit" name="op" value="Connexion">  
+																		<input type="hidden" name="Validation" value="Valider"> 
+																		</form> 
 											</div><!--/.col-sm-8.col-sm-offset-2-->
 					</div><!--/.row-->
 				</div><!--/.container-->

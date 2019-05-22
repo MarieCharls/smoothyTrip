@@ -69,7 +69,4 @@ public class Vols {
 	public void setVoyage(Voyage voyage) {
 		this.voyage = voyage;
 	}
-	
-	
-	
 }

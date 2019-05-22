@@ -72,7 +72,7 @@ public class Facade {
      * @return List<Logement> liste des logements correspondant à la recherche
      * @throws ResponseException
      * */
-	public List<Logement> chercherLogement(int idVoyage) throws ResponseException{ 
+	public List<Logement> chercherLogement(int idVoyage) throws ResponseException{
     	System.out.println("Rentre dans chercher");
 		//Initialisation de la connection
     	Amadeus amadeus =this.initialiserAmadeusHotel();
@@ -320,8 +320,6 @@ public class Facade {
               .build();
     	return amadeus;
     }
-	
-    
     /** Faire le lien BD entre vol choisi et voyage courant. Et
      * maj le budget restant sur le voyage
      * @param idVol
@@ -462,7 +460,63 @@ public class Facade {
     	}
 		return listeVols;
     }
+	/** Authentification du voyageur **/
 	
+	/** Creer un nouveau compte voyageur 
+	 * @param prenom 
+	 * @param nom **/
+	public int creerVoyageur(String login, String pwd, String nom, String prenom) {
+		TypedQuery<Integer> req = em.createQuery("SELECT id FROM Voyageur v WHERE v.login = '"+login+"' and v.password= '"+pwd+"'",Integer.class);
+		int idVoyageur;
+		try{
+			req.getSingleResult();
+			idVoyageur = 0;
+		}catch (NoResultException e){
+			Voyageur voyageur = new Voyageur();
+	    	voyageur.setLogin(login);
+	    	voyageur.setPassword(pwd);  
+	    	voyageur.setNom(nom);
+	    	voyageur.setPrenom(prenom);
+	    	em.persist(voyageur);
+	    	idVoyageur = voyageur.getId();
+		}
+		return idVoyageur;
+    }
+
+	/** Associer un voyage a un voyageur authentifié **/
+	public void associerVoyage(int idVoyageur, int idVoyage) {
+		// On récupère le voyage courant
+    	Voyage voyage = em.find(Voyage.class, idVoyage);
+    	
+    	// On récupère le voyageur
+    	Voyageur voyageur = em.find(Voyageur.class, idVoyageur);
+
+    	// On associe le voyage au voyageur
+//		List<Voyage> listVoy = voyageur.getListVoyage();
+//		System.out.println(listVoy.size());
+//		listVoy.add(voyage);
+//		System.out.println(listVoy.size());
+//		voyageur.setListVoyage(listVoy);
+		voyageur.getListVoyage().add(voyage);
+		voyage.setVoyageur(voyageur);
+	}
+
+	public Voyageur accederCompte(int idVoyageur) {
+		Voyageur voyageur = em.find(Voyageur.class, idVoyageur);
+		return voyageur;
+	}
+	
+	public int getIdVoyageur(String login, String pwd) {
+		TypedQuery<Integer> req = em.createQuery("SELECT id FROM Voyageur v WHERE v.login = '"+login+"' and v.password= '"+pwd+"'",Integer.class);
+		int idVoyageur;
+		try{
+			idVoyageur = req.getSingleResult();
+		}catch (NoResultException e){
+			idVoyageur = 0;
+		}
+		return idVoyageur;
+	}
+
 	public Logement getLogement(int idVoyage){
 		Voyage voyage=em.find(Voyage.class, idVoyage);
 		return voyage.getLogement();

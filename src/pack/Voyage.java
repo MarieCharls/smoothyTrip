@@ -109,7 +109,10 @@ public class Voyage {
 	public void setCityCodeDestination(String cityCodeDestination) {
 		this.cityCodeDestination = cityCodeDestination;
 	}
-	
-	
-
+	public void setVoyageur(Voyageur voyageur){
+		this.voyageur = voyageur;
+	}
+	public Voyageur getVoyageur(){
+		return this.voyageur;
+	}
 }
