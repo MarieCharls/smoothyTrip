@@ -64,9 +64,9 @@
 							<div class="col-sm-12">
 								<form action="/smoothy_trip/ServletOp" method="post">
 									<label>Quel nom veux-tu donner au voyage </label> ? <input type="text" name="nom"/> <br>
-									<label>Où souhaites-tu aller ? </label><input type="text" name="destination" required="required"/> <br>
-									<label>D'où souhaites-tu partir ? </label><input type="text" name="origine" required="required"/> <br>
-								<%-- 	<%if(request.getAttribute("dateInvalide").equals("true")){%> DATES INVALIDES <br><%} %> --%>
+									
+									<label> Ville de départ </label><input type="text" name="origine" required="required"/> <br>
+									<label> Destination </label><input type="text" name="destination" required="required"/> <br>
 									<br><label>A quelle date voulez-vous partir ? </label><br>
 									<input type="date" name="dateDebut" required="required">
 									
@@ -83,11 +83,14 @@
 									<option value="5"> 5
 									</select>
 									<br> <label>Quel est ton budget maximum par personnes ?</label> <br>
-									<input style="display: inline;width:auto;" type="radio" name="response6" value="200" checked>  Max 200€ 
-									<input style="display: inline;width:auto;" type="radio" name="response6" value="300" checked>  Max 300€ 
-									<input style="display: inline;width:auto;" type="radio" name="response6" value="500" checked> Max 500€ 
-									<input style="display: inline;width:auto;" type="radio" name="response6" value="700" checked> Max 700€ 
-									<input style="display: inline;width:auto;" type="radio" name="response6" value="10000" checked> Plus de 700€
+									<input id="range-price" type="radio" name="response6" value="200" checked>  Max 200€ 
+									<input id="range-price" type="radio" name="response6" value="300" checked>  Max 300€ 
+									<input id="range-price" type="radio" name="response6" value="500" checked> Max 500€ 
+									<input id="range-price" type="radio" name="response6" value="700" checked> Max 700€ 
+									<input id="range-price" type="radio" name="response6" value="1000" checked> Max 1000€ 
+									<input id="range-price" type="radio" name="response6" value="1500" checked> Max 1500€
+									<input id="range-price" type="radio" name="response6" value="1500" checked> Max 2000€
+									<input id="range-price" type="radio" name="response6" value="10000" checked> Plus de 2000€
 									<br> <label>A quelle distance du centre-ville veux tu loger (km)?</label> <br>
 									<select name="response7" size="1">
 									<option value="1"> 1

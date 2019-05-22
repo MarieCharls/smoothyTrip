@@ -52,10 +52,11 @@
 			
 			<div class="bottom-header front-page">
 				<div class="row">
-				<div class="container" style="width:99%">
+				<div class="container" style="width:100%">
 					
 <!-- 					</div> backgroundQuest -->
 <!-- 				</div>/.container -->
+					<div class="backgroundQuest">
 							<div class="col-sm-12">
 								<div class="backgroundQuest">
 									<h4> C'est le moment de choisir le vol parfait</h4>
@@ -94,8 +95,8 @@
 									<input type="hidden" name="op" value="validerVol">
 									<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>">
 								</form>
-								</div> <!-- - backgroundQuest-->
-							</div><!--/.col-sm-12-->
+								</div> <!--/.col-sm-12-->
+							</div><!-- - backgroundQuest-->
 							
 					</div><!--/.container --->	
 						</div><!--/.row-->
