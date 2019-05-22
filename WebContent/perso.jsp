@@ -61,7 +61,7 @@
 		</div><!--/.container-->
 	</div><!--/.top-header-->
 
-		<div class="bottom-header front-page">
+		<div class="bottom-header front-page" style="padding-bottom:50px;">
 				<div class="container">
 					<div class="row">
 							<div class="col-sm-12">
@@ -134,7 +134,7 @@
 						<div class="service-entry">
 							<%Logement logement = voyage.getLogement();%>
 							<label>Nom: </label> <%=logement.getNom()%> <br>
-							<label>Adresse: </label> <%=logement.getAdresse()%> <br>
+							<label>Distance au centre : </label> <%=logement.getRadius()%><%= logement.getRadiusUnit() %> <br>
 							<label>Prix de la nuité : </label> <%=logement.getPrix()%>
 						</div>
 					</div>
@@ -148,8 +148,7 @@
 							<h5>Activités</h5>
 						</div><!--/.service-title-->
 						<div class="service-entry">
-						<%List<Activite> activites = voyage.getListeActivites();
-						System.out.println("------------------------------------------" + listVoyage.size());%>
+						<%List<Activite> activites = voyage.getListeActivites();%>
 						<%if (activites.isEmpty()){
 							%> 
 							Aucune activite disponible <br>
@@ -170,13 +169,6 @@
 		</div>
 		<%}%>
 		<%}%>		
-		<div class="container">
-					<div class="row">
-							<div class="col-sm-12">
-								<h1>Voyager<span class="span-dot">.</span>Rêver<span class="span-dot">.</span> En toute simplicité </h1>
-							</div><!--/.col-sm-12-->
-					</div><!--/.row-->
-				</div><!--/.container-->
 </section><!--/#services.front-page-section-->
 		<script type="text/javascript">
 		function affVoyage(voyage) {

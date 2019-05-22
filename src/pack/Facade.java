@@ -190,18 +190,8 @@ public class Facade {
     	// On associe le logement au voyage
     	logement.setVoyage(voyage); 	
     }
-    public void ajouterLogement(Logement logement){
-    	em.persist(logement);
-    }
-//    
-//    /** Traduire la ville de français à Anglais*/
-//    public String frToAnglais(String nomVille){
-//    	Translate translate = TranslateOptions.getDefaultInstance().getService();
-//    	Translation translation = translate.translate(nomVille,
-//    			TranslateOption.sourceLanguage("fr"),
-//    			TranslateOption.targetLanguage("en") );
-//    	return translation.getTranslatedText();
-//    }
+
+
     
     /** Initialiser une connection AmadeusActivite**/
     public Amadeus initialiserAmadeusActivite(){
@@ -355,29 +345,6 @@ public class Facade {
     	return date;
     }
     
-//    public Duration toDuree(String d){
-//Duration date=null;
-//		try {
-//			date = sd.parse(d);
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
-//    	return date;
-//    } 
-//    
-//    public Duration calculDureeTotale(FlightOffer offer){
-// 
-//    	Duration duree=null;
-//    	Segment[] segmentAller = offer.getOfferItems()[0].getServices()[0].getSegments();
-//		Segment[] segmentRetour = offer.getOfferItems()[0].getServices()[1].getSegments();
-//		for (int i=0;i<segmentAller.length;i++ ){
-//			Date dSeg = toDuree(segmentAller[i].getFlightSegment().getDuration());
-//			
-//		}
-//			
-//		
-//    	return duree
-//    }
 	 /** Recherche tous les vols disponibles sous certaines contraintes posées en entrée
      * @param String cityCodeD Code de la ville de départ
      * @param Date checkInDate Date de début de séjour dans le logement

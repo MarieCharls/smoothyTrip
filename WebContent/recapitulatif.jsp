@@ -52,7 +52,7 @@
 		</div><!--/.container-->
 	</div><!--/.top-header-->
 
-		<div class="bottom-header front-page">
+		<div class="bottom-header front-page" >
 				<div class="container">
 					<div class="row">
 							<div class="col-sm-12">
@@ -70,7 +70,7 @@
 
 <section id="services" class="front-page-section">
 			<div class="section-header">
-			<div class="container">
+			<div class="container backgroundProp">
 				<div class="row">
 											<div class="col-sm-12">
 							<h3>Récapitulatif</h3>
@@ -81,19 +81,20 @@
 		<div class="section-content">
 		<div class="container">
 			<div class="row inline-columns">
-				<div id="illdy_service-2" class="col-sm-4 widget_illdy_service">
+				<div id="illdy_service-2" class="col-sm-4 widget_illdy_service" ">
 					<div class="service" data-service-color="#f18b6d">
 <!-- 						<div class="service-icon"> -->
-<!-- 							<span class="fa fa-plane"></span> -->
-<!-- 						</div>/.service-icon -->
+<!-- 							<a class="glyphicon glyphicon-plane"></a> -->
+<!-- 						</div> -->
 						<div class="service-title">
 							<h5> Vols </h5>
 						</div><!--/.service-title-->
 						<div class="service-entry">
 							<%Vols vols = (Vols) request.getAttribute("vols");%>
-							<label>Vol aller</label>
-							 De <%=vols.getVolAller().getOrigine() %> départ prévu à <%=vols.getVolAller().getDateDepart().toString() %> <br> 
-							 Vers <%=vols.getVolAller().getDestination() %> arrivée prévue à <%=vols.getVolAller().getDateArrivee().toString() %> <br>
+							<h7>Vol aller</h7>
+							 <label><%=vols.getVolAller().getOrigine() %> to <%=vols.getVolAller().getDestination() %></label>
+							 <%=vols.getVolAller().getDateDepart().getDay()%>/<%=vols.getVolAller().getDateDepart().getMonth()%> à <%=vols.getVolAller().getDateDepart().getHours()%>:<%=vols.getVolAller().getDateDepart().getMinutes()%> <br> 
+							 Vers  arrivée prévue à <%=vols.getVolAller().getDateArrivee().toString() %> <br>
 							 <label>Vol retour</label>
 							 De <%=vols.getVolRetour().getOrigine()%> départ prévu à <%=vols.getVolRetour().getDateDepart().toString() %> <br>
 							 Vers <%=vols.getVolRetour().getDestination() %> arrivée prévue à <%=vols.getVolRetour().getDateArrivee().toString() %>
@@ -111,7 +112,7 @@
 						<div class="service-entry">
 							<%Logement logement = (Logement) request.getAttribute("logementChoisi");%>
 							<label>Nom: </label> <%=logement.getNom()%> <br>
-							<label>Adresse: </label> <%=logement.getAdresse()%> <br>
+							<label>Distance au centre : </label> <%=logement.getRadius()%><%= logement.getRadiusUnit() %> <br>
 							<label>Prix de la nuité : </label> <%=logement.getPrix()%>
 						</div><!--/.service-entry-->
 					</div><!--/.service-->
@@ -125,7 +126,6 @@
 							<h5>Activités</h5>
 						</div><!--/.service-title-->
 						<div class="service-entry">
-						<%System.out.println("ARRIVEEEEEE A ACTIVITES");%>
 						<%Collection<Activite> activites = (Collection<Activite>) request.getAttribute("listeActivite"); %>
 						<%if (activites.isEmpty()){
 							%> 
@@ -143,10 +143,10 @@
 				</div>			
 			</div><!--/.row-->
 		</div><!--/.container-->
-		<div class="container">
+		<div class="container" style="margin-top:100px;">
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
-									<div class="section-description">Identifie-toi ou crée un compte pour sauvegarder ton voyage !</div>
+									<h4>Identifie-toi ou crée un compte pour sauvegarder ton voyage !</h4>
 														<form action="/smoothy_trip/ServletOp" method="post">
 														<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>">
 														<input type="submit" name="op" value="Nouveau Compte">  

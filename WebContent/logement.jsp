@@ -38,8 +38,8 @@
 									<li id="menu-item-20" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-18"><a href="questionnairebis.jsp" aria-current="page">Commencer l'aventure</a></li>
 									<li id="menu-item-22" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-22"><a href="questionnaire.jsp" aria-current="page">Our Team</a></li>
 									<li id="menu-item-23" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-23"><a href="contact.html" aria-current="page">Contact Us</a></li>
-								</ul>					</nav>
-		<!-- 					<button class="open-responsive-menu"><i class="fa fa-bars"></i></button> -->
+								</ul>					
+							</nav>
 						</div><!--/.col-sm-10-->
 					</div><!--/.row-->
 				</div><!--/.container-->
@@ -50,57 +50,48 @@
 			
 			
 			
-			<div class="bottom-header front-page">
+			<div class="bottom-header-prop front-page">
 				<div class="row">
-				<div class="container" style="width:99%">
-					
-<!-- 					</div> backgroundQuest -->
-<!-- 				</div>/.container -->
-							<div class="col-sm-12">
-								<div class="backgroundQuest">
-									<h4> C'est le moment de choisir le logement de tes rêves </h4>
-									<div class="section-description" style="color:#000">
-										Nous avons sélectionné une liste de logement spécialement pour toi. Maintenant il est l'heure de faire un choix, <br>
-										lequel souhaites-tu mettre au planning de ton voyage?
-									</div>
-								<form action="/smoothy_trip/ServletOp" method="post">
-									<%Collection<Logement> logements = (Collection<Logement>) request.getAttribute("listeLogement");
-									if (logements==null){
-										%> 
+					<div class="container backgroundProp">
+						<div class="col-sm-12">
+								<h4> C'est le moment de choisir le logement de tes rêves </h4>
+								<div class="section-description" style="color:#000">
+									Nous avons sélectionné une liste de logement spécialement pour toi. Maintenant il est l'heure de faire un choix, <br>
+									lequel souhaites-tu mettre au planning de ton voyage?
+								</div>
+							<form action="/smoothy_trip/ServletOp" method="post">
+								<%Collection<Logement> logements = (Collection<Logement>) request.getAttribute("listeLogement");
+								if (logements==null){
+									%> 
 
-											<div class="container">
-												<label>Aucun logement disponible avec le budget restant</label> <br>
-												<input type="submit" name="Validation" value="Recommencer la recherche">
-											</div> <!-- container -->
-
-									<%
-									}else{
-									for (Logement logement : logements){ 
-										int i =0;%>
 										<div class="container">
-											<div class="backgroundResultat">
-												<input style="display: inline;width:auto;" type="radio" name="idLogement" value="<%=logement.getId()%>" checked> <label><%=logement.getNom()%></label>  <br>
-												 <label>Distance du centre ville :</label> <%=logement.getRadius()%><%=logement.getRadiusUnit()%> <br>
-												 <label>Prix /nuit : </label> <%=logement.getPrix()%> <%=logement.getMonnaire()%>
-											</div> <!-- backgroundQuest -->
-										</div><!--/.container-->
-									<% i++; } %>
-									<input type="submit" name="Validation" value="Valider">  <%} %>
-									<input type="hidden" name="op" value="validerLogement">
-									<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>">
-								</form>
-								</div> <!-- - backgroundQuest-->
-							</div><!--/.col-sm-12-->
-							
+											<label>Aucun logement disponible avec le budget restant</label> <br>
+											<input type="submit" name="Validation" value="Recommencer la recherche">
+										</div> <!-- container -->
+
+								<%
+								}else{
+								for (Logement logement : logements){ 
+									int i =0;%>
+									<div class="container">
+										<div class="backgroundResultat">
+											<span id="prixVol"><input id="range-price" type="radio" name="idLogement" value="<%=logement.getId()%>" checked> <label>Prix /nuit : </label> <%=logement.getPrix()%> <%=logement.getMonnaire()%></span>
+											 <div class="volProposition">
+											 	<label><%=logement.getNom()%></label> <br> 
+											 	<label>Distance du centre ville :</label> <%=logement.getRadius()%><%=logement.getRadiusUnit()%> <br>
+											 </div>
+										</div> <!-- backgroundQuest -->
+									</div><!--/.container-->
+								<% i++; } %>
+								<input type="submit" name="Validation" value="Valider">  <%} %>
+								<input type="hidden" name="op" value="validerLogement">
+								<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>">
+							</form>
+						</div><!--/.col-sm-12-->
 					</div><!--/.container --->	
-						</div><!--/.row-->
-					
+				</div><!--/.row-->	
 			</div><!--/.bottom-header.front-page-->
 	</div>
-	</header>
-
-
-
-	
+</header>
 </body>
 </html>

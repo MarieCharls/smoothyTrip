@@ -320,8 +320,15 @@ a:hover, a:focus {
 
 #header .bottom-header {
 	width: 100%;
-	padding-top: 240px;
-	padding-bottom: 280px;
+	padding-top: 120px;
+	padding-bottom: 250px;
+	text-align: center;
+}
+
+#header .bottom-header-prop {
+	width: 100%;
+	padding-top: 40px;
+	padding-bottom: 400px;
 	text-align: center;
 }
 
@@ -693,7 +700,7 @@ a:hover, a:focus {
 /* 06. Services */
 #services {
 	width: 100%;
-	background: #fff;
+	background: #f2f2f2;
 	padding: 65px 0 75px 0;
 	text-align: center;
 }
@@ -709,6 +716,9 @@ a:hover, a:focus {
 
 #services .section-content .service {
 	width: 100%;
+	background-color : #fff;
+	border : solid;
+	border-width:0.5px;
 }
 
 #services .section-content .service .service-icon {
@@ -2804,7 +2814,6 @@ p.mb32 {
 
 .inline-columns > div {
 	display: inline-block;
-	float: none;
 	vertical-align: top;
 }
 

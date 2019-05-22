@@ -15,11 +15,11 @@
 	<link rel = "stylesheet" href="css/owl-carousel.css">
 	<link rel = "stylesheet" href="css/pace.css">
 	<link rel ="stylesheet" href="css/stylePerso.css">
-	<style type="text/css" id="illdy-about-section-css">#header.header-front-page {background-image: url(images/vol.jpg) !important;}#header.header-front-page .bottom-header .header-button-one {background-color: rgba( 0, 0, 0, .2 );}#header.header-front-page .bottom-header .header-button-one:hover {background-color: rgba( 0, 0, 0, .1 );}#header.header-front-page .bottom-header h1 {color: #ffffff;}#header.header-front-page .bottom-header .section-description {color: #ffffff;}</style>
+	<style type="text/css" id="illdy-about-section-css">#header.header-front-page {background-image: url(images/aeroplane.jpg) !important;}#header.header-front-page .bottom-header .header-button-one {background-color: rgba( 0, 0, 0, .2 );}#header.header-front-page .bottom-header .header-button-one:hover {background-color: rgba( 0, 0, 0, .1 );}#header.header-front-page .bottom-header h1 {color: #ffffff;}#header.header-front-page .bottom-header .section-description {color: #ffffff;}</style>
 </head>
 <body>
 
-	<header id="header" class="header-front-page" style ="backgroung-image: url(images/vol.jpg); background-attachment:fixed;">
+	<header id="header" class="header-front-page" style ="backgroung-image: url(images/aeroplane.jpg); background-attachment:fixed;">
 		<div style="background-color:rgba(0,0,0,0.3)">
 			<div class="top-header" style="background-color:rgba(0,0,0,0.3)">
 				<div class="container">
@@ -50,15 +50,12 @@
 			
 			
 			
-			<div class="bottom-header front-page">
+			<div class="bottom-header-prop front-page">
 				<div class="row">
-				<div class="container" style="width:100%">
+				<div class="container backgroundProp">
 					
-<!-- 					</div> backgroundQuest -->
-<!-- 				</div>/.container -->
-					<div class="backgroundQuest">
 							<div class="col-sm-12">
-								<div class="backgroundQuest">
+								
 									<h4> C'est le moment de choisir le vol parfait</h4>
 									<div class="section-description" style="color:#000">
 										Tu trouveras ci-dessous tous les vols que nous avons trouvé correspondant à tes critères. Il te faut juste sélectionner le vol que tu préfère pour passer
@@ -80,13 +77,14 @@
 										%>
 										<div class="container">
 											<div class="backgroundResultat">
-												<input type="radio" name="idVol" value="<%= vol.getId() %>" checked>  <label><%=String.valueOf(vol.getPrix())%>  <%=vol.getVolAller().getMonnaie() %></label>  <br>
-												 <label>Vol aller</label>
-							 						De <%=vol.getVolAller().getOrigine() %> départ prévu à <%=vol.getVolAller().getDateDepart().toString() %> <br> 
-							 						Vers <%=vol.getVolAller().getDestination() %> arrivée prévue à <%=vol.getVolAller().getDateArrivee().toString() %> <br>
-							 						<label>Vol retour</label>
-													De <%=vol.getVolRetour().getOrigine()%> départ prévu à <%=vol.getVolRetour().getDateDepart().toString() %> <br>
-							 						Vers <%=vol.getVolRetour().getDestination() %> arrivée prévue à <%=vol.getVolRetour().getDateArrivee().toString() %>
+												<span id="prixVol"><input id="range-price" type="radio" name="idVol" value="<%= vol.getId() %>" checked>  <label ><%=String.valueOf(vol.getPrix())%>  <%=vol.getVolAller().getMonnaie() %></label></span>
+												  	<div class="volProposition">
+													  	<label><%=vol.getVolAller().getOrigine() %> to <%=vol.getVolAller().getDestination() %></label> <br>
+								 						<%=vol.getVolAller().getDateDepart().toString()%> - <%=vol.getVolAller().getDateArrivee().toString()%> <br>
+								 						
+								 						<label><%=vol.getVolRetour().getOrigine() %> to <%=vol.getVolRetour().getDestination() %></label>  <br>
+								 						<%=vol.getVolRetour().getDateDepart().toString()%> - <%=vol.getVolRetour().getDateArrivee().toString()%> <br>
+													</div>
 											</div> <!-- backgroundQuest -->
 										</div><!--/.container-->
 									<% } %>
@@ -96,7 +94,7 @@
 									<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>">
 								</form>
 								</div> <!--/.col-sm-12-->
-							</div><!-- - backgroundQuest-->
+				
 							
 					</div><!--/.container --->	
 						</div><!--/.row-->
@@ -104,13 +102,6 @@
 			</div><!--/.bottom-header.front-page-->
 	</div>
 	</header>
-
-	
 </body>
-<<<<<<< HEAD
-</html>
 
-	
-=======
 </html>
->>>>>>> origin/testing-clara
