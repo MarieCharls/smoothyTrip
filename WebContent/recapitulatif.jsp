@@ -15,7 +15,7 @@
 	<link rel = "stylesheet" href="css/owl-carousel.css">
 	<link rel = "stylesheet" href="css/pace.css">
 	<link rel = "stylesheet" href="css/IonicsBis.min.css">
-	<link rel = "stylesheet" href="	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 	<style type="text/css" id="illdy-about-section-css">#header.header-front-page {background-image: url(images/planner.jpg) !important;}#header.header-front-page .bottom-header .header-button-one {background-color: rgba( 0, 0, 0, .4 );}#header.header-front-page .bottom-header .header-button-one:hover {background-color: rgba( 0, 0, 0, .1 );}#header.header-front-page .bottom-header h1 {color: #ffffff;}#header.header-front-page .bottom-header .section-description {color: #ffffff;}</style>
 
 </head>
@@ -59,7 +59,7 @@
 									<h1>Votre récapitulatif de voyage est prêt ! </h1>
 								</div><!--/.col-sm-12-->
 											<div class="col-sm-8 col-sm-offset-2">
-												<div class="section-description">Si celui-ci ne convient pas à votre recherche, n'hésitez pas à refaire une recherche</div>
+												<div class="section-description">Si celui-ci ne convient pas à votre recherche, n'hésitez pas à recommncer</div>
 												<a href="questionnairebis.jsp" title="Commencer l'Aventure" class="header-button-two">Recommencer</a>
 											</div><!--/.col-sm-8.col-sm-offset-2-->
 						</div><!--/.row-->
@@ -69,16 +69,16 @@
 	</header><!--/#header-->
 
 	<section id="services" class="front-page-section">
-				<div class="section-header">
-				<div class="container backgroundProp">
-					<div class="row">
-												<div class="col-sm-12">
-								<h3>Récapitulatif</h3>
-							</div><!--/.col-sm-12-->
-							</div><!--/.row-->
-				</div><!--/.container-->
-			</div><!--/.section-header-->
-			<div class="section-content">
+		<div class="section-header">
+			<div class="container backgroundProp">
+				<div class="row">
+					<div class="col-sm-12">
+							<h3>Récapitulatif</h3>
+					</div><!--/.col-sm-12-->
+				</div><!--/.row-->
+			</div><!--/.container-->
+		</div><!--/.section-header-->
+		<div class="section-content">
 			<div class="container">
 				<div class="row inline-columns">
 					<div id="illdy_service-2" class="col-sm-4 widget_illdy_service" ">
@@ -104,7 +104,7 @@
 					<div id="illdy_service-3" class="col-sm-4 widget_illdy_service">
 						<div class="service" data-service-color="#f1d204">
 	 						<div class="service-icon"> 
-	 							<i class="fas fa-hotel"></i>> 
+	 							<i class="fas fa-hotel"></i> 
 	 						</div><!-- /.service-icon -->
 							<div class="service-title">
 								<h5>Logement</h5>
@@ -144,18 +144,18 @@
 				</div><!--/.row-->
 			</div><!--/.container-->
 			<div class="container" style="margin-top:100px;">
-						<div class="row">
-							<div class="col-sm-8 col-sm-offset-2">
-										<h4>Identifie-toi ou crée un compte pour sauvegarder ton voyage !</h4>
-															<form action="/smoothy_trip/ServletOp" method="post">
-															<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>">
-															<input type="submit" name="op" value="Nouveau Compte">  
-															<input type="submit" name="op" value="Connexion">  
-															<input type="hidden" name="Validation" value="Valider"> 
-															</form> 
-							</div><!--/.col-sm-8.col-sm-offset-2-->
-						</div><!--/.row-->
-					</div><!--/.container-->
+				<div class="row">
+					<div class="col-sm-8 col-sm-offset-2">
+								<h4>Identifie-toi ou crée un compte pour sauvegarder ton voyage !</h4>
+													<form action="/smoothy_trip/ServletOp" method="post">
+													<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>">
+													<input type="submit" name="op" value="Nouveau Compte">  
+													<input type="submit" name="op" value="Connexion">  
+													<input type="hidden" name="Validation" value="Valider"> 
+													</form> 
+					</div><!--/.col-sm-8.col-sm-offset-2-->
+				</div><!--/.row-->
+			</div><!--/.container-->
 		</div><!--/.section-content-->
 	</section><!--/#services.front-page-section-->
 </body>

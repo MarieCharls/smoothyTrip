@@ -18,7 +18,6 @@ import com.amadeus.exceptions.ResponseException;
 import com.amadeus.referenceData.Locations;
 import com.amadeus.resources.HotelOffer;
 import com.amadeus.resources.FlightOffer;
-import com.amadeus.resources.FlightOffer.FlightStop;
 import com.amadeus.resources.FlightOffer.Segment;
 import com.amadeus.resources.Location;
 
@@ -27,9 +26,6 @@ import fi.foyt.foursquare.api.FoursquareApiException;
 import fi.foyt.foursquare.api.Result;
 import fi.foyt.foursquare.api.entities.Category;
 import fi.foyt.foursquare.api.entities.CompactVenue;
-import fi.foyt.foursquare.api.entities.Recommendation;
-import fi.foyt.foursquare.api.entities.RecommendationGroup;
-import fi.foyt.foursquare.api.entities.Recommended;
 import fi.foyt.foursquare.api.entities.VenuesSearchResult;
 /**
  * Session Bean implementation class Facade
@@ -86,10 +82,6 @@ public class Facade {
     	double budget = voyage.getBudgetRestantIndiv();
     	System.out.println("budgetRestant : "+budget);
     	//Recuperer paramètre de recherches
-//    	TypedQuery<Date> req = em.createQuery("SELECT dateArrivee FROM Vol v WHERE v.estAller = true and VOYAGE_ID="+idVoyage,Date.class);
-//    	Date checkInDate = req.getSingleResult();
-//    	req = em.createQuery("SELECT dateDepart FROM Vol v WHERE v.estAller = false and VOYAGE_ID="+idVoyage,Date.class);
-//    	Date checkOutDate = req.getSingleResult();
     	Date checkInDate = voyage.getVols().getVolAller().getDateArrivee();
     	Date checkOutDate = voyage.getVols().getVolRetour().getDateDepart();
     	int nbAdults = voyage.getNbPersonnes();
@@ -459,12 +451,6 @@ public class Facade {
     	Voyageur voyageur = em.find(Voyageur.class, idVoyageur);
 
     	// On associe le voyage au voyageur
-//		List<Voyage> listVoy = voyageur.getListVoyage();
-//		System.out.println(listVoy.size());
-//		listVoy.add(voyage);
-//		System.out.println(listVoy.size());
-//		voyageur.setListVoyage(listVoy);
-		//voyageur.getListVoyage().add(voyage);
 		voyage.setVoyageur(voyageur);
 	}
 
@@ -472,6 +458,7 @@ public class Facade {
 		Voyageur voyageur = em.find(Voyageur.class, idVoyageur);
 		return voyageur;
 	}
+	
 	
 	public int getIdVoyageur(String login, String pwd) {
 		TypedQuery<Integer> req = em.createQuery("SELECT id FROM Voyageur v WHERE v.login = '"+login+"' and v.password= '"+pwd+"'",Integer.class);
@@ -483,17 +470,31 @@ public class Facade {
 		}
 		return idVoyageur;
 	}
-
+	
+	/** Récupérer le logement associé à un voyage
+	 * @param idVoyage
+	 * @return logement
+	 */
 	public Logement getLogement(int idVoyage){
 		Voyage voyage=em.find(Voyage.class, idVoyage);
 		return voyage.getLogement();
 	}
 	
+	/**
+	 * Récupérer les vols associés à un voyage
+	 * @param idVoyage
+	 * @return vols
+	 */
 	public Vols getVols(int idVoyage){
 		Voyage voyage=em.find(Voyage.class, idVoyage);
 		return voyage.getVols();
 	}
 	
+	/**
+	 * Récupérer les activités associé à un voyage
+	 * @param idVoyage
+	 * @return activites
+	 */
 	public List<Activite> getActivites(int idVoyage){
 		Voyage voyage=em.find(Voyage.class, idVoyage);
 		return voyage.getListeActivites();

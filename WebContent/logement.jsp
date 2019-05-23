@@ -60,9 +60,9 @@
 					</div><!--/.row-->
 				</div><!--/.container-->
 			</div><!--/.bottom-header.front-page-->
-	</div>
-</header>
-<section id="services" class="front-page-section">
+		</div>
+	</header>
+	<section id="services" class="front-page-section">
 		<div class="section-header">
 			<div class="container backgroundProp">
 				<div class="row">
@@ -76,61 +76,66 @@
 			</div><!--/.container-->
 		</div><!--/.section-header-->
 		<div class="section-content">
-		<div class="row">
-			<div class="container backgroundProp">
-						<div class="col-sm-12">
-							<form action="/smoothy_trip/ServletOp" method="post">
-								<%Collection<Logement> logements = (Collection<Logement>) request.getAttribute("listeLogement");
-								if (logements==null){
-									%> 
+			<div class="row">
+				<div class="container backgroundProp">
+					<div class="col-sm-12">
+						<form action="/smoothy_trip/ServletOp" method="post">
+							<%Collection<Logement> logements = (Collection<Logement>) request.getAttribute("listeLogement");
+							if (logements==null){
+								%> 
 
-										<div class="container">
-											<label>Aucun logement disponible avec le budget restant</label> <br>
-											<input type="submit" name="Validation" value="Recommencer la recherche">
-										</div> <!-- container -->
-
-								<%
-								}else{
-								for (Logement logement : logements){ 
-									int i =0;%>
 									<div class="container">
-										<div class="backgroundResultat">
-											<span id="prixVol"><input id="range-price" type="radio" name="idLogement" value="<%=logement.getId()%>" checked> <label>Prix /nuit : </label> <%=logement.getPrix()%> <%=logement.getMonnaire()%></span>
-											 <div class="volProposition">
-											 	<label><%=logement.getNom()%></label> <br> 
-											 	<label>Distance du centre ville :</label> <%=logement.getRadius()%><%=logement.getRadiusUnit()%> <br>
-											 </div>
-										</div> <!-- backgroundQuest -->
-									</div><!--/.container-->
-								<% i++; } %>
-								<input type="submit" name="Validation" value="Valider">  <%} %>
-								<input type="hidden" name="op" value="validerLogement">
-								<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>">
-							</form>
-						</div><!--/.col-sm-12-->
-					</div><!--/.container --->	
-				</div><!--/.row-->	
-<button class="button-panier" onclick="affVoyage()">
-		<i class="fas fa-plane"></i>
-</button> 
-<div id="idPanierVol" class="idPanier">
-	<label><i class="fas fa-plane"></i> Vols</label> <br>
-	<%Vols vols = (Vols) request.getAttribute("vols");%>
-	<label><%=vols.getVolAller().getOrigine() %> to <%=vols.getVolAller().getDestination() %></label> <br>
-	<%=vols.getVolAller().getDateDepart().toString()%> - <%=vols.getVolAller().getDateArrivee().toString()%> <br>
-	<label><%=vols.getVolRetour().getOrigine() %> to <%=vols.getVolRetour().getDestination() %></label>  <br>
-	<%=vols.getVolRetour().getDateDepart().toString()%> - <%=vols.getVolRetour().getDateArrivee().toString()%> <br>
-	<label>Prix total : </label>  <%=String.valueOf(vols.getPrix())%><%=String.valueOf(vols.getVolAller().getMonnaie())%>
-</div>
-<script type="text/javascript">
-function affVoyage() {
-		var x = document.getElementById("idPanierVol");
-		if (x.style.display === "none") {
- 			x.style.display = "block";
-		} else {
- 			x.style.display = "none";
-		}
-}
-</script>
+										<label>Aucun logement disponible avec le budget restant</label> <br>
+										<input type="submit" name="Validation" value="Recommencer la recherche">
+									</div> <!-- container -->
+
+							<%
+							}else{
+							for (Logement logement : logements){ 
+								int i =0;%>
+								<div class="container">
+									<div class="backgroundResultat">
+										<span id="prixVol"><input id="range-price" type="radio" name="idLogement" value="<%=logement.getId()%>" checked> <label>Prix /nuit : </label> <%=logement.getPrix()%> <%=logement.getMonnaire()%></span>
+										 <div class="volProposition">
+										 	<label><%=logement.getNom()%></label> <br> 
+										 	<label>Distance du centre ville :</label> <%=logement.getRadius()%><%=logement.getRadiusUnit()%> <br>
+										 </div>
+									</div> <!-- backgroundQuest -->
+								</div><!--/.container-->
+							<% i++; } %>
+							<input type="submit" name="Validation" value="Valider">  <%} %>
+							<input type="hidden" name="op" value="validerLogement">
+							<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>">
+						</form>
+					</div><!--/.col-sm-12-->
+				</div><!--/.container --->	
+			</div><!--/.row-->	
+		</div>
+	</section>
+	<button class="button-panier" onclick="affVoyage()">
+			<div class="notification">
+			1
+			</div>
+			<i class="fas fa-plane"></i>
+	</button> 
+	<div id="idPanierVol" class="idPanier">
+		<label class="onglet"><i class="fas fa-plane"></i> Vols</label> <br>
+		<%Vols vols = (Vols) request.getAttribute("vols");%>
+		<label><%=vols.getVolAller().getOrigine() %> to <%=vols.getVolAller().getDestination() %></label> <br>
+		<%=vols.getVolAller().getDateDepart().toString()%> - <%=vols.getVolAller().getDateArrivee().toString()%> <br>
+		<label><%=vols.getVolRetour().getOrigine() %> to <%=vols.getVolRetour().getDestination() %></label>  <br>
+		<%=vols.getVolRetour().getDateDepart().toString()%> - <%=vols.getVolRetour().getDateArrivee().toString()%> <br>
+		<label>Prix total : </label>  <%=String.valueOf(vols.getPrix())%><%=String.valueOf(vols.getVolAller().getMonnaie())%>
+	</div>
+	<script type="text/javascript">
+	function affVoyage() {
+			var x = document.getElementById("idPanierVol");
+			if (x.style.display === "none") {
+	 			x.style.display = "block";
+			} else {
+	 			x.style.display = "none";
+			}
+	}
+	</script>
 </body>
 </html>

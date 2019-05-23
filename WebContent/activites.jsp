@@ -109,10 +109,13 @@
 			</div>
 		</section>
 <button class="button-panier" onclick="affVoyage()">
+		<div class="notification">
+		1
+		</div>
 		<i class="fas fa-plane"></i>/<i class="fas fa-hotel"></i>
 </button> 
 <div id="idPanierVolLog" class="idPanier">
-	<label><i class="fas fa-plane"></i> Vols</label> <br>
+	<label class="onglet"><i class="fas fa-plane"></i> Vols</label> <br>
 	<%Vols vols = (Vols) request.getAttribute("vols");%>
 	<label><%=vols.getVolAller().getOrigine() %> to <%=vols.getVolAller().getDestination() %></label> <br>
 	<%=vols.getVolAller().getDateDepart().toString()%> - <%=vols.getVolAller().getDateArrivee().toString()%> <br>
@@ -120,7 +123,7 @@
 	<%=vols.getVolRetour().getDateDepart().toString()%> - <%=vols.getVolRetour().getDateArrivee().toString()%> <br>
 	<label>Prix total : </label>  <%=String.valueOf(vols.getPrix())%><%=String.valueOf(vols.getVolAller().getMonnaie())%> <br>
 	<%Logement logement = (Logement) request.getAttribute("logement");%>
-	<label><i class="fas fa-hotel"></i> Hôtel</label><br>
+	<label class="onglet"><i class="fas fa-hotel"></i> Hôtel</label><br>
 	<%=logement.getNom()%> <br>
 	<label>Distance au centre : </label> <%=logement.getRadius()%><%= logement.getRadiusUnit() %> <br>
 	<label>Prix de la nuité : </label> <%=logement.getPrix()%>

@@ -1,5 +1,4 @@
 package pack;
-import java.util.*;
 
 import javax.persistence.*;
 
@@ -41,10 +40,6 @@ public class Logement {
 	/** monnaire */
 	@Column
 	private String monnaire;
-	
-	/** Liste de commodités*/
-	/**@Column
-	List<String> commodites;*/
 	
 	/** Voyage associé au logement*/
 	@OneToOne
