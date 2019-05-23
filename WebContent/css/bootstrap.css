@@ -8422,6 +8422,7 @@ pre code {
   margin-right: auto;
   margin-left: auto;
 }
+
 @media (min-width: 768px) {
   .container {
     width: 750px;
@@ -13583,7 +13584,7 @@ button.close {
 }
 @media print {
   .visible-print-inline-block {
-    display: inline-block !important;
+    display: inline-block !important;color: rgb(100,100,100)
   }
 }
 @media print {

@@ -18,13 +18,12 @@
 	<link rel = "stylesheet" href="https://adminlte.io/themes/AdminLTE/bower_components/Ionicons/css/ionicons.min.css">
 	<style type="text/css" id="illdy-about-section-css">#header.header-front-page {background-image: url(images/planner.jpg) !important;}#header.header-front-page .bottom-header .header-button-one {background-color: rgba( 0, 0, 0, .4 );}#header.header-front-page .bottom-header .header-button-one:hover {background-color: rgba( 0, 0, 0, .1 );}#header.header-front-page .bottom-header h1 {color: #ffffff;}#header.header-front-page .bottom-header .section-description {color: #ffffff;}</style>
 	<style>
-		#myDIV {
+		#myDiv {
 			  width: 100%;
 			  padding: 50px 0;
 			  text-align: center;
 			  background-color: lightblue;
 			  margin-top: 20px;
-			  ddisplay: none;
 		}
 	</style>
 </head>
@@ -60,7 +59,25 @@
 			</div><!--/.row-->
 		</div><!--/.container-->
 	</div><!--/.top-header-->
-
+<% Voyageur voyageur = (Voyageur) request.getAttribute("voyageur"); %>
+<div class="bottom-header front-page">
+				<div class="row">
+					<div class="container backgroundProp">
+						<div class="col-sm-12" style="background-color:rgba(210,220,220,0.5)">
+								<h2> Mon espace personnel</h2>
+								<div class="section-description" style="color:#000">
+									<h4> <%= voyageur.getPrenom()%>
+									<%= voyageur.getNom()%></h4></p>
+								</div>
+								<button > Mes informations </button>
+								<button onclick="affVoyage()">Mes voyages</button>
+						</div><!--/.col-sm-12-->						
+					</div><!--/.container --->	
+				</div><!--/.row-->	
+				</div><!--/.bottom-header.front-page-->
+			
+			AJOUTER LES BOUTONS COMPTE ET VOYAGES !!!!!!
+			
 		<div class="bottom-header front-page" style="padding-bottom:50px;">
 				<div class="container">
 					<div class="row">
@@ -75,8 +92,10 @@
 				</div><!--/.container-->
 			</div><!--/.bottom-header.front-page-->
 </div>
+
 </header><!--/#header-->
 
+<div class="myDiv" id="voyages" style="display:none">
 <section id="services" class="front-page-section">
 			<div class="section-header">
 			<div class="container">
@@ -87,20 +106,15 @@
 						</div><!--/.row-->
 			</div><!--/.container-->
 		</div><!--/.section-header-->
-		<%Voyageur voyageur = (Voyageur) request.getAttribute("voyageur");
+		<%
 		List<Voyage> listVoyage = voyageur.getListVoyage();
 		if (listVoyage.isEmpty()){%>
-		Vous n'avez pas encore de voyages prévus !
+		Vous n'avez pas encore de voyages prévus !					
 		<%	
 		}else {
 		for (Voyage voyage : listVoyage){%>
-			
-			<button onclick="affVoyage(voyage)">
-	 				<div class="service-title"> 
-							<h5> Voyage <%=voyage.getNom() %> </h5>
-		 			</div>
-		 	</button> 
-		 	<div class="myDiv" id="test" >
+ 
+				<h5> Voyage <%=voyage.getNom() %> </h5>
 		 		<div class="section-content">
 				<div class="container">
 				<div class="row inline-columns">				
@@ -166,13 +180,13 @@
 			</div><!--/.row-->
 		</div><!--/.container-->
 		</div>
-		</div>
 		<%}%>
-		<%}%>		
+		<%}%>	
+		</div>	
 </section><!--/#services.front-page-section-->
-		<script type="text/javascript">
-		function affVoyage(voyage) {
-  			var x = document.getElementById(voyage.getNom());
+<script type="text/javascript">
+		function affVoyage() {
+  			var x = document.getElementById("voyages");
   			if (x.style.display === "none") {
     			x.style.display = "block";
   			} else {
@@ -181,4 +195,5 @@
 		}
 		</script>
 </body>
+
 </html>

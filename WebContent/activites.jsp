@@ -19,7 +19,7 @@
 	<style type="text/css" id="illdy-about-section-css">#header.header-front-page {background-image: url(images/activites.jpg) !important;}#header.header-front-page .bottom-header .header-button-one {background-color: rgba( 0, 0, 0, .2 );}#header.header-front-page .bottom-header .header-button-one:hover {background-color: rgba( 0, 0, 0, .1 );}#header.header-front-page .bottom-header h1 {color: #ffffff;}#header.header-front-page .bottom-header .section-description {color: #ffffff;}</style>
 </head>
 <body>
-	<header id="header" class="header-front-page" style ="backgroung-image: url(images/logement.jpg); background-attachment:fixed;">
+	<header id="header" class="header-front-page" style ="backgroung-image: url(images/activites.jpg); background-attachment:fixed;">
 		<div style="background-color:rgba(0,0,0,0.3)">
 			<div class="top-header" style="background-color:rgba(0,0,0,0.3)">
 				<div class="container">
