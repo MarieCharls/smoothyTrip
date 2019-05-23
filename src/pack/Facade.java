@@ -464,7 +464,7 @@ public class Facade {
 //		listVoy.add(voyage);
 //		System.out.println(listVoy.size());
 //		voyageur.setListVoyage(listVoy);
-		voyageur.getListVoyage().add(voyage);
+		//voyageur.getListVoyage().add(voyage);
 		voyage.setVoyageur(voyageur);
 	}
 

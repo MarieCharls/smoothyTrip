@@ -137,6 +137,7 @@ public class ServletOp extends HttpServlet {
 				// Faire choisir le logement à l'utilisateur
 				request.setAttribute("listeLogement", listeLogements);
 				request.setAttribute("idVoyage", idVoyage);
+				request.setAttribute("vols",facade.getVols(idVoyage));
 				request.getRequestDispatcher("logement.jsp").forward(request, response);
 				
 				
@@ -153,6 +154,7 @@ public class ServletOp extends HttpServlet {
 				//response.getWriter().append("Served at: " + request.getParameter("idLogement")+" "+ request.getParameter("idVoyage"));
 				int idLogement = Integer.parseInt(request.getParameter("idLogement"));
 				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
+				
 				facade.associerLogement(idLogement,idVoyage);
 				// Envoyer la liste des activites
 				List<Activite> listeActivites = Collections.synchronizedList(new ArrayList<Activite>());
@@ -165,6 +167,8 @@ public class ServletOp extends HttpServlet {
 				// Faire choisir le logement à l'utilisateur
 				request.setAttribute("listeActivite", listeActivites);
 				request.setAttribute("idVoyage", idVoyage);
+				request.setAttribute("vols",facade.getVols(idVoyage));
+				request.setAttribute("logement",facade.getLogement(idVoyage));
 				request.getRequestDispatcher("activites.jsp").forward(request,response);
 				
 			}else{

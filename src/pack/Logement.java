@@ -123,27 +123,4 @@ public class Logement {
 	public void setVoyage(Voyage voyage){
 		this.voyage=voyage;
 	}
-
-	/**public List<String> getCommodites() {
-		return commodites;
-	}
-	public void setCommodites(List<String> commodites) {
-		this.commodites = commodites;
-	}*/
-
-	
-	
-	/**public void demandeToken(){
-		String[] commande;
-		commande = new String[]{"curl", "\" ,"-X"};
-	}
-	public void rechercherHotel(){
-		String[] commande;
-		String token = tokenff;
-		commande = new String[]{"curl","-X","GET","https://test.api.amadeus.com/v2/shopping/hotel-offers?"};
-		// Ajouter les critères de recherches
-		
-		// Ajout de l'authentification
-		
-	}*/
 }

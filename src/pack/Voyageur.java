@@ -26,7 +26,7 @@ public class Voyageur {
 	/** Mot de passe de l'utilisateur **/
 	private String password;
 	
-	/**@Column
+	/**
 	private List<String> centresInterets;*/
 	@Column
 	@OneToMany(mappedBy="voyageur", fetch = FetchType.EAGER)

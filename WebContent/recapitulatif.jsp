@@ -52,7 +52,7 @@
 		</div><!--/.container-->
 	</div><!--/.top-header-->
 
-		<div class="bottom-header front-page" >
+		<div class="bottom-header front-page" style="padding-bottom:125px;" >
 				<div class="container">
 					<div class="row">
 							<div class="col-sm-12">
@@ -91,13 +91,13 @@
 						</div><!--/.service-title-->
 						<div class="service-entry">
 							<%Vols vols = (Vols) request.getAttribute("vols");%>
-							<h7>Vol aller</h7>
-							 <label><%=vols.getVolAller().getOrigine() %> to <%=vols.getVolAller().getDestination() %></label>
-							 <%=vols.getVolAller().getDateDepart().getDay()%>/<%=vols.getVolAller().getDateDepart().getMonth()%> à <%=vols.getVolAller().getDateDepart().getHours()%>:<%=vols.getVolAller().getDateDepart().getMinutes()%> <br> 
-							 Vers  arrivée prévue à <%=vols.getVolAller().getDateArrivee().toString() %> <br>
-							 <label>Vol retour</label>
-							 De <%=vols.getVolRetour().getOrigine()%> départ prévu à <%=vols.getVolRetour().getDateDepart().toString() %> <br>
-							 Vers <%=vols.getVolRetour().getDestination() %> arrivée prévue à <%=vols.getVolRetour().getDateArrivee().toString() %>
+							<label><%=vols.getVolAller().getOrigine() %> to <%=vols.getVolAller().getDestination() %></label> <br>
+	 						<%=vols.getVolAller().getDateDepart().toString()%> - <%=vols.getVolAller().getDateArrivee().toString()%> <br>
+	 						
+	 						<label><%=vols.getVolRetour().getOrigine() %> to <%=vols.getVolRetour().getDestination() %></label>  <br>
+	 						<%=vols.getVolRetour().getDateDepart().toString()%> - <%=vols.getVolRetour().getDateArrivee().toString()%> <br>
+	 						
+	 						<label>Prix total : </label>  <%=String.valueOf(vols.getPrix())%><%=String.valueOf(vols.getVolAller().getMonnaie())%>
 						</div><!--/.service-entry-->
 					</div><!--/.service-->
 				</div>

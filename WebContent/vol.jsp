@@ -15,6 +15,7 @@
 	<link rel = "stylesheet" href="css/owl-carousel.css">
 	<link rel = "stylesheet" href="css/pace.css">
 	<link rel ="stylesheet" href="css/stylePerso.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 	<style type="text/css" id="illdy-about-section-css">#header.header-front-page {background-image: url(images/aeroplane.jpg) !important;}#header.header-front-page .bottom-header .header-button-one {background-color: rgba( 0, 0, 0, .2 );}#header.header-front-page .bottom-header .header-button-one:hover {background-color: rgba( 0, 0, 0, .1 );}#header.header-front-page .bottom-header h1 {color: #ffffff;}#header.header-front-page .bottom-header .section-description {color: #ffffff;}</style>
 </head>
 <body>
@@ -45,22 +46,35 @@
 				</div><!--/.container-->
 			</div><!--/.top-header-->
 		
-		
-			
-			
-			
-			
-			<div class="bottom-header-prop front-page">
-				<div class="row">
-				<div class="container backgroundProp">
-					
+		<div class="bottom-header front-page" >
+				<div class="container">
+					<div class="row">
 							<div class="col-sm-12">
-								
-									<h4> C'est le moment de choisir le vol parfait</h4>
-									<div class="section-description" style="color:#000">
+								<h3 style="color:#fff;">Trouve ton vol parfait </h3>
+							</div><!--/.col-sm-12-->
+					</div><!--/.row-->
+				</div><!--/.container-->
+			</div><!--/.bottom-header.front-page-->
+		</div>
+	</header>
+	
+<section id="services" class="front-page-section">
+		<div class="section-header">
+			<div class="container backgroundProp">
+				<div class="row">
+					<div class="col-sm-12">
+							<div class="section-description">
 										Tu trouveras ci-dessous tous les vols que nous avons trouvé correspondant à tes critères. Il te faut juste sélectionner le vol que tu préfère pour passer
 										à la suite.
-									</div>
+							</div>
+					</div><!--/.col-sm-12-->
+				</div><!--/.row-->
+			</div><!--/.container-->
+		</div><!--/.section-header-->
+		<div class="section-content">
+			<div class="row">
+				<div class="container backgroundProp">				
+							<div class="col-sm-12">
 								<form action="/smoothy_trip/ServletOp" method="post">
 									<%Collection<Vols> vols = (Collection<Vols>) request.getAttribute("listeVol");
 										if (vols==null){
@@ -98,10 +112,8 @@
 							
 					</div><!--/.container --->	
 						</div><!--/.row-->
-					
-			</div><!--/.bottom-header.front-page-->
-	</div>
-	</header>
+		</div>
+</section>
 </body>
 
 </html>

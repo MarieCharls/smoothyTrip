@@ -15,6 +15,7 @@
 	<link rel = "stylesheet" href="css/owl-carousel.css">
 	<link rel = "stylesheet" href="css/pace.css">
 	<link rel ="stylesheet" href="css/stylePerso.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 	<style type="text/css" id="illdy-about-section-css">#header.header-front-page {background-image: url(images/logement.jpg) !important;}#header.header-front-page .bottom-header .header-button-one {background-color: rgba( 0, 0, 0, .2 );}#header.header-front-page .bottom-header .header-button-one:hover {background-color: rgba( 0, 0, 0, .1 );}#header.header-front-page .bottom-header h1 {color: #ffffff;}#header.header-front-page .bottom-header .section-description {color: #ffffff;}</style>
 </head>
 <body>
@@ -45,20 +46,34 @@
 				</div><!--/.container-->
 			</div><!--/.top-header-->
 		
-		
-			
-			
-			
-			
-			<div class="bottom-header-prop front-page">
+			<div class="bottom-header front-page" >
+				<div class="container">
+					<div class="row">
+							<div class="col-sm-12">
+								<h3 style="color:#fff;"> Réserve l'hôtel de tes rêves </h3>
+							</div><!--/.col-sm-12-->
+					</div><!--/.row-->
+				</div><!--/.container-->
+			</div><!--/.bottom-header.front-page-->
+	</div>
+</header>
+<section id="services" class="front-page-section">
+		<div class="section-header">
+			<div class="container backgroundProp">
 				<div class="row">
-					<div class="container backgroundProp">
-						<div class="col-sm-12">
-								<h4> C'est le moment de choisir le logement de tes rêves </h4>
-								<div class="section-description" style="color:#000">
-									Nous avons sélectionné une liste de logement spécialement pour toi. Maintenant il est l'heure de faire un choix, <br>
+					<div class="col-sm-12">
+							<div class="section-description">
+										Nous avons sélectionné une liste de logement spécialement pour toi. Maintenant il est l'heure de faire un choix, <br>
 									lequel souhaites-tu mettre au planning de ton voyage?
-								</div>
+							</div>
+					</div><!--/.col-sm-12-->
+				</div><!--/.row-->
+			</div><!--/.container-->
+		</div><!--/.section-header-->
+		<div class="section-content">
+		<div class="row">
+			<div class="container backgroundProp">
+						<div class="col-sm-12">
 							<form action="/smoothy_trip/ServletOp" method="post">
 								<%Collection<Logement> logements = (Collection<Logement>) request.getAttribute("listeLogement");
 								if (logements==null){
@@ -90,8 +105,27 @@
 						</div><!--/.col-sm-12-->
 					</div><!--/.container --->	
 				</div><!--/.row-->	
-			</div><!--/.bottom-header.front-page-->
-	</div>
-</header>
+<button class="button-panier" onclick="affVoyage()">
+		<i class="fas fa-plane"></i>
+</button> 
+<div id="idPanierVol" class="idPanier">
+	<label><i class="fas fa-plane"></i> Vols</label>
+	<%Vols vols = (Vols) request.getAttribute("vols");%>
+	<label><%=vols.getVolAller().getOrigine() %> to <%=vols.getVolAller().getDestination() %></label> <br>
+	<%=vols.getVolAller().getDateDepart().toString()%> - <%=vols.getVolAller().getDateArrivee().toString()%> <br>
+	<label><%=vols.getVolRetour().getOrigine() %> to <%=vols.getVolRetour().getDestination() %></label>  <br>
+	<%=vols.getVolRetour().getDateDepart().toString()%> - <%=vols.getVolRetour().getDateArrivee().toString()%> <br>
+	<label>Prix total : </label>  <%=String.valueOf(vols.getPrix())%><%=String.valueOf(vols.getVolAller().getMonnaie())%>
+</div>
+<script type="text/javascript">
+function affVoyage() {
+		var x = document.getElementById("idPanierVol");
+		if (x.style.display === "none") {
+ 			x.style.display = "block";
+		} else {
+ 			x.style.display = "none";
+		}
+}
+</script>
 </body>
 </html>
