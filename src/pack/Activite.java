@@ -38,10 +38,9 @@ public class Activite {
 	/** Coordonnees de l'activite **/
 	private String tel;
 	private String address;
-	
-	
+
+	/** Descripteur de l'activité **/
 	private String idAct;
-	
 	
 	/** Contructeur de base */
 	public Activite() {}
@@ -49,7 +48,7 @@ public class Activite {
 	public int getId() {
 		return id;
 	}
-
+	// Setter,getter
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -65,49 +64,38 @@ public class Activite {
 	public String getType() {
 		return this.type;
 	}
-	/**public void setAvis(List<Avis> avis){
+	public void setAvis(List<Avis> avis){
 		this.listAvis = avis;
 	}
 	public List<Avis> getAvis(){
 		return this.listAvis;
-	}*/	
+	}	
 	public void setPro(Professionnel pro){
 		this.pro = pro;
 	}
 	public Professionnel getPro(){
 		return this.pro;
 	}
-	/**public void addAvis(Avis avis){
-		this.listAvis.add(avis);
-	}*/
-//	public void setTags(String[] tags) {
-//		this.tags = tags;
-//	}
-//	public String[] getTags(){
-//		return this.tags;
-//	}
 
 	public void setIdAct(String id) {
 		this.idAct = id;
 		
 	}
-    public String getIdAct(){
-    	return this.idAct;
-    }
+    	public String getIdAct(){
+    		return this.idAct;
+    	}
 	public void setAddress(String address) {
 		this.address = address;
 	}
 	public String getAddress(){
 		return this.address;
 	}
-
 	public void setTel(String phone) {
 		this.tel = phone;	
 	}
 	public String getTel(){
 		return this.tel;
 	}
-
 	public void setVoyage(Voyage voyage) {
 		this.voyage = voyage;	
 	}
