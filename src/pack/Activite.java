@@ -28,7 +28,6 @@ public class Activite {
 	private String type;
 
 	/** Avis sur l'activite **/
-	/**private List<Avis> listAvis;*/
 	@OneToMany(mappedBy="act", fetch = FetchType.EAGER)
 	Set<Avis> listeAvis;
 	
@@ -36,9 +35,13 @@ public class Activite {
 	@ManyToOne
 	private Professionnel pro;
 	
+	/** Coordonnees de l'activite **/
 	private String tel;
-	private String idAct;
 	private String address;
+	
+	
+	private String idAct;
+	
 	
 	/** Contructeur de base */
 	public Activite() {}
