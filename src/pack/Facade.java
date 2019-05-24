@@ -289,9 +289,6 @@ public class Facade {
     	activite.setVoyage(voyage); 
 
     }
-    public void ajouterActivite(Activite activite){
-    	em.persist(activite);
-    }
 	/** Initialiser une connection AmadeusVol**/
     public Amadeus initialiserAmadeusVol(){
     	Amadeus amadeus = Amadeus
