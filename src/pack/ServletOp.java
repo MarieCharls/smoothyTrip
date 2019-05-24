@@ -181,10 +181,9 @@ public class ServletOp extends HttpServlet {
 			if (validation.equals("Valider")){
 				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
 				String[] listId = request.getParameterValues("idActivite");
-				Voyage voy = null;
 				for(int i=0;i<listId.length;i++){
 					int idAct = Integer.parseInt(listId[i]);
-					voy = facade.associerActivite(idAct,idVoyage);
+					facade.associerActivite(idAct,idVoyage);
 				}
 				Logement logementChoisi=facade.getLogement(idVoyage);
 				List<Activite> listeActivite =facade.getActivites(idVoyage);
