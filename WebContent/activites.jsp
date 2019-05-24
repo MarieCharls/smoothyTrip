@@ -89,7 +89,7 @@
 								<% for (Activite activite : activites){ %>
 								<div class="container">
 									<div class="backgroundResultat">
-										<span id="prixVol"><input id="range-price" type="checkbox" name="idActivite" value="<%=activite.getId()%>" unchecked> </span>
+										<span id="prixVol"><input id="range-price" type="checkbox" name="idActivite" value="<%=activite.getId()%>" checked> </span>
 										<div class="volProposition">
 											<label><%=activite.getName()%></label><br>
 											<label> Type d'activite : </label> <%=activite.getType()%> <br>
