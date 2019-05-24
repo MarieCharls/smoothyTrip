@@ -193,15 +193,7 @@ public class Facade {
     public void ajouterLogement(Logement logement){
     	em.persist(logement);
     }
-//    
-//    /** Traduire la ville de français à Anglais*/
-//    public String frToAnglais(String nomVille){
-//    	Translate translate = TranslateOptions.getDefaultInstance().getService();
-//    	Translation translation = translate.translate(nomVille,
-//    			TranslateOption.sourceLanguage("fr"),
-//    			TranslateOption.targetLanguage("en") );
-//    	return translation.getTranslatedText();
-//    }
+
     
     /** Initialiser une connection AmadeusActivite**/
     public Amadeus initialiserAmadeusActivite(){
@@ -344,6 +336,12 @@ public class Facade {
 		vols.setVoyage(voyage);
     }
 	
+    
+    /** Transformation d'une date en string de la forme(yyyy-MM-dd'T'HH:mm:ssXXX)
+     * 
+     * @param d date en string
+     * @return objet de type date
+     */
     public Date toDate(String d){
     	SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
     	Date date=null;
@@ -355,38 +353,18 @@ public class Facade {
     	return date;
     }
     
-//    public Duration toDuree(String d){
-//Duration date=null;
-//		try {
-//			date = sd.parse(d);
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
-//    	return date;
-//    } 
-//    
-//    public Duration calculDureeTotale(FlightOffer offer){
-// 
-//    	Duration duree=null;
-//    	Segment[] segmentAller = offer.getOfferItems()[0].getServices()[0].getSegments();
-//		Segment[] segmentRetour = offer.getOfferItems()[0].getServices()[1].getSegments();
-//		for (int i=0;i<segmentAller.length;i++ ){
-//			Date dSeg = toDuree(segmentAller[i].getFlightSegment().getDuration());
-//			
-//		}
-//			
-//		
-//    	return duree
-//    }
+
 	 /** Recherche tous les vols disponibles sous certaines contraintes posées en entrée
-     * @param String cityCodeD Code de la ville de départ
-     * @param Date checkInDate Date de début de séjour dans le logement
-     * @param Date checkOutDate Date de fin de séjour dans le logement
-     * @param int nbAdults Nombre de personnes à loger
-     * @param double budget budget total pour le logement par personnes
-     * @return List<Vol> liste des vols correspondant à la recherche
-     * @throws ResponseException
-     * */
+	  * 
+	  * @param cityCode_origine City code de la ville de départ
+	  * @param cityCode_destination City code de la ville d'arrivée
+	  * @param departDate Date de départ
+	  * @param retourDate  Date de retour
+	  * @param nbAdults  Nombre de personnes participant au voyage
+	  * @param idVoyage  Identifiant du voyage
+	  * @return
+	  * @throws ResponseException
+	  */
 	public List<Vols> chercherVol(String cityCode_origine,String cityCode_destination, Date departDate, Date retourDate, int nbAdults, int idVoyage) throws ResponseException{ 
 		SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
 		//Initialisation de la connection
@@ -421,15 +399,17 @@ public class Facade {
     			.and("max", 7)
     			);
     			
-    			
+
+    	
     	int i;
     	for (i=0; i<vols.length;i++){
     		Vols deplacement = new Vols();
     		deplacement.setPrix(vols[i].getOfferItems()[0].getPrice().getTotal());
-    		
+    		// Séparation de chaque proposition commerciale en deux vols : aller et retour	
     		Segment[] segmentAller = vols[i].getOfferItems()[0].getServices()[0].getSegments();
     		Segment[] segmentRetour = vols[i].getOfferItems()[0].getServices()[1].getSegments();
     		
+    		// Construction du vol aller
     		Vol volAller = new Vol();
     		int nbAller = segmentAller.length; 
     		volAller.setDateDepart(toDate(segmentAller[0].getFlightSegment().getDeparture().getAt()));
@@ -439,7 +419,7 @@ public class Facade {
     		volAller.setMonnaie("EUR");
     		volAller.setEstAller(true);
 
-    		
+    		// Construction du vol retour
     		Vol volRetour = new Vol();
     		int nbRetour = segmentRetour.length; 
     		volRetour.setDateDepart(toDate(segmentRetour[0].getFlightSegment().getDeparture().getAt()));
@@ -449,13 +429,17 @@ public class Facade {
     		volRetour.setMonnaie("EUR");
     		volRetour.setEstAller(false);
 
+    		// Enregistrement des deux vols dans la base de donnée
     		em.persist(volAller);
     		em.persist(volRetour);
+    		
+    		//Construction de l'objet "Vols" et enregistrement dans BD
     		volAller.setDeplacement(deplacement);
     		volRetour.setDeplacement(deplacement);
     		deplacement.setVolAller(volAller);
     		deplacement.setVolRetour(volRetour);
     		em.persist(deplacement);
+    		// on ajoute ce vols à la liste des vols à proposer a l'utilisateur
     		listeVols.add(deplacement);
     	}
 		return listeVols;
@@ -483,7 +467,11 @@ public class Facade {
 		return idVoyageur;
     }
 
-	/** Associer un voyage a un voyageur authentifié **/
+	/** Associer un voyage a un voyageur authentifié
+	 * 
+	 * @param idVoyageur
+	 * @param idVoyage
+	 */
 	public void associerVoyage(int idVoyageur, int idVoyage) {
 		// On récupère le voyage courant
     	Voyage voyage = em.find(Voyage.class, idVoyage);

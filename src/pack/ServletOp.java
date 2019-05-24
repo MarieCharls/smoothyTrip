@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,28 +37,27 @@ public class ServletOp extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB
 	Facade facade;
-	String cityCode_destination;    
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
     public ServletOp() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String operation = request.getParameter("op");;
+		
+		String operation = request.getParameter("op");
 		if (operation.equals("questionnaire")){
 			String nom= request.getParameter("nom");
 			String destination= request.getParameter("destination");
 			destination=destination.toLowerCase();
 			
-//			String destination_uk = facade.frToAnglais(destination);
-//			response.getWriter().append("Served at: "+destination+" uk version "+destination_uk);
-					
+
+			
 			String origine = request.getParameter("origine");
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			Date dateDepart = null;
@@ -72,9 +72,9 @@ public class ServletOp extends HttpServlet {
 			// Vérification de la validité des dates insérées
 			boolean dateValide = facade.checkDate(dateDepart,dateRetour);
 			if (dateValide==false){
-				request.setAttribute("dateInvalide", "true");
-				request.getRequestDispatcher("questionnaire.jsp").forward(request, response);
-			}
+				request.getRequestDispatcher("questionnairebis_erreur.jsp").forward(request, response);
+			} 
+			
 			int nbJours = dateDepart.compareTo(dateRetour);
 			
 			int nbPersonnes= Integer.parseInt(request.getParameter("response5"));
@@ -94,7 +94,6 @@ public class ServletOp extends HttpServlet {
 				
 			// Chercher un vol
 			List<Vols> listeVols = Collections.synchronizedList(new ArrayList<Vols>());
-			System.out.println("ATTENTIOOOON VILLE OR:"+cityCode_origine);
 			try {
 				listeVols = facade.chercherVol(cityCode_origine, cityCode_destination, dateDepart, dateRetour, nbPersonnes, idVoyage);				
 			} catch (ResponseException e) {
@@ -103,33 +102,20 @@ public class ServletOp extends HttpServlet {
 			// Faire choisir le vol à l'utilisateur
 			request.setAttribute("listeVol", listeVols);
 			request.setAttribute("idVoyage", idVoyage);
-			request.getRequestDispatcher("vol.jsp").forward(request, response);
-			// Calculer le budget restant (AVOIR UN STRING POUR AMAEDUS)
-			
-			// budget_int = budget_int - prix avions
-			// budget_string = "0-"+toString(budget_int)
-			// Donner le jour de l'arrivée du vol aller, et jour départ du vol retour
-			
-			// Chercher un logement 
-			///!\ ce date départ doit être le j d'arrivée à l'aéroport
-			// /!\Date retour est le jour où le vol retour part pas celui où l'utilisateur veut etre rentre
+			request.getRequestDispatcher("vol.jsp").forward(request, response);	
 		}
 		if (operation.equals("validerVol")) {
 			String validation = request.getParameter("Validation");
 			if (validation.equals("Valider")){
-				//response.getWriter().append("Served at: " + request.getParameter("idLogement")+" "+ request.getParameter("idVoyage"));
 				int idVol = Integer.parseInt(request.getParameter("idVol"));
 				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
 				facade.associerVol(idVol ,idVoyage);
 				
 				List<Logement> listeLogements = Collections.synchronizedList(new ArrayList<Logement>());
 				try {
-					// ------------------ DATEALLER ET DATE RETOUR  ET BUDGET A MAJ APRES APPEL DE VOLS --------------
-
 					listeLogements = facade.chercherLogement(idVoyage);
 					
 				} catch (ResponseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -159,7 +145,6 @@ public class ServletOp extends HttpServlet {
 				try {
 					listeActivites = facade.chercherActivite(idVoyage);
 				} catch (ResponseException | ParseException | InterruptedException | FoursquareApiException e) {
-					// TODO Auto-generated catch block
 					((Throwable) e).printStackTrace();
 }
 				// Faire choisir le logement à l'utilisateur

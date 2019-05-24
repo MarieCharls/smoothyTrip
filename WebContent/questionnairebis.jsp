@@ -68,36 +68,39 @@
 									<label> Ville de départ </label><input type="text" name="origine" required="required"/> <br>
 									<label> Destination </label><input type="text" name="destination" required="required"/> <br>
 									<br><label>A quelle date voulez-vous partir ? </label><br>
-									<input type="date" name="dateDebut" required="required">
-									
+									<input type="date"  name="dateDebut" required="required">
+								
 									<br><label> A quelle date voulez-vous revenir? </label><br>
 									<input type="date" name="dateFin" required="required">
 									
+			
 									<br> <label>Combien de personnes participent au voyage? </label>
 									<br>
 									<select name="response5" size="1" required="required">
-									<option value="1"> 1
-									<option value="2"> 2
-									<option value="3"> 3
-									<option value="4"> 4
-									<option value="5"> 5
+										<option value="1"> 1
+										<option value="2"> 2
+										<option value="3"> 3
+										<option value="4"> 4
+										<option value="5"> 5
 									</select>
 									<br> <label>Quel est ton budget maximum par personnes ?</label> <br>
-									<input id="range-price" type="radio" name="response6" value="200" checked>  Max 200€ 
-									<input id="range-price" type="radio" name="response6" value="300" checked>  Max 300€ 
-									<input id="range-price" type="radio" name="response6" value="500" checked> Max 500€ 
-									<input id="range-price" type="radio" name="response6" value="700" checked> Max 700€ 
-									<input id="range-price" type="radio" name="response6" value="1000" checked> Max 1000€ 
-									<input id="range-price" type="radio" name="response6" value="1500" checked> Max 1500€
-									<input id="range-price" type="radio" name="response6" value="1500" checked> Max 2000€
-									<input id="range-price" type="radio" name="response6" value="10000" checked> Plus de 2000€
+									<select name="response6" size="1">
+										<option value="200">  Max 200€ 
+										<option value="300"> Max 300€ 
+										<option value="500"> Max 500€ 
+										<option value="700"> Max 700€ 
+										<option value="1000"> Max 1000€ 
+										<option value="1500"> Max 1500€
+										<option value="2000"> Max 2000€
+										<option value="10000"> Plus de 2000€
+									</select> <br>
 									<br> <label>A quelle distance du centre-ville veux tu loger (km)?</label> <br>
 									<select name="response7" size="1">
-									<option value="1"> 1
-									<option value="2"> 2
-									<option value="5"> 5
-									<option value="7"> 7
-									<option value="10"> 10
+										<option value="1"> 1
+										<option value="2"> 2
+										<option value="5"> 5
+										<option value="7"> 7
+										<option value="10"> 10
 									</select> <br>
 									<div class="col-sm-8 col-sm-offset-2">
 											<a href="accueil.html" title="Annuler" class="header-button-one">Annuler</a>
