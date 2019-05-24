@@ -103,7 +103,6 @@
 	margin-left: 25%;
 	width: 50%;
 }
-
 @keyframes notification{
 	
 	0%{transform:translate(0);}
@@ -111,5 +110,8 @@
 	50%{transform:translateY(0);}
 	75%{transform:translateY(15px);}
 	100%{transform:translate(0);}
+}
+.alerte{
+	color:#EE0404;
 }
 

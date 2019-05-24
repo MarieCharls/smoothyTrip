@@ -1,7 +1,6 @@
 package pack;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -64,12 +63,6 @@ public class Activite {
 	public String getType() {
 		return this.type;
 	}
-//	public void setAvis(List<Avis> avis){
-//		this.listAvis = avis;
-//	}
-//	public List<Avis> getAvis(){
-//		return this.listAvis;
-//	}	
 	public void setPro(Professionnel pro){
 		this.pro = pro;
 	}

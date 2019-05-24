@@ -138,3 +138,4 @@ Temporary Items
 
 # End of https://www.gitignore.io/api/java,linux,macos,video,images,java-web
 /build/
+/bin/
