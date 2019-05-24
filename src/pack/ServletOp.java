@@ -70,9 +70,20 @@ public class ServletOp extends HttpServlet {
 				e.printStackTrace();
 			}
 			// Vérification de la validité des dates insérées
+			boolean villeDepartValide = facade.checkVille(origine);
+			boolean villeDestiValide = facade.checkVille(destination);
 			boolean dateValide = facade.checkDate(dateDepart,dateRetour);
-			if (dateValide==false){
-				request.getRequestDispatcher("questionnairebis_erreur.jsp").forward(request, response);
+			
+			if (!villeDepartValide){
+				request.setAttribute("ville_demande", origine);
+				request.getRequestDispatcher("questionnairebis_erreur_ville1.jsp").forward(request, response);
+			}
+			else if (!villeDestiValide){
+				request.setAttribute("ville_demande", destination);
+				request.getRequestDispatcher("questionnairebis_erreur_ville2.jsp").forward(request, response);
+			}
+			else if (!dateValide){
+				request.getRequestDispatcher("questionnairebis_erreur_date.jsp").forward(request, response);
 			} 
 			
 			int nbJours = dateDepart.compareTo(dateRetour);
