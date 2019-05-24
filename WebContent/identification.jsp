@@ -64,12 +64,6 @@
 										class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-18"><a
 										href="questionnairebis.jsp" aria-current="page">Commencer
 											l'aventure</a></li>
-									<li id="menu-item-22"
-										class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-22"><a
-										href="questionnaire.jsp" aria-current="page">Our Team</a></li>
-									<li id="menu-item-23"
-										class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-23"><a
-										href="contact.html" aria-current="page">Contact Us</a></li>
 								</ul>
 							</nav>
 							<!-- 					<button class="open-responsive-menu"><i class="fa fa-bars"></i></button> -->
