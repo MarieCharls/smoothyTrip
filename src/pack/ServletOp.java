@@ -66,8 +66,12 @@ public class ServletOp extends HttpServlet {
 			} catch(ParseException e) {
 				e.printStackTrace();
 			}
+
 			// Vérification de la validité des dates insérées
+			boolean villeDepartValide = facade.checkVille(origine);
+			boolean villeDestiValide = facade.checkVille(destination);
 			boolean dateValide = facade.checkDate(dateDepart,dateRetour);
+
 			if (!villeDepartValide){
 				request.setAttribute("ville_demande", origine);
 				request.getRequestDispatcher("questionnairebis_erreur_ville1.jsp").forward(request, response);
@@ -251,7 +255,7 @@ public class ServletOp extends HttpServlet {
 		if (operation.equals("validerUser")){
 			String validation = request.getParameter("Validation");
 			if (validation.equals("Valider")){
-				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));`
+				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
 				// Récupérer les identifiants de connexion
 				String login = request.getParameter("login");
 				String pwd = request.getParameter("pwd");

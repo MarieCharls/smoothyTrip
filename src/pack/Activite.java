@@ -65,10 +65,10 @@ public class Activite {
 		return this.type;
 	}
 	public void setAvis(List<Avis> avis){
-		this.listAvis = avis;
+		this.listeAvis = avis;
 	}
 	public List<Avis> getAvis(){
-		return this.listAvis;
+		return this.listeAvis;
 	}	
 	public void setPro(Professionnel pro){
 		this.pro = pro;
