@@ -130,7 +130,6 @@
 							<%if (activites.isEmpty()){
 								%> 
 								Aucune activite disponible <br>
-								<input type="submit" name="Validation" value="Recommencer la recherche">
 							<%
 							}else{ %>
 							<% for (Activite activite : activites){ %>

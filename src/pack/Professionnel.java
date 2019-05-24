@@ -22,11 +22,9 @@ public class Professionnel {
 	@OneToMany(mappedBy="pro", fetch = FetchType.EAGER)
 	Set<Activite> listeActivite;
 	
-	@OneToMany(mappedBy="pro", fetch = FetchType.EAGER)
-	Set<Avis> listeAvis;
 	/** Constructeur de base **/
 	public Professionnel(){}
-	// Setter,getter
+	
 	public void setName(String name){
 		this.name=name;
 	}

@@ -19,48 +19,45 @@
 </head>
 <body>
 	<header id="header" class="header-front-page" style ="backgroung-image: url(images/questionnaire.jpg); background-attachment:fixed;">
-	<div style="background-color:rgba(0,0,0,0.3)">
-		<div class="top-header" style="background-color:rgba(0,0,0,0.3)">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-4 col-xs-8">
-
-											<a href="accueil.html" title="SmoothyTrip - Accueil">
-							<h3 >Smoothy <br> Trip</h3>
-						</a>
-					
-				</div><!--/.col-sm-2-->
-				<div class="col-sm-8 col-xs-4">
-					<nav class="header-navigation" >
-					<form action="/smoothy_trip/ServletOp" method="post"> 
-						<ul id="menu-illdy-main" class="clearfix">
-							<li id="menu-item-18" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-16"><a href="accueil.html" aria-current="page">About</a></li>
-							<li id="menu-item-19" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-17"><a href="accueil.html" aria-current="page">Accueil</a></li>
-							<li id="menu-item-20" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-18"><a href="questionnairebis.jsp" aria-current="page">Commencer l'aventure</a></li>
-							<li id="menu-item-22" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-22"><input type="submit" name="op" value="Nouveau Compte"> 
-							<li id="menu-item-23" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-23"><input type="submit" name="op" value="Connexion">
-						</ul>	
-						<input type="hidden" name="idVoyage" value="0">
-						<input type="hidden" name="Validation" value="Valider">
-					</form>
-					</nav>
-
-<!-- 					<button class="open-responsive-menu"><i class="fa fa-bars"></i></button> -->
-				</div><!--/.col-sm-10-->
-			</div><!--/.row-->
-		</div><!--/.container-->
-		
-	</div><!--/.top-header-->
+		<div style="background-color:rgba(0,0,0,0.3)">
+			<div class="top-header" style="background-color:rgba(0,0,0,0.3)">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4 col-xs-8">
 	
-		<div class="bottom-header front-page">
-				<div class="container">
-				<div class="backgroundQuest">
-					<h4> Pour en savoir un peu plus sur tes attentes </h4>
-						<div class="row">
+												<a href="accueil.html" title="SmoothyTrip - Accueil">
+								<h3 >Smoothy <br> Trip</h3>
+							</a>
 						
-						<div class="section-description" style="color:#8c9597">
-							Afin de répondre au mieux à tes envies et à tes besoins, nous aimerions te poser quelques questions
-						</div>
+					</div><!--/.col-sm-2-->
+					<div class="col-sm-8 col-xs-4">
+						<nav class="header-navigation" >
+							<form action="/smoothy_trip/ServletOp" method="post"> 
+								<ul id="menu-illdy-main" class="clearfix">
+									<li id="menu-item-18" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-16"><a href="accueil.html" aria-current="page">About</a></li>
+									<li id="menu-item-19" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-17"><a href="accueil.html" aria-current="page">Accueil</a></li>
+									<li id="menu-item-20" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-18"><a href="questionnairebis.jsp" aria-current="page">Commencer l'aventure</a></li>
+									<li id="menu-item-22" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-22"><input type="submit" name="op" value="Nouveau Compte"> 
+									<li id="menu-item-23" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-23"><input type="submit" name="op" value="Connexion">
+								</ul>	
+								<input type="hidden" name="idVoyage" value="0">
+								<input type="hidden" name="Validation" value="Valider">
+							</form>
+						</nav>
+					</div><!--/.col-sm-10-->
+				</div><!--/.row-->
+			</div><!--/.container-->
+			
+		</div><!--/.top-header-->
+		
+			<div class="bottom-header front-page">
+				<div class="container">
+					<div class="backgroundQuest">
+						<h4> Pour en savoir un peu plus sur tes attentes </h4>
+						<div class="row">
+							<div class="section-description" style="color:#8c9597">
+								Afin de répondre au mieux à tes envies et à tes besoins, nous aimerions te poser quelques questions
+							</div>
 							<div class="col-sm-12">
 								<form action="/smoothy_trip/ServletOp" method="post">
 									<label>Quel nom veux-tu donner au voyage </label> ? <input type="text" name="nom"/> <br>
@@ -110,11 +107,11 @@
 									</div><!--/.col-sm-8.col-sm-offset-2-->
 								</form>
 							</div><!--/.col-sm-12-->	
-					</div><!--/.row-->
+						</div><!--/.row-->
 					</div> <!-- backgroundQuest -->
 				</div><!--/.container-->
 			</div><!--/.bottom-header.front-page-->
-</div>
-</header><!--/#header-->
+		</div>
+	</header><!--/#header-->
 </body>
 </html>

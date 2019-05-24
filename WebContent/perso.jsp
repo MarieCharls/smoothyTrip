@@ -43,261 +43,216 @@
 <body>
 	<header id="header" class="header-front-page"
 		style="backgroung-image:url(images/planner.jpg); background-attachment:fixed;">
-	<div style="background-color: rgba(0, 0, 0, 0.3)">
-		<div class="top-header" style="background-color: rgba(0, 0, 0, 0.3)">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-4 col-xs-8">
-
-						<a href="accueil.html" title="SmoothyTrip - Accueil">
-							<h3>
-								Smoothy <br> Trip
-							</h3>
-						</a>
-
-					</div>
-					<!--/.col-sm-2-->
-					<div class="col-sm-8 col-xs-4">
-						<nav class="header-navigation">
-						<form action="/smoothy_trip/ServletOp" method="post">
-							<ul id="menu-illdy-main" class="clearfix">
-								<li id="menu-item-18"
-									class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-16"><a
-									href="accueil.html" aria-current="page">About</a></li>
-								<li id="menu-item-19"
-									class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-17"><a
-									href="accueil.html" aria-current="page">Accueil</a></li>
-								<li id="menu-item-20"
-									class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-18"><a
-									href="questionnairebis.jsp" aria-current="page">Commencer
-										l'aventure</a></li>
-								<li id="menu-item-23"
-									class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-23"><input
-									type="submit" name="op" value="Deconnexion">
-							</ul>
-							<input type="hidden" name="idVoyage" value="0"> <input
-								type="hidden" name="Validation" value="Valider">
-						</form>
-						</nav>
-						<!-- 					<button class="open-responsive-menu"><i class="fa fa-bars"></i></button> -->
-					</div>
-					<!--/.col-sm-10-->
-				</div>
-				<!--/.row-->
-			</div>
-			<!--/.container-->
-		</div>
-		<!--/.top-header-->
-
-		<%
-			Voyageur voyageur = (Voyageur) session.getAttribute("user");
-		%>
-		<div class="bottom-header front-page" style="padding-bottom: 0%">
-			<div class="row">
-						<h2>Mon espace personnel</h2>
-						<div class="section-description" style="color: #000">
-							<h4 class="voyageur-nom">
-								<%=voyageur.getPrenom()%>
-								<%=voyageur.getNom()%>
-							</h4>
-						</div>
-				<div class="container backgroundProp">
-					<div class="col-sm-12">
-						<button class="button-perso" onclick="affPerso()">
-							Mes informations <i class="fa fa-user"></i>
-						</button>
-						<button class="button-voyage" onclick="affVoyage()">
-							Mes voyages <i class="fa fa-camera-retro"></i>
-						</button>
-					</div>
-					<!--/.col-sm-12-->
-				</div>
-				<!--/.container --->
-			</div>
-			<!--/.row-->
-		</div>
-		<!--/.bottom-header.front-page-->
-	</div>
+		<div style="background-color: rgba(0, 0, 0, 0.3)">
+			<div class="top-header" style="background-color: rgba(0, 0, 0, 0.3)">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-4 col-xs-8">
 	
-</header> <!--/#header-->
-<section id="services" class="front-page-section">
-	<div class="divPerso" id="voyages">
-		<div class="section-header">
-			<div class="container">
+							<a href="accueil.html" title="SmoothyTrip - Accueil">
+								<h3>
+									Smoothy <br> Trip
+								</h3>
+							</a>
+	
+						</div>
+						<!--/.col-sm-2-->
+						<div class="col-sm-8 col-xs-4">
+							<nav class="header-navigation">
+								<form action="/smoothy_trip/ServletOp" method="post">
+									<ul id="menu-illdy-main" class="clearfix">
+										<li id="menu-item-18" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-16">
+											<a href="accueil.html" aria-current="page">About</a></li>
+										<li id="menu-item-19" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-17">
+											<a href="accueil.html" aria-current="page">Accueil</a></li>
+										<li id="menu-item-20" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-18">
+											<a href="questionnairebis.jsp" aria-current="page">Commencer l'aventure</a></li>
+										<li id="menu-item-23" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-23">
+										<input type="submit" name="op" value="Deconnexion"></li>
+									</ul>
+									<input type="hidden" name="idVoyage" value="0"> 
+									<input type="hidden" name="Validation" value="Valider">
+								</form>
+							</nav>
+						</div><!--/.col-sm-10-->
+					</div><!--/.row-->
+				</div><!--/.container-->
+			</div><!--/.top-header-->
+	
+			<%
+				Voyageur voyageur = (Voyageur) session.getAttribute("user");
+			%>
+			<div class="bottom-header front-page" style="padding-bottom: 0%">
 				<div class="row">
-					<div class="col-sm-12">
-						<h3>Voici vos voyages prévus !</h3>
+					<h2>Mon espace personnel</h2>
+					<div class="section-description">
+						<h4 class="voyageur-nom">
+							<%=voyageur.getPrenom()%>
+							<%=voyageur.getNom()%>
+						</h4>
 					</div>
-					<!--/.col-sm-12-->
-					<div class="col-sm-8 col-sm-offset-2">
-						<div class="section-description">Vous pouvez aussi ajouter
-							un nouveau voyage !</div>
-						<a href="questionnairebis.jsp" title="Commencer l'Aventure"
-							class="header-button-two">Nouvelle Aventure</a>
-					</div>
-					<!--/.col-sm-8.col-sm-offset-2-->
-				</div>
-				<!--/.row-->
-			</div>
-			<!--/.container-->
-		</div><!--/.section-header--> 
-		
-		<% List<Voyage> listVoyage = voyageur.getListVoyage();
-		System.out.println("TAILLLELELELELLELE ------"+ listVoyage.size());
-			if (listVoyage.isEmpty()) {
- 				%> Vous n'avez pas encore de voyages prévus ! <%
- 			} else {
- 				for (Voyage voyage : listVoyage) {%>
-						<h5>
-							Voyage
-							<%=voyage.getNom()%>
-						</h5>
-		<div class="section-content">
-			<div class="container">
-				<div class="row inline-columns">
-					<div id="illdy_service-2" class="col-sm-4 widget_illdy_service"">
-						<div class="service" data-service-color="#f18b6d">
-							<div class="service-icon">
-								<i class="fas fa-plane"></i>
-							</div>
-							<div class="service-title">
-								<h5>Vols</h5>
-							</div>
-							<!--/.service-title-->
-							<div class="service-entry">
-								<%
-									Vols vols = voyage.getVols();
-								%>
-								<%
-									System.out.println(vols.getVolAller());
-								%>
-								<label><%=vols.getVolAller().getOrigine()%> to <%=vols.getVolAller().getDestination()%></label>
-								<br>
-							
-								<%=vols.getVolAller().getDateDepart().toString()%>
-								-
-								<%=vols.getVolAller().getDateArrivee().toString()%>
-								<br>
-		
-								<label><%=vols.getVolRetour().getOrigine()%> to <%=vols.getVolRetour().getDestination()%></label>
-								<br>
-								<%=vols.getVolRetour().getDateDepart().toString()%>
-								-
-								<%=vols.getVolRetour().getDateArrivee().toString()%>
-								<br> <label>Prix total : </label>
-								<%=String.valueOf(vols.getPrix())%><%=String.valueOf(vols.getVolAller().getMonnaie())%>
-							</div>
-							<!--/.service-entry-->
-						</div>
-						<!--/.service-->
-					</div>
-					<div id="illdy_service-3" class="col-sm-4 widget_illdy_service">
-						<div class="service" data-service-color="#f1d204">
-							<div class="service-icon">
-								<i class="fas fa-hotel"></i>
-							</div>
-							<!-- /.service-icon -->
-							<div class="service-title">
-								<h5>Logement</h5>
-							</div>
-							<!--/.service-title-->
-							<div class="service-entry">
-								<%
-									Logement logement = voyage.getLogement();
-								%>
-								<label>Nom: </label>
-								<%=logement.getNom()%>
-								<br> <label>Distance au centre : </label>
-								<%=logement.getRadius()%><%=logement.getRadiusUnit()%>
-								<br> <label>Prix de la nuité : </label>
-								<%=logement.getPrix()%>
-							</div>
-							<!--/.service-entry-->
-						</div>
-						<!--/.service-->
-					</div>
-					<div id="illdy_service-4" class="col-sm-4 widget_illdy_service">
-						<div class="service" data-service-color="#6a4d8a">
-							<div class="service-icon">
-								<i class="fas fa-camera"></i>
-							</div>
-							<!--/.service-icon -->
-							<div class="service-title">
-								<h5>Activités</h5>
-							</div>
-							<!--/.service-title-->
-							<div class="service-entry">
-								<%
-									Collection<Activite> activites = voyage.getListeActivites();
-								%>
-								<%
-									if (activites.isEmpty()) {
-								%>
-								Aucune activite disponible <br> <input type="submit"
-									name="Validation" value="Recommencer la recherche">
-								<%
-									} else {
-								%>
-								<%
-									for (Activite activite : activites) {
-								%>
-								<label><%=activite.getName()%></label> <br> Type:
-								<%=activite.getType()%>
-								<br> Adresse :
-								<%=activite.getAddress()%>
-								<br>
-								<%
-									}
-											}
-								%>
-							</div>
-							<!--/.service-entry-->
-						</div>
-						<!--/.service-->
-					</div>
-				</div>
-				<!--/.row-->
-			</div>
-			<!--/.container-->
+					<div class="container backgroundProp">
+						<div class="col-sm-12">
+							<button class="button-perso" onclick="affPerso()">
+								Mes informations <i class="fa fa-user"></i>
+							</button>
+							<button class="button-voyage" onclick="affVoyage()">
+								Mes voyages <i class="fa fa-camera-retro"></i>
+							</button>
+						</div><!--/.col-sm-12-->
+					</div><!--/.container --->
+				</div><!--/.row-->
+			</div><!--/.bottom-header.front-page-->
 		</div>
-		<%
-			}
-		%> <%
- 	}
- %>
-		
-	</div>
-	<div class="divPerso" id="perso">		
-		<div class="section-header">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-12">
-						<h3>Mes informations personnelles</h3>
-					</div>
-					<!--/.col-sm-12-->
-					<div class="col-sm-8 col-sm-offset-2">
-						<h4>
-							Nom :
-							<%=voyageur.getNom()%></h4>
-						<h4>
-							Prénom :
-							<%=voyageur.getPrenom()%></h4>
-						<h4>
-							Identifiant :
-							<%=voyageur.getLogin()%></h4>
-						<h4>
-							Nombre de voyages :
-							<%= voyageur.getListVoyage().size() %></h4>
-					</div>
-					<!--/.col-sm-8.col-sm-offset-2-->
-				</div>
-				<!--/.row-->
-			</div>
-			<!--/.container-->
-		</div>	<!--/.section-header--> 
-	</div>
-	<!--/#services.front-page-section--> 
-</section>
+	</header> <!--/#header-->
+	<section id="services" class="front-page-section">
+		<div class="divPerso" id="voyages">
+			<div class="section-header">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-12">
+							<h3>Voici vos voyages prévus !</h3>
+						</div><!--/.col-sm-12-->
+						<div class="col-sm-8 col-sm-offset-2">
+							<div class="section-description">
+								Vous pouvez aussi ajouter un nouveau voyage !
+							</div>
+							<a href="questionnairebis.jsp" title="Commencer l'Aventure" class="header-button-two">Nouvelle Aventure</a>
+						</div><!--/.col-sm-8.col-sm-offset-2-->
+					</div><!--/.row-->
+				</div><!--/.container-->
+			</div><!--/.section-header--> 
+			
+			<% List<Voyage> listVoyage = voyageur.getListVoyage();
+				if (listVoyage.isEmpty()) {
+	 				%> Vous n'avez pas encore de voyages prévus ! <%
+	 			} else {
+	 				for (Voyage voyage : listVoyage) {%>
+							<h5>
+								Voyage
+								<%=voyage.getNom()%>
+							</h5>
+						<div class="section-content">
+							<div class="container">
+								<div class="row inline-columns">
+									<div id="illdy_service-2" class="col-sm-4 widget_illdy_service"">
+										<div class="service" data-service-color="#f18b6d">
+											<div class="service-icon">
+												<i class="fas fa-plane"></i>
+											</div>
+											<div class="service-title">
+												<h5>Vols</h5>
+											</div>
+											<!--/.service-title-->
+											<div class="service-entry">
+												<%
+													Vols vols = voyage.getVols();
+												%>
+												<label><%=vols.getVolAller().getOrigine()%> to <%=vols.getVolAller().getDestination()%></label>
+												<br>
+											
+												<%=vols.getVolAller().getDateDepart().toString()%>
+												-
+												<%=vols.getVolAller().getDateArrivee().toString()%>
+												<br>
+						
+												<label><%=vols.getVolRetour().getOrigine()%> to <%=vols.getVolRetour().getDestination()%></label>
+												<br>
+												<%=vols.getVolRetour().getDateDepart().toString()%>
+												-
+												<%=vols.getVolRetour().getDateArrivee().toString()%>
+												<br> <label>Prix total : </label>
+												<%=String.valueOf(vols.getPrix())%><%=String.valueOf(vols.getVolAller().getMonnaie())%>
+											</div><!--/.service-entry-->
+										</div><!--/.service-->
+									</div>
+									<div id="illdy_service-3" class="col-sm-4 widget_illdy_service">
+										<div class="service" data-service-color="#f1d204">
+											<div class="service-icon">
+												<i class="fas fa-hotel"></i>
+											</div><!-- /.service-icon -->
+											<div class="service-title">
+												<h5>Logement</h5>
+											</div><!--/.service-title-->
+											<div class="service-entry">
+												<%
+													Logement logement = voyage.getLogement();
+												%>
+												<label>Nom: </label>
+												<%=logement.getNom()%>
+												<br> <label>Distance au centre : </label>
+												<%=logement.getRadius()%><%=logement.getRadiusUnit()%>
+												<br> <label>Prix de la nuité : </label>
+												<%=logement.getPrix()%>
+											</div><!--/.service-entry-->
+										</div><!--/.service-->
+									</div><!-- illdy-service -->
+									<div id="illdy_service-4" class="col-sm-4 widget_illdy_service">
+										<div class="service" data-service-color="#6a4d8a">
+											<div class="service-icon">
+												<i class="fas fa-camera"></i>
+											</div><!--/.service-icon -->
+											<div class="service-title">
+												<h5>Activités</h5>
+											</div><!--/.service-title-->
+											<div class="service-entry">
+												<%
+													Collection<Activite> activites = voyage.getListeActivites();
+												%>
+												
+												<%
+													if (activites.isEmpty()) {
+												%>
+												Aucune activite disponible <br> 
+												<%
+													} else {
+												%>
+												<%
+													for (Activite activite : activites) {
+												%>
+												<label><%=activite.getName()%></label> <br> Type:
+												<%=activite.getType()%>
+												<br> Adresse :
+												<%=activite.getAddress()%>
+												<br>
+												<%
+													}
+													}
+												%>
+											</div><!--/.service-entry-->
+										</div><!--/.service-->
+									</div><!-- illdy-service -->
+								</div><!--/.row-->
+							</div><!--/.container-->
+						</div>
+				<%}}%>
+		</div>
+		<div class="divPerso" id="perso">		
+			<div class="section-header">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-12">
+							<h3>Mes informations personnelles</h3>
+						</div><!--/.col-sm-12-->
+						<div class="col-sm-8 col-sm-offset-2">
+							<h4>
+								Nom :
+								<%=voyageur.getNom()%></h4>
+							<h4>
+								Prénom :
+								<%=voyageur.getPrenom()%></h4>
+							<h4>
+								Identifiant :
+								<%=voyageur.getLogin() %></h4>
+							<h4>
+								Nombre de voyages :
+								<%= voyageur.getListVoyage().size()%></h4>
+						</div><!--/.col-sm-8.col-sm-offset-2-->
+					</div><!--/.row-->
+				</div><!--/.container-->
+			</div><!--/.section-header--> 
+		</div><!--/#services.front-page-section--> 
+	</section>
 </body>
 <script type="text/javascript">
 		function affVoyage() {

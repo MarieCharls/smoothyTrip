@@ -64,58 +64,58 @@
 	</header>
 	
 	<section id="services" class="front-page-section">
-			<div class="section-header">
-				<div class="container backgroundProp">
-					<div class="row">
-						<div class="col-sm-12">
-								<div class="section-description">
-											Tu trouveras ci-dessous tous les vols que nous avons trouvé correspondant à tes critères. Il te faut juste sélectionner le vol que tu préfère pour passer
-											à la suite.
-								</div>
-						</div><!--/.col-sm-12-->
-					</div><!--/.row-->
-				</div><!--/.container-->
-			</div><!--/.section-header-->
-			<div class="section-content">
+		<div class="section-header">
+			<div class="container backgroundProp">
 				<div class="row">
-					<div class="container backgroundProp">				
-						<div class="col-sm-12">
-							<form action="/smoothy_trip/ServletOp" method="post">
-								<%Collection<Vols> vols = (Collection<Vols>) request.getAttribute("listeVol");
-									if (vols==null){
-									%> 
-	
-										<div class="container">
-											<label>Aucun vol disponible avec le budget restant</label> <br>
-											<input type="submit" name="Validation" value="Recommencer la recherche">
-										</div> <!-- container -->
-	
-								<%
-								}else{
-								for (Vols vol : vols){ 
-									%>
-									<div class="container">
-										<div class="backgroundResultat">
-											<span id="prixVol"><input id="range-price" type="radio" name="idVol" value="<%= vol.getId() %>" checked>  <label ><%=String.valueOf(vol.getPrix())%>  <%=vol.getVolAller().getMonnaie() %></label></span>
-											  	<div class="volProposition">
-												  	<label><%=vol.getVolAller().getOrigine() %> to <%=vol.getVolAller().getDestination() %></label> <br>
-							 						<%=vol.getVolAller().getDateDepart().toString()%> - <%=vol.getVolAller().getDateArrivee().toString()%> <br>
-							 						
-							 						<label><%=vol.getVolRetour().getOrigine() %> to <%=vol.getVolRetour().getDestination() %></label>  <br>
-							 						<%=vol.getVolRetour().getDateDepart().toString()%> - <%=vol.getVolRetour().getDateArrivee().toString()%> <br>
-												</div>
-										</div> <!-- backgroundQuest -->
-									</div><!--/.container-->
-								<% } %>
-								<%} %>
-								<input type="submit" name="Validation" value="Valider">  
-								<input type="hidden" name="op" value="validerVol">
-								<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>">
-							</form>
-						</div> <!--/.col-sm-12-->
-					</div><!--/.container --->	
+					<div class="col-sm-12">
+							<div class="section-description">
+										Tu trouveras ci-dessous tous les vols que nous avons trouvé correspondant à tes critères. Il te faut juste sélectionner le vol que tu préfère pour passer
+										à la suite.
+							</div>
+					</div><!--/.col-sm-12-->
 				</div><!--/.row-->
-			</div>
+			</div><!--/.container-->
+		</div><!--/.section-header-->
+		<div class="section-content">
+			<div class="row">
+				<div class="container backgroundProp">				
+					<div class="col-sm-12">
+						<form action="/smoothy_trip/ServletOp" method="post">
+							<%Collection<Vols> vols = (Collection<Vols>) request.getAttribute("listeVol");
+								if (vols==null){
+								%> 
+
+									<div class="container">
+										<label>Aucun vol disponible avec le budget restant</label> <br>
+										<input type="submit" name="Validation" value="Recommencer la recherche">
+									</div> <!-- container -->
+
+							<%
+							}else{
+							for (Vols vol : vols){ 
+								%>
+								<div class="container">
+									<div class="backgroundResultat">
+										<span id="prixVol"><input id="range-price" type="radio" name="idVol" value="<%= vol.getId() %>" checked>  <label ><%=String.valueOf(vol.getPrix())%>  <%=vol.getVolAller().getMonnaie() %></label></span>
+										  	<div class="volProposition">
+											  	<label><%=vol.getVolAller().getOrigine() %> to <%=vol.getVolAller().getDestination() %></label> <br>
+						 						<%=vol.getVolAller().getDateDepart().toString()%> - <%=vol.getVolAller().getDateArrivee().toString()%> <br>
+						 						
+						 						<label><%=vol.getVolRetour().getOrigine() %> to <%=vol.getVolRetour().getDestination() %></label>  <br>
+						 						<%=vol.getVolRetour().getDateDepart().toString()%> - <%=vol.getVolRetour().getDateArrivee().toString()%> <br>
+											</div>
+									</div> <!-- backgroundQuest -->
+								</div><!--/.container-->
+							<% } %>
+							<%} %>
+							<input type="submit" name="Validation" value="Valider">  
+							<input type="hidden" name="op" value="validerVol">
+							<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>">
+						</form>
+					</div> <!--/.col-sm-12-->
+				</div><!--/.container --->	
+			</div><!--/.row-->
+		</div>
 	</section>
 </body>
 

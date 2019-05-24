@@ -126,6 +126,7 @@ public class Facade {
     }
 	
 	
+	
     /** Récupérer le city code d'une ville à partir de son nom
      * @param String cityName nom de la ville 
      * @throws ResponseException */
@@ -138,6 +139,7 @@ public class Facade {
     	String cityCode = location[0].getAddress().getCityCode();
     	return cityCode;
     }
+    
     
     /** Récupérer le city code d'une ville à partir de son nom
      * @param String cityName nom de la ville 
@@ -152,6 +154,7 @@ public class Facade {
     	return cityCode;
     }
     
+    
     /** Initialiser une connection AmadeusHotel**/
     public Amadeus initialiserAmadeusHotel(){
     	Amadeus amadeus = Amadeus
@@ -160,6 +163,7 @@ public class Facade {
     	return amadeus;
     }
 
+    
     /** Vérifier la validité des dates fournies 
      * @param Date dateDepart date début du voyage
      * @param Date dateRetour date de fin du voyage
@@ -226,7 +230,6 @@ public class Facade {
     	logement.setVoyage(voyage); 	
     }
 
-
     
     /** Initialiser une connection AmadeusActivite
      * @return connexion à amadeus
@@ -249,6 +252,7 @@ public class Facade {
     	double longitude = location[0].getGeoCode().getLongitude();
     	return longitude;
     }
+    
     /** Récupérer la latitude d'une ville à partir de son nom
      * @param String cityName nom de la ville 
      * @throws ResponseException */
@@ -261,6 +265,7 @@ public class Facade {
     	double latitude= location[0].getGeoCode().getLatitude();
     	return latitude;
     }
+    
     /** Recherche toutes les activites sous certaines contraintes posées en entrée
      * @param String cityCode Code de la ville destination
      * @param int nbAdults Nombre de personnes à loger
@@ -320,9 +325,10 @@ public class Facade {
 		}
     	return listeActivites;
 	}
+	
     /** Faire le lien BD entre activites choisies et voyage courant. 
-     * @param idActivites
-     * @param idVoyage
+     * @param String[] idActivites
+     * @param int idVoyage
      */
     public void associerActivite(String[] idActivites,int idVoyage){
     	// On récupère le voyage courant
@@ -335,15 +341,19 @@ public class Facade {
 			// On associe l'activité au voyage
 			activite.setVoyage(voyage); 
     	}
-
+    	
     }
-	/** Initialiser une connection AmadeusVol**/
+    
+	/** Initialiser une connection AmadeusVol
+	 * @return connection amadeus
+	 * **/
     public Amadeus initialiserAmadeusVol(){
     	Amadeus amadeus = Amadeus
               .builder("6nRL5xnhTjIla3lB9DZDozVolhFxQWtH", "oKTXhjPY2rFKMoGs")
               .build();
     	return amadeus;
     }
+    
     /** Faire le lien BD entre vol choisi et voyage courant. Et
      * maj le budget restant sur le voyage
      * @param idVol
@@ -367,6 +377,10 @@ public class Facade {
 		vols.setVoyage(voyage);
     }
 	
+    /** Tansformer une string en date
+     * @param d 
+     * @return Date
+     */
     public Date toDate(String d){
     	SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
     	Date date=null;
@@ -461,6 +475,7 @@ public class Facade {
 		return listeVols;
     }
 	
+	
 	/** Creer un nouveau compte voyageur 
 	 * @param prenom 
 	 * @param nom **/
@@ -492,10 +507,8 @@ public class Facade {
     	
     	// On récupère le voyageur
     	Voyageur voyageur = em.find(Voyageur.class, idVoyageur);
-    	System.out.println("TAILLLLLLLLLEEEEEE FACADE : "+voyageur.getListVoyage().size());
     	// On associe le voyage au voyageur
 		voyage.setVoyageur(voyageur);
-		System.out.println("TAILLLLLLLLLEEEEEE FACADE BIS: "+voyageur.getListVoyage().size());
 	}
 
 	/** Acceder au compte voyageur d'un utilisateur
@@ -506,6 +519,7 @@ public class Facade {
 		Voyageur voyageur = em.find(Voyageur.class, idVoyageur);
 		return voyageur;
 	}
+	
 	
 	/** Retrouver l'id d'un voyageur à partir de son login et mdp
 	 * @param login

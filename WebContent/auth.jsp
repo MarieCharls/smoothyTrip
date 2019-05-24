@@ -45,7 +45,6 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-4 col-xs-8">
-
 						<a href="accueil.html" title="SmoothyTrip - Accueil">
 							<h3>
 								Smoothy <br> Trip
@@ -55,50 +54,46 @@
 					<!--/.col-sm-4 col-xs-8 -->
 					<div class="col-sm-8 col-xs-4">
 						<nav class="header-navigation">
-						<form action="/smoothy_trip/ServletOp" method="post">
-							<ul id="menu-illdy-main" class="clearfix">
-								<li id="menu-item-18"
-									class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-16"><a
-									href="accueil.html" aria-current="page">About</a></li>
-								<li id="menu-item-19"
-									class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-17"><a
-									href="accueil.html" aria-current="page">Accueil</a></li>
-								<li id="menu-item-20"
-									class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-18"><a
-									href="questionnairebis.jsp" aria-current="page">Commencer
-										l'aventure</a></li>
-								<li id="menu-item-22"
-									class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-22"><input
-									type="submit" name="op" value="Nouveau Compte">
-								<li id="menu-item-23"
-									class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-23"><input
-									type="submit" name="op" value="Connexion">
-							</ul>
-							<input type="hidden" name="idVoyage" value="0"> <input
-								type="hidden" name="Validation" value="Valider">
-						</form>
+							<form action="/smoothy_trip/ServletOp" method="post">
+								<ul id="menu-illdy-main" class="clearfix">
+									<li id="menu-item-18"
+										class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-16"><a
+										href="accueil.html" aria-current="page">About</a></li>
+									<li id="menu-item-19"
+										class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-17"><a
+										href="accueil.html" aria-current="page">Accueil</a></li>
+									<li id="menu-item-20"
+										class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-18"><a
+										href="questionnairebis.jsp" aria-current="page">Commencer
+											l'aventure</a></li>
+									<li id="menu-item-22"
+										class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-22"><input
+										type="submit" name="op" value="Nouveau Compte">
+									<li id="menu-item-23"
+										class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-23"><input
+										type="submit" name="op" value="Connexion">
+								</ul>
+								<input type="hidden" name="idVoyage" value="0"> <input
+									type="hidden" name="Validation" value="Valider">
+							</form>
 						</nav>
-					</div>
-					<!--/.col-sm-4 col-xs-8 -->
-				</div>
-				<!--/.row-->
-			</div>
-			<!--/.container-->
-		</div>
-		<!--/.top-header-->
+					</div><!--/.col-sm-4 col-xs-8 -->
+				</div><!--/.row-->
+			</div><!--/.container-->
+		</div><!--/.top-header-->
 		<div class="bottom-header front-page">
 			<div class="row">
-				<div class="container" style="width: 99%">
-					<div class="col-sm-12"style="background-color: rgb(250, 250, 250); margin-left: 24.2%; width: 51.6%">
-						<h4 style="color: rgb(0, 0, 0)">Identification</h4>
-						<div class="section-description" style="color: rgb(150, 150, 150)">
+				<div class="container">
+					<div class="container-title">
+						<h4 class="black">Identification</h4>
+						<div class="section-ins">
 							Bienvenue ! Identifie-toi !
 						</div>
 						<div class="container-ins">
 							<form action="/smoothy_trip/ServletOp" method="post">
-								<h8 style="color: rgb(0,0,0)"> Identifiant : </h8>
+								<h8 class="black"> Identifiant : </h8>
 								<input type="text" name="login" /> <br>
-								<h8 style="color: rgb(0,0,0)">Mot de passe : </h8>
+								<h8 class="black">Mot de passe : </h8>
 								<input type="password" name="pwd" /> <br> 
 								<input type="submit" name="Validation" value="Valider"> 
 								<input type="hidden" name="op" value="validerUser"> 
@@ -106,12 +101,9 @@
 							</form>
 						</div>
 					</div><!--/.col-sm-12-->
-					
 				</div><!--/.container --->
-			</div>
-			<!--/.row-->
-		</div>
-		<!--/.bottom-header.front-page-->
+			</div><!--/.row-->
+		</div><!--/.bottom-header.front-page-->
 	</div>
 	</header>
 </body>

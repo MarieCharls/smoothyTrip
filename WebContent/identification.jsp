@@ -66,16 +66,10 @@
 											l'aventure</a></li>
 								</ul>
 							</nav>
-							<!-- 					<button class="open-responsive-menu"><i class="fa fa-bars"></i></button> -->
-						</div>
-						<!--/.col-sm-10-->
-					</div>
-					<!--/.row-->
-				</div>
-				<!--/.container-->
-			</div>
-			<!--/.top-header-->
-
+						</div><!--/.col-sm-10-->
+					</div><!--/.row-->
+				</div><!--/.container-->
+			</div><!--/.top-header-->
 			<div class="bottom-header front-page" style="padding-top:150px;">
 				<div class="container">
 					<div class="row">
@@ -84,30 +78,22 @@
 								Voyager<span class="span-dot">.</span>Rêver<span
 									class="span-dot">.</span> En toute simplicité
 							</h1>
-						</div>
-						<!--/.col-sm-12-->
+						</div><!--/.col-sm-12-->
 						<div class="col-sm-8 col-sm-offset-2">
-							<div class="section-description">Erreur lors de
-								l'identification... Réessaie !</div>
+							<div class="section-description">
+								Erreur lors de l'identification... Réessaie !
+							</div>
 							<form action="/smoothy_trip/ServletOp" method="post">
-								<input type="hidden" name="idVoyage"
-									value="<%=request.getAttribute("idVoyage")%>"> <input
-									type="submit" name="op" value="Nouveau Compte"> <input
-									type="submit" name="op" value="Connexion"> <input
-									type="hidden" name="Validation" value="Valider">
+								<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>"> 
+								<input type="submit" name="op" value="Nouveau Compte"> 
+								<input type="submit" name="op" value="Connexion"> 
+								<input type="hidden" name="Validation" value="Valider">
 							</form>
-						</div>
-						<!--/.col-sm-8.col-sm-offset-2-->
-					</div>
-					<!--/.row-->
-				</div>
-				<!--/.container-->
-			</div>
-			<!--/.bottom-header.front-page-->
+						</div><!--/.col-sm-8.col-sm-offset-2-->
+					</div><!--/.row-->
+				</div><!--/.container-->
+			</div><!--/.bottom-header.front-page-->
 		</div>
-	</header>
-	<!--/#header-->
-
-
+	</header><!--/#header-->
 </body>
 </html>

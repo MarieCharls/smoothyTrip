@@ -117,4 +117,15 @@
 .alerte{
 	color:#EE0404;
 }
+.container-title{
+	background-color: rgb(250, 250, 250); 
+	margin-left: 24.2%; 
+	width: 51.6%;
+}
+.section-ins{
+	color: rgb(150, 150, 150);
+}
+.black{
+	color: rgb(0,0,0);
+}
 

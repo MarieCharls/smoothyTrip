@@ -45,7 +45,6 @@ public class Vols {
 		this.volRetour = v;
 	}
 
-
 	public double getPrix() {
 		return prix;
 	}

@@ -218,10 +218,7 @@ public class ServletOp extends HttpServlet {
 				} else {
 					// sinon, associer le voyage au nouveau compte
 					if (idVoyage != 0){
-						System.out.println("OLEEEEEEE-----------"+idVoyage+"      "+idVoyageur);
-						System.out.println(facade.accederCompte(idVoyageur).getListVoyage().size());
 						facade.associerVoyage(idVoyageur,idVoyage);
-						System.out.println("SEEEEEERVLEEEETTTTTTT OLE--------------------"+facade.accederCompte(idVoyageur).getListVoyage().size());
 					}
 					// Accéder à la page personnelle
 					Voyageur voyageur = facade.accederCompte(idVoyageur);
@@ -261,10 +258,7 @@ public class ServletOp extends HttpServlet {
 					request.getRequestDispatcher("identification.jsp").forward(request, response);
 				} else {
 					if (idVoyage != 0){
-						
 						facade.associerVoyage(idVoyageur,idVoyage);
-						System.out.println("SEEEEEERVLEEEETTTTTTT OLE2--------------------"+facade.accederCompte(idVoyageur).getListVoyage().size());
-
 					}
 					HttpSession session = request.getSession();
 					Voyageur voyageur = facade.accederCompte(idVoyageur);

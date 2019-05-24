@@ -38,87 +38,81 @@
 </style>
 </head>
 <body>
-	<header id="header" class="header-front-page"
-		style="backgroung-image: url(images/signin.jpg); background-attachment:fixed;">
-	<div style="background-color: rgba(0, 0, 0, 0.3)">
-		<div class="top-header" style="background-color: rgba(0, 0, 0, 0.3)">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-4 col-xs-8">
-
-						<a href="accueil.html" title="SmoothyTrip - Accueil">
-							<h3>
-								Smoothy <br> Trip
-							</h3>
-						</a>
+	<header id="header" class="header-front-page"style="backgroung-image: url(images/signin.jpg); background-attachment:fixed;">
+		<div style="background-color: rgba(0, 0, 0, 0.3)">
+			<div class="top-header" style="background-color: rgba(0, 0, 0, 0.3)">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-4 col-xs-8">
+	
+							<a href="accueil.html" title="SmoothyTrip - Accueil">
+								<h3>
+									Smoothy <br> Trip
+								</h3>
+							</a>
+						</div>
+						<!--/.col-sm-4 col-xs-8 -->
+						<div class="col-sm-8 col-xs-4">
+							<nav class="header-navigation">
+								<form action="/smoothy_trip/ServletOp" method="post">
+									<ul id="menu-illdy-main" class="clearfix">
+										<li id="menu-item-18"
+											class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-16"><a
+											href="accueil.html" aria-current="page">About</a></li>
+										<li id="menu-item-19"
+											class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-17"><a
+											href="accueil.html" aria-current="page">Accueil</a></li>
+										<li id="menu-item-20"
+											class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-18"><a
+											href="questionnairebis.jsp" aria-current="page">Commencer
+												l'aventure</a></li>
+										<li id="menu-item-22"
+											class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-22"><input
+											type="submit" name="op" value="Nouveau Compte">
+										<li id="menu-item-23"
+											class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-23"><input
+											type="submit" name="op" value="Connexion">
+									</ul>
+									<input type="hidden" name="idVoyage" value="0"> <input
+										type="hidden" name="Validation" value="Valider">
+								</form>
+							</nav>
+						</div>
+						<!--/.col-sm-4 col-xs-8 -->
 					</div>
-					<!--/.col-sm-4 col-xs-8 -->
-					<div class="col-sm-8 col-xs-4">
-						<nav class="header-navigation">
-						<form action="/smoothy_trip/ServletOp" method="post">
-							<ul id="menu-illdy-main" class="clearfix">
-								<li id="menu-item-18"
-									class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-16"><a
-									href="accueil.html" aria-current="page">About</a></li>
-								<li id="menu-item-19"
-									class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-17"><a
-									href="accueil.html" aria-current="page">Accueil</a></li>
-								<li id="menu-item-20"
-									class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-18"><a
-									href="questionnairebis.jsp" aria-current="page">Commencer
-										l'aventure</a></li>
-								<li id="menu-item-22"
-									class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-22"><input
-									type="submit" name="op" value="Nouveau Compte">
-								<li id="menu-item-23"
-									class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-23"><input
-									type="submit" name="op" value="Connexion">
-							</ul>
-							<input type="hidden" name="idVoyage" value="0"> <input
-								type="hidden" name="Validation" value="Valider">
-						</form>
-						</nav>
-					</div>
-					<!--/.col-sm-4 col-xs-8 -->
+					<!--/.row-->
 				</div>
-				<!--/.row-->
+				<!--/.container-->
 			</div>
-			<!--/.container-->
+			<!--/.top-header-->
+			<div class="bottom-header front-page">
+				<div class="row">
+					<div class="container">
+						<div class="container-title">
+							<h4 class="black">Inscription</h4>
+							<div class="section-ins">
+								Bienvenue ! Crée un compte pour enregistrer ton voyage !
+							</div>
+							<div class="container-ins">
+								<form action="/smoothy_trip/ServletOp" method="post">
+									<h8 class="black"> Nom : </h8>
+									<input type="text" name="nom" /> <br>
+									<h8 class="black"> Prénom : </h8>
+									<input type="text" name="prenom" /> <br>
+									<h8 class="black"> Identifiant : </h8>
+									<input type="text" name="login" /> <br>
+									<h8 class="black">Mot de passe : </h8>
+									<input type="password" name="pwd" /> <br> 
+									<input type="submit" name="Validation" value="Valider"> 
+									<input type="hidden" name="op" value="createUser"> 
+									<input type="hidden" name="idVoyage" value="<%=request.getAttribute("idVoyage")%>">
+								</form>
+							</div> <!--/.container-ins --->
+						</div><!--/.col-sm-12-->
+					</div><!--/.container --->
+				</div><!--/.row-->
+			</div><!--/.bottom-header.front-page-->
 		</div>
-		<!--/.top-header-->
-		<div class="bottom-header front-page">
-			<div class="row">
-				<div class="container" style="width: 99%">
-					<div class="col-sm-12"
-						style="background-color: rgb(250, 250, 250); margin-left: 24.2%; width: 51.6%">
-						<h4 style="color: rgb(0, 0, 0)">Inscription</h4>
-						<div class="section-description" style="color: rgb(150, 150, 150)">
-							Bienvenue ! Crée un compte pour enregistrer ton voyage !</div>
-						<div class="container-ins">
-						<form action="/smoothy_trip/ServletOp" method="post">
-							<h8 style="color: rgb(0,0,0)"> Nom : </h8>
-							<input type="text" name="nom" /> <br>
-							<h8 style="color: rgb(0,0,0)"> Prénom : </h8>
-							<input type="text" name="prenom" /> <br>
-							<h8 style="color: rgb(0,0,0)"> Identifiant : </h8>
-							<input type="text" name="login" /> <br>
-							<h8 style="color: rgb(0,0,0)">Mot de passe : </h8>
-							<input type="password" name="pwd" /> <br> <input
-								type="submit" name="Validation" value="Valider"> <input
-								type="hidden" name="op" value="createUser"> <input
-								type="hidden" name="idVoyage"
-								value="<%=request.getAttribute("idVoyage")%>">
-						</form>
-					</div> <!--/.container-ins --->
-					</div>
-					<!--/.col-sm-12-->
-					
-				</div><!--/.container --->
-			</div>
-			<!--/.row-->
-		</div>
-		<!--/.bottom-header.front-page-->
-	</div>
 	</header>
 </body>
 </html>

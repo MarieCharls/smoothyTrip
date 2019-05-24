@@ -1,18 +1,9 @@
 package pack;
 
-import java.util.*;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
-public class Activite {
+public class Activite{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -25,10 +16,6 @@ public class Activite {
 	
 	/** Type d'activité */
 	private String type;
-//
-//	/** Avis sur l'activite **/
-//	@OneToMany(mappedBy="act", fetch = FetchType.EAGER)
-//	Set<Avis> listeAvis;
 	
 	/** Professionel proposant l'activite **/
 	@ManyToOne
