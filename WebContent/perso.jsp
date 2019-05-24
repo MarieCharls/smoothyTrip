@@ -71,12 +71,9 @@
 									class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-18"><a
 									href="questionnairebis.jsp" aria-current="page">Commencer
 										l'aventure</a></li>
-								<li id="menu-item-22"
-									class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-22"><input
-									type="submit" name="op" value="Nouveau Compte">
 								<li id="menu-item-23"
 									class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-23"><input
-									type="submit" name="op" value="Connexion">
+									type="submit" name="op" value="Deconnexion">
 							</ul>
 							<input type="hidden" name="idVoyage" value="0"> <input
 								type="hidden" name="Validation" value="Valider">
@@ -93,7 +90,7 @@
 		<!--/.top-header-->
 
 		<%
-			Voyageur voyageur = (Voyageur) request.getAttribute("voyageur");
+			Voyageur voyageur = (Voyageur) session.getAttribute("user");
 		%>
 		<div class="bottom-header front-page" style="padding-bottom: 0%">
 			<div class="row">
@@ -289,8 +286,8 @@
 							Identifiant :
 							<%=voyageur.getLogin()%></h4>
 						<h4>
-							Mot de Passe :
-							<%=voyageur.getPassword()%></h4>
+							Nombre de voyages :
+							<%= voyageur.getListVoyage().size() %></h4>
 					</div>
 					<!--/.col-sm-8.col-sm-offset-2-->
 				</div>

@@ -77,7 +77,7 @@
 					<div class="container backgroundProp">
 						<div class="col-sm-12">
 							<form action="/smoothy_trip/ServletOp" method="post">
-								<%Collection<Activite> activites = (Collection<Activite>) request.getAttribute("listeActivite");%>
+								<%List<Activite> activites = (List<Activite>) request.getAttribute("listeActivite");%>
 								<%if (activites.isEmpty()){
 									%> 
 									<div class="container">
@@ -86,15 +86,24 @@
 									</div> <!-- container -->
 								<%
 								}else{ %>
-								<% for (Activite activite : activites){ %>
+								<% for (int i=0;i<activites.size();i++){ %>
 								<div class="container">
 									<div class="backgroundResultat">
-										<span id="prixVol"><input id="range-price" type="checkbox" name="idActivite" value="<%=activite.getId()%>" checked> </span>
-										<div class="volProposition">
-											<label><%=activite.getName()%></label><br>
-											<label> Type d'activite : </label> <%=activite.getType()%> <br>
-											<label> Adresse de l'activite :</label> <%=activite.getAddress()%> <br>	
-										</div>
+										<%if (i==0){%>
+											<span id="prixVol"><input id="range-price" type="checkbox" name="idActivite" value="<%=activites.get(i).getId()%>" checked> </span>
+											<div class="volProposition">
+												<label><%=activites.get(i).getName() %></label><br>
+												<label> Type d'activite : </label> <%=activites.get(i).getType()%> <br>
+												<label> Adresse de l'activite :</label> <%=activites.get(i).getAddress()%> <br>	
+											</div>
+										<%}else{ %>
+											<span id="prixVol"><input id="range-price" type="checkbox" name="idActivite" value="<%=activites.get(i).getId()%>" unchecked> </span>
+											<div class="volProposition">
+												<label><%=activites.get(i).getName() %></label><br>
+												<label> Type d'activite : </label> <%=activites.get(i).getType()%> <br>
+												<label> Adresse de l'activite :</label> <%=activites.get(i).getAddress()%> <br>	
+											</div>
+										<%} %>
 									</div> <!-- backgroundQuest -->
 								</div><!--/.container-->
 								<%} %>

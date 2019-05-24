@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.amadeus.Amadeus;
 import com.amadeus.Params;
@@ -224,8 +225,8 @@ public class ServletOp extends HttpServlet {
 					}
 					// Accéder à la page personnelle
 					Voyageur voyageur = facade.accederCompte(idVoyageur);
-					request.setAttribute("voyageur", voyageur);
-					System.out.println("SEEEEEERVLEEEETTTTTTT--------------------"+voyageur.getListVoyage().size());
+					HttpSession session = request.getSession();
+					session.setAttribute("user", voyageur);
 					request.getRequestDispatcher("perso.jsp").forward(request, response);
 				}
 			}else{
@@ -237,6 +238,14 @@ public class ServletOp extends HttpServlet {
 			int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
 			request.setAttribute("idVoyage",idVoyage);
 			request.getRequestDispatcher("auth.jsp").forward(request, response);
+		}
+		if (operation.equals("Deconnexion")){
+			HttpSession session = request.getSession();
+			if(session!= null){
+				session.removeAttribute("user");
+				session.invalidate();
+			}
+			response.sendRedirect("accueil.html");
 		}
 		if (operation.equals("validerUser")){
 			String validation = request.getParameter("Validation");
@@ -252,14 +261,14 @@ public class ServletOp extends HttpServlet {
 					request.getRequestDispatcher("identification.jsp").forward(request, response);
 				} else {
 					if (idVoyage != 0){
-						System.out.println("OLEEEEEEE 2-----------"+facade.accederCompte(idVoyageur).getListVoyage().size());
+						
 						facade.associerVoyage(idVoyageur,idVoyage);
 						System.out.println("SEEEEEERVLEEEETTTTTTT OLE2--------------------"+facade.accederCompte(idVoyageur).getListVoyage().size());
 
 					}
+					HttpSession session = request.getSession();
 					Voyageur voyageur = facade.accederCompte(idVoyageur);
-					System.out.println("SEEEEEERVLEEEETTTTTTT--------------------"+voyageur.getListVoyage().size());
-					request.setAttribute("voyageur", voyageur);
+					session.setAttribute("user", voyageur);
 					request.getRequestDispatcher("perso.jsp").forward(request, response);
 				}
 			}else{
