@@ -215,10 +215,6 @@ public class Facade {
     	double latitude= location[0].getGeoCode().getLatitude();
     	return latitude;
     }
-    public static double roundDown1(double d) {
-        return ((long)(d * 1e1)) / 1e1;
-        //Long typecast will remove the decimals
-    }
     /** Recherche toutes les activites sous certaines contraintes posées en entrée
      * @param String cityCode Code de la ville destination
      * @param int nbAdults Nombre de personnes à loger
@@ -230,67 +226,68 @@ public class Facade {
      * @throws IOException 
      * @throws InterruptedException 
      * @throws FoursquareApiException 
-     * @throws ApiException 
      * */
 	public List<Activite> chercherActivite(int idVoyage) throws ResponseException, ParseException, InterruptedException, IOException, FoursquareApiException{ 
 		
 		// Récupérer le voyage
 		Voyage voyage=em.find(Voyage.class,idVoyage);
+		// Récupérer le nom de la destination
 		String cityName = voyage.getDestination().toLowerCase();
 		// Initialisation de la connection à Foursquare
 		FoursquareApi client = new FoursquareApi("VRJSV30LMWA4M0YFLPDAQRWCE1ZI1E4KZJPQL4B5SOYZP1G5","DPECN41FFRIW2YFAEGKJGU2LE3DJQPPIKSWDFX2CP5VUL1SP", null);
-    	// Initialiser la liste d'activites
-    	List<Activite> listeActivites = Collections.synchronizedList(new ArrayList<Activite>());
-    	// Recuperer la latitude et la longitude de la destination
-        double longi = toLong(cityName);
-      	double lat = toLat(cityName);
-      	String ll = Double.toString(lat)+","+Double.toString(longi);
-      	// Recuperer les musees disponibles
-    	Result<VenuesSearchResult> offersMusee = client.venuesSearch(ll,"museum",50000,null,null,null,null,null);
-    	for (CompactVenue musee : offersMusee.getResult().getVenues()) {
-    		Activite activite = new Activite();
-    		activite.setName(musee.getName());
-    		activite.setType(musee.getCategories()[0].getName());
-    		activite.setIdAct(musee.getId());
-    		activite.setAddress(musee.getLocation().getAddress());
-    		activite.setTel(musee.getContact().getPhone());
-    		em.persist(activite);
-    		listeActivites.add(activite);
-    	}
-    	// Recuperer les parcs disponibles
-    	Result<VenuesSearchResult> offersPark = client.venuesSearch(ll,null,50000,null,null,null,null,null);
-    	for (CompactVenue park : offersPark.getResult().getVenues()) {
-    		Category[] cat = park.getCategories();
-    		for (int i=0;i<cat.length;i++) {
-    			if (cat[i].getName().equals("Park")){
-    				Activite activite = new Activite();
-    	    		activite.setName(park.getName());
-    	    		activite.setType(park.getCategories()[0].getName());
-    	    		activite.setIdAct(park.getId());
-    	    		activite.setAddress(park.getLocation().getAddress());
-    	    		activite.setTel(park.getContact().getPhone());
-    	    		em.persist(activite);
-    	    		listeActivites.add(activite);
-    			}
-              }
-    	}
+    		// Initialisation de la liste d'activités
+    		List<Activite> listeActivites = Collections.synchronizedList(new ArrayList<Activite>());
+    		// Récupérer la latitude et la longitude de la destination
+        	double longi = toLong(cityName);
+      		double lat = toLat(cityName);
+      		String ll = Double.toString(lat)+","+Double.toString(longi);
+      		// Récupérer les musées disponibles
+    		Result<VenuesSearchResult> offersMusee = client.venuesSearch(ll,"museum",50000,null,null,null,null,null);
+		// Ajouter chaque musée à la liste d'activités possibles
+    		for (CompactVenue musee : offersMusee.getResult().getVenues()) {
+			Activite activite = new Activite();
+			activite.setName(musee.getName());
+			activite.setType(musee.getCategories()[0].getName());
+			activite.setIdAct(musee.getId());
+			activite.setAddress(musee.getLocation().getAddress());
+			activite.setTel(musee.getContact().getPhone());
+			em.persist(activite);
+			listeActivites.add(activite);
+    		}
+    		// Récupérer les parcs disponibles
+		Result<VenuesSearchResult> offersPark = client.venuesSearch(ll,null,50000,null,null,null,null,null);
+		// Ajouter chaque parc à la liste d'activités possibles
+		for (CompactVenue park : offersPark.getResult().getVenues()) {
+			Category[] cat = park.getCategories();
+			for (int i=0;i<cat.length;i++) {
+				if (cat[i].getName().equals("Park")){
+					Activite activite = new Activite();
+				activite.setName(park.getName());
+				activite.setType(park.getCategories()[0].getName());
+				activite.setIdAct(park.getId());
+				activite.setAddress(park.getLocation().getAddress());
+				activite.setTel(park.getContact().getPhone());
+				em.persist(activite);
+				listeActivites.add(activite);
+				}
+		      }
+		}
     	return listeActivites;
 	}
-	/** Faire le lien BD entre activites choisies et voyage courant. 
+    /** Faire le lien BD entre activites choisies et voyage courant. 
      * @param idActivite
      * @param idVoyage
      */
-    public Voyage associerActivite(int idActivite,int idVoyage){
+    public void associerActivite(int idActivite,int idVoyage){
     	// On récupère le voyage courant
     	Voyage voyage = em.find(Voyage.class, idVoyage);
     	
-    	// On récupère l'activite
+    	// On récupère l'activité
     	Activite activite = em.find(Activite.class, idActivite);
  
-    	// On associe l'activite au voyage
+    	// On associe l'activité au voyage
     	activite.setVoyage(voyage); 
-    	
-    	return voyage;
+
     }
     public void ajouterActivite(Activite activite){
     	em.persist(activite);
