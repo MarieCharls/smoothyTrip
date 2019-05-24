@@ -97,9 +97,6 @@
 		%>
 		<div class="bottom-header front-page" style="padding-bottom: 0%">
 			<div class="row">
-				<div class="container backgroundProp">
-					<div class="col-sm-12"
-						style="background-color: rgba(220, 220, 220, 0.5)">
 						<h2>Mon espace personnel</h2>
 						<div class="section-description" style="color: #000">
 							<h4>
@@ -107,6 +104,8 @@
 								<%=voyageur.getNom()%>
 							</h4>
 						</div>
+				<div class="container backgroundProp">
+					<div class="col-sm-12">
 						<button class="button-perso" onclick="affPerso()">
 							Mes informations <i class="fa fa-user"></i>
 						</button>
@@ -122,15 +121,15 @@
 		</div>
 		<!--/.bottom-header.front-page-->
 	</div>
-
-
+	
+</header> <!--/#header-->
+<section id="services" class="front-page-section">
 	<div class="divPerso" id="voyages">
-		<section id="services" class="front-page-section">
 		<div class="section-header">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-12">
-						<h1>Voici vos voyages prévus !</h1>
+						<h3>Voici vos voyages prévus !</h3>
 					</div>
 					<!--/.col-sm-12-->
 					<div class="col-sm-8 col-sm-offset-2">
@@ -144,21 +143,18 @@
 				<!--/.row-->
 			</div>
 			<!--/.container-->
-		</div>
-		<!--/.section-header--> <!--/.col-sm-12--> <%
- 	List<Voyage> listVoyage = voyageur.getListVoyage();
-
- 	if (listVoyage.isEmpty()) {
- %> Vous n'avez pas encore de voyages prévus ! <%
- 	} else {
- 		for (Voyage voyage : listVoyage) {
- %>
-
-		<h5>
-			Voyage
-			<%=voyage.getNom()%>
-		</h5>
-		<%System.out.println("VOYAGEEEE NOM-----------------------"+voyage.getNom()); %>
+		</div><!--/.section-header--> 
+		
+		<% List<Voyage> listVoyage = voyageur.getListVoyage();
+		System.out.println("TAILLLELELELELLELE ------"+ listVoyage.size());
+			if (listVoyage.isEmpty()) {
+ 				%> Vous n'avez pas encore de voyages prévus ! <%
+ 			} else {
+ 				for (Voyage voyage : listVoyage) {%>
+						<h5>
+							Voyage
+							<%=voyage.getNom()%>
+						</h5>
 		<div class="section-content">
 			<div class="container">
 				<div class="row inline-columns">
@@ -178,19 +174,14 @@
 								<%
 									System.out.println(vols.getVolAller());
 								%>
-								<% System.out.println("VOLLLL ALLLLERRRR --------------------------"+vols.getVolAller().getOrigine()); %>
 								<label><%=vols.getVolAller().getOrigine()%> to <%=vols.getVolAller().getDestination()%></label>
 								<br>
-								<%
-									System.out.println("origineeeeeee");
-								%>
+							
 								<%=vols.getVolAller().getDateDepart().toString()%>
 								-
 								<%=vols.getVolAller().getDateArrivee().toString()%>
 								<br>
-								<%
-									System.out.println("arriveeeeeee");
-								%>
+		
 								<label><%=vols.getVolRetour().getOrigine()%> to <%=vols.getVolRetour().getDestination()%></label>
 								<br>
 								<%=vols.getVolRetour().getDateDepart().toString()%>
@@ -279,39 +270,39 @@
  %>
 		
 	</div>
-	<div class="divPerso" id="perso">
-		<section id="services" class="front-page-section">
-			<div class="section-header">
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-12">
-							<h1>Mes informations personnelles</h1>
-						</div>
-						<!--/.col-sm-12-->
-						<div class="col-sm-8 col-sm-offset-2">
-							<h4>
-								Nom :
-								<%=voyageur.getNom()%></h4>
-							<h4>
-								Prénom :
-								<%=voyageur.getPrenom()%></h4>
-							<h4>
-								Identifiant :
-								<%=voyageur.getLogin()%></h4>
-							<h4>
-								Mot de Passe :
-								<%=voyageur.getPassword()%></h4>
-						</div>
-						<!--/.col-sm-8.col-sm-offset-2-->
+	<div class="divPerso" id="perso">		
+		<div class="section-header">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12">
+						<h3>Mes informations personnelles</h3>
 					</div>
-					<!--/.row-->
+					<!--/.col-sm-12-->
+					<div class="col-sm-8 col-sm-offset-2">
+						<h4>
+							Nom :
+							<%=voyageur.getNom()%></h4>
+						<h4>
+							Prénom :
+							<%=voyageur.getPrenom()%></h4>
+						<h4>
+							Identifiant :
+							<%=voyageur.getLogin()%></h4>
+						<h4>
+							Mot de Passe :
+							<%=voyageur.getPassword()%></h4>
+					</div>
+					<!--/.col-sm-8.col-sm-offset-2-->
 				</div>
-				<!--/.container-->
+				<!--/.row-->
 			</div>
-			<!--/.section-header--> 
-		</section>
+			<!--/.container-->
+		</div>	<!--/.section-header--> 
 	</div>
-	<!--/#services.front-page-section--> <script type="text/javascript">
+	<!--/#services.front-page-section--> 
+</section>
+</body>
+<script type="text/javascript">
 		function affVoyage() {
 			var x = document.getElementById("voyages");
 			if (x.style.display === "none") {
@@ -324,7 +315,8 @@
 				y.style.display = "none";
 			}
 		}
-	</script> <script type="text/javascript">
+	</script> 
+	<script type="text/javascript">
 			function affPerso() {
 				var x = document.getElementById("perso");
 				if (x.style.display === "none") {
@@ -337,8 +329,5 @@
 					y.style.display = "none";
 				}
 			}
-		</script> </header>
-	<!--/#header-->
-</body>
-
+	</script> 
 </html>

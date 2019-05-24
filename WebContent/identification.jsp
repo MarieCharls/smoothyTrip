@@ -82,7 +82,7 @@
 			</div>
 			<!--/.top-header-->
 
-			<div class="bottom-header front-page">
+			<div class="bottom-header front-page" style="padding-top:150px;">
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-12">

@@ -442,9 +442,10 @@ public class Facade {
     	
     	// On récupère le voyageur
     	Voyageur voyageur = em.find(Voyageur.class, idVoyageur);
-
+    	System.out.println("TAILLLLLLLLLEEEEEE FACADE : "+voyageur.getListVoyage().size());
     	// On associe le voyage au voyageur
 		voyage.setVoyageur(voyageur);
+		System.out.println("TAILLLLLLLLLEEEEEE FACADE BIS: "+voyageur.getListVoyage().size());
 	}
 
 	public Voyageur accederCompte(int idVoyageur) {

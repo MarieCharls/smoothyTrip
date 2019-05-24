@@ -27,7 +27,7 @@ public class Voyageur {
 	private String password;
 	
 	/**
-	private List<String> centresInterets;*/
+	private List<Voyage>;*/
 	@Column
 	@OneToMany(mappedBy="voyageur", fetch = FetchType.EAGER)
 	List<Voyage> listVoyage;
