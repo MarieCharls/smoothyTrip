@@ -98,8 +98,7 @@
 					<!--/.col-sm-12-->
 				</div>
 				<!--/.container --->
-				<div class="container"
-					style="background-color: rgba(250, 250, 250, 0.8); margin-left: 25%; width: 50%">
+				<div class="container-ins">
 					<form action="/smoothy_trip/ServletOp" method="post">
 						<h8 style="color: rgb(0,0,0)"> Nom : </h8>
 						<input type="text" name="nom" /> <br>

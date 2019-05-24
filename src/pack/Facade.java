@@ -314,15 +314,14 @@ public class Facade {
     	// On récupère le vol
     	Vols vols = em.find(Vols.class, idVol);
     	//On récupère le vol aller
-    
+
     	// Maj du budget restant
-    	double budget = voyage.getBudgetRestantIndiv();
-    	
+    	double budget = voyage.getBudgetRestantIndiv();	
     	int nbPersonnes = voyage.getNbPersonnes();
     	double coutVolIndiv = vols.getPrix()/nbPersonnes;
 		budget = budget - coutVolIndiv;
 		voyage.setBudgetRestantIndiv(budget);
-    	// On associe le logement au voyage
+    	// On associe les vols au voyage
 		vols.setVoyage(voyage);
     }
 	

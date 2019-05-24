@@ -88,3 +88,27 @@
 .onglet{
 	color:#e0cda9;
 }
+.button-voyage {
+	position: absolute;
+	right: 52%;
+	background: #fff;
+	cursor: pointer;
+}
+.button-perso {
+	position: absolute;
+	background: #fff;
+	cursor: pointer;
+}
+.divPerso{
+	width: 100%;
+	padding: 50px 0;
+	text-align: center;
+	margin-top: 20px;
+	background-color:rgba(250,250,250,0.8);
+	display: none;
+}
+.container-ins{
+	background-color: rgba(250, 250, 250, 0.8);
+	margin-left: 25%;
+	width: 50%;
+}
