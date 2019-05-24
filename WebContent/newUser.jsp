@@ -88,21 +88,20 @@
 		<!--/.top-header-->
 		<div class="bottom-header front-page">
 			<div class="row">
-				<div class="container" style="width: 99%">
-					<div class="col-sm-12"
-						style="background-color: rgb(250, 250, 250); margin-left: 24.2%; width: 51.6%">
-						<h4 style="color: rgb(0, 0, 0)">Inscription</h4>
-						<div class="section-description" style="color: rgb(150, 150, 150)">
+				<div class="container">
+					<div class="container-title">
+						<h4 class="black">Inscription</h4>
+						<div class="section-ins">
 							Bienvenue ! Crée un compte pour enregistrer ton voyage !</div>
 						<div class="container-ins">
 						<form action="/smoothy_trip/ServletOp" method="post">
-							<h8 style="color: rgb(0,0,0)"> Nom : </h8>
+							<h8 class="black"> Nom : </h8>
 							<input type="text" name="nom" /> <br>
-							<h8 style="color: rgb(0,0,0)"> Prénom : </h8>
+							<h8 class="black"> Prénom : </h8>
 							<input type="text" name="prenom" /> <br>
-							<h8 style="color: rgb(0,0,0)"> Identifiant : </h8>
+							<h8 class="black"> Identifiant : </h8>
 							<input type="text" name="login" /> <br>
-							<h8 style="color: rgb(0,0,0)">Mot de passe : </h8>
+							<h8 class="black">Mot de passe : </h8>
 							<input type="password" name="pwd" /> <br> <input
 								type="submit" name="Validation" value="Valider"> <input
 								type="hidden" name="op" value="createUser"> <input
