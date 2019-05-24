@@ -27,8 +27,8 @@ public class Voyageur {
 	private String password;
 	
 	/**private List<Voyage>;*/
-	@OneToMany(mappedBy="voyageur", fetch = FetchType.EAGER)
-	List<Voyage> listVoyage;
+	@OneToMany(mappedBy="voyageur", fetch = FetchType.LAZY)
+	private List<Voyage> listVoyage;
 
 	public String getNom() {
 		return nom;

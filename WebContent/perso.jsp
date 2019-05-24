@@ -82,7 +82,6 @@
 								type="hidden" name="Validation" value="Valider">
 						</form>
 						</nav>
-						<!-- 					<button class="open-responsive-menu"><i class="fa fa-bars"></i></button> -->
 					</div>
 					<!--/.col-sm-10-->
 				</div>
@@ -98,7 +97,7 @@
 		<div class="bottom-header front-page" style="padding-bottom: 0%">
 			<div class="row">
 						<h2>Mon espace personnel</h2>
-						<div class="section-description" style="color: #000">
+						<div class="section-description">
 							<h4 class="voyageur-nom">
 								<%=voyageur.getPrenom()%>
 								<%=voyageur.getNom()%>
@@ -146,7 +145,6 @@
 		</div><!--/.section-header--> 
 		
 		<% List<Voyage> listVoyage = voyageur.getListVoyage();
-		System.out.println("TAILLLELELELELLELE ------"+ listVoyage.size());
 			if (listVoyage.isEmpty()) {
  				%> Vous n'avez pas encore de voyages prévus ! <%
  			} else {
@@ -170,9 +168,6 @@
 							<div class="service-entry">
 								<%
 									Vols vols = voyage.getVols();
-								%>
-								<%
-									System.out.println(vols.getVolAller());
 								%>
 								<label><%=vols.getVolAller().getOrigine()%> to <%=vols.getVolAller().getDestination()%></label>
 								<br>
@@ -233,11 +228,11 @@
 								<%
 									Collection<Activite> activites = voyage.getListeActivites();
 								%>
+								
 								<%
 									if (activites.isEmpty()) {
 								%>
-								Aucune activite disponible <br> <input type="submit"
-									name="Validation" value="Recommencer la recherche">
+								Aucune activite disponible <br> 
 								<%
 									} else {
 								%>
@@ -251,7 +246,7 @@
 								<br>
 								<%
 									}
-											}
+									}
 								%>
 							</div>
 							<!--/.service-entry-->

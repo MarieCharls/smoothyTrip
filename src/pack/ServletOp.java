@@ -217,15 +217,11 @@ public class ServletOp extends HttpServlet {
 				} else {
 					// sinon, associer le voyage au nouveau compte
 					if (idVoyage != 0){
-						System.out.println("OLEEEEEEE-----------"+idVoyage+"      "+idVoyageur);
-						System.out.println(facade.accederCompte(idVoyageur).getListVoyage().size());
 						facade.associerVoyage(idVoyageur,idVoyage);
-						System.out.println("SEEEEEERVLEEEETTTTTTT OLE--------------------"+facade.accederCompte(idVoyageur).getListVoyage().size());
 					}
 					// Accéder à la page personnelle
 					Voyageur voyageur = facade.accederCompte(idVoyageur);
 					request.setAttribute("voyageur", voyageur);
-					System.out.println("SEEEEEERVLEEEETTTTTTT--------------------"+voyageur.getListVoyage().size());
 					request.getRequestDispatcher("perso.jsp").forward(request, response);
 				}
 			}else{
@@ -252,13 +248,9 @@ public class ServletOp extends HttpServlet {
 					request.getRequestDispatcher("identification.jsp").forward(request, response);
 				} else {
 					if (idVoyage != 0){
-						System.out.println("OLEEEEEEE 2-----------"+facade.accederCompte(idVoyageur).getListVoyage().size());
 						facade.associerVoyage(idVoyageur,idVoyage);
-						System.out.println("SEEEEEERVLEEEETTTTTTT OLE2--------------------"+facade.accederCompte(idVoyageur).getListVoyage().size());
-
 					}
 					Voyageur voyageur = facade.accederCompte(idVoyageur);
-					System.out.println("SEEEEEERVLEEEETTTTTTT--------------------"+voyageur.getListVoyage().size());
 					request.setAttribute("voyageur", voyageur);
 					request.getRequestDispatcher("perso.jsp").forward(request, response);
 				}

@@ -335,7 +335,7 @@ public class Facade {
 			// On associe l'activité au voyage
 			activite.setVoyage(voyage); 
     	}
-
+    	
     }
 	/** Initialiser une connection AmadeusVol**/
     public Amadeus initialiserAmadeusVol(){
@@ -492,10 +492,8 @@ public class Facade {
     	
     	// On récupère le voyageur
     	Voyageur voyageur = em.find(Voyageur.class, idVoyageur);
-    	System.out.println("TAILLLLLLLLLEEEEEE FACADE : "+voyageur.getListVoyage().size());
     	// On associe le voyage au voyageur
 		voyage.setVoyageur(voyageur);
-		System.out.println("TAILLLLLLLLLEEEEEE FACADE BIS: "+voyageur.getListVoyage().size());
 	}
 
 	/** Acceder au compte voyageur d'un utilisateur

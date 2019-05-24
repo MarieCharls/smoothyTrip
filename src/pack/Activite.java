@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Activite {
+public class Activite{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
