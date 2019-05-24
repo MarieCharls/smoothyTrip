@@ -94,27 +94,26 @@
 						<h4 style="color: rgb(0, 0, 0)">Inscription</h4>
 						<div class="section-description" style="color: rgb(150, 150, 150)">
 							Bienvenue ! Crée un compte pour enregistrer ton voyage !</div>
+						<div class="container-ins">
+						<form action="/smoothy_trip/ServletOp" method="post">
+							<h8 style="color: rgb(0,0,0)"> Nom : </h8>
+							<input type="text" name="nom" /> <br>
+							<h8 style="color: rgb(0,0,0)"> Prénom : </h8>
+							<input type="text" name="prenom" /> <br>
+							<h8 style="color: rgb(0,0,0)"> Identifiant : </h8>
+							<input type="text" name="login" /> <br>
+							<h8 style="color: rgb(0,0,0)">Mot de passe : </h8>
+							<input type="password" name="pwd" /> <br> <input
+								type="submit" name="Validation" value="Valider"> <input
+								type="hidden" name="op" value="createUser"> <input
+								type="hidden" name="idVoyage"
+								value="<%=request.getAttribute("idVoyage")%>">
+						</form>
+					</div> <!--/.container-ins --->
 					</div>
 					<!--/.col-sm-12-->
-				</div>
-				<!--/.container --->
-				<div class="container-ins">
-					<form action="/smoothy_trip/ServletOp" method="post">
-						<h8 style="color: rgb(0,0,0)"> Nom : </h8>
-						<input type="text" name="nom" /> <br>
-						<h8 style="color: rgb(0,0,0)"> Prénom : </h8>
-						<input type="text" name="prenom" /> <br>
-						<h8 style="color: rgb(0,0,0)"> Identifiant : </h8>
-						<input type="text" name="login" /> <br>
-						<h8 style="color: rgb(0,0,0)">Mot de passe : </h8>
-						<input type="password" name="pwd" /> <br> <input
-							type="submit" name="Validation" value="Valider"> <input
-							type="hidden" name="op" value="createUser"> <input
-							type="hidden" name="idVoyage"
-							value="<%=request.getAttribute("idVoyage")%>">
-					</form>
-				</div>
-				<!--/.container --->
+					
+				</div><!--/.container --->
 			</div>
 			<!--/.row-->
 		</div>

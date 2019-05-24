@@ -16,32 +16,28 @@
 <link rel="stylesheet" href="css/pace.css">
 <link rel="stylesheet" href="css/IonicsBis.min.css">
 <link rel="stylesheet" href="css/stylePerso.css">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-	integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://adminlte.io/themes/AdminLTE/bower_components/Ionicons/css/ionicons.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<link rel="stylesheet" href="https://adminlte.io/themes/AdminLTE/bower_components/Ionicons/css/ionicons.min.css">
 <style type="text/css" id="illdy-about-section-css">
-#header.header-front-page {
-	background-image: url(images/planner.jpg) !important;
-}
-
-#header.header-front-page .bottom-header .header-button-one {
-	background-color: rgba(0, 0, 0, .4);
-}
-
-#header.header-front-page .bottom-header .header-button-one:hover {
-	background-color: rgba(0, 0, 0, .1);
-}
-
-#header.header-front-page .bottom-header h1 {
-	color: #ffffff;
-}
-
-#header.header-front-page .bottom-header .section-description {
-	color: #ffffff;
-}
+	#header.header-front-page {
+		background-image: url(images/planner.jpg) !important;
+	}
+	
+	#header.header-front-page .bottom-header .header-button-one {
+		background-color: rgba(0, 0, 0, .4);
+	}
+	
+	#header.header-front-page .bottom-header .header-button-one:hover {
+		background-color: rgba(0, 0, 0, .1);
+	}
+	
+	#header.header-front-page .bottom-header h1 {
+		color: #ffffff;
+	}
+	
+	#header.header-front-page .bottom-header .section-description {
+		color: #ffffff;
+	}
 </style>
 </head>
 <body>
@@ -162,6 +158,7 @@
 			Voyage
 			<%=voyage.getNom()%>
 		</h5>
+		<%System.out.println("VOYAGEEEE NOM-----------------------"+voyage.getNom()); %>
 		<div class="section-content">
 			<div class="container">
 				<div class="row inline-columns">
@@ -176,11 +173,12 @@
 							<!--/.service-title-->
 							<div class="service-entry">
 								<%
-									Vols vols = (Vols) request.getAttribute("vols");
+									Vols vols = voyage.getVols();
 								%>
 								<%
 									System.out.println(vols.getVolAller());
 								%>
+								<% System.out.println("VOLLLL ALLLLERRRR --------------------------"+vols.getVolAller().getOrigine()); %>
 								<label><%=vols.getVolAller().getOrigine()%> to <%=vols.getVolAller().getDestination()%></label>
 								<br>
 								<%
@@ -217,7 +215,7 @@
 							<!--/.service-title-->
 							<div class="service-entry">
 								<%
-									Logement logement = (Logement) request.getAttribute("logementChoisi");
+									Logement logement = voyage.getLogement();
 								%>
 								<label>Nom: </label>
 								<%=logement.getNom()%>
@@ -242,7 +240,7 @@
 							<!--/.service-title-->
 							<div class="service-entry">
 								<%
-									Collection<Activite> activites = (Collection<Activite>) request.getAttribute("listeActivite");
+									Collection<Activite> activites = voyage.getListeActivites();
 								%>
 								<%
 									if (activites.isEmpty()) {
@@ -283,34 +281,35 @@
 	</div>
 	<div class="divPerso" id="perso">
 		<section id="services" class="front-page-section">
-		<div class="section-header">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-12">
-						<h1>Mes informations personnelles</h1>
+			<div class="section-header">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-12">
+							<h1>Mes informations personnelles</h1>
+						</div>
+						<!--/.col-sm-12-->
+						<div class="col-sm-8 col-sm-offset-2">
+							<h4>
+								Nom :
+								<%=voyageur.getNom()%></h4>
+							<h4>
+								Prénom :
+								<%=voyageur.getPrenom()%></h4>
+							<h4>
+								Identifiant :
+								<%=voyageur.getLogin()%></h4>
+							<h4>
+								Mot de Passe :
+								<%=voyageur.getPassword()%></h4>
+						</div>
+						<!--/.col-sm-8.col-sm-offset-2-->
 					</div>
-					<!--/.col-sm-12-->
-					<div class="col-sm-8 col-sm-offset-2">
-						<h4>
-							Nom :
-							<%=voyageur.getNom()%></h4>
-						<h4>
-							Prénom :
-							<%=voyageur.getPrenom()%></h4>
-						<h4>
-							Identifiant :
-							<%=voyageur.getLogin()%></h4>
-						<h4>
-							Mot de Passe :
-							<%=voyageur.getPassword()%></h4>
-					</div>
-					<!--/.col-sm-8.col-sm-offset-2-->
+					<!--/.row-->
 				</div>
-				<!--/.row-->
+				<!--/.container-->
 			</div>
-			<!--/.container-->
-		</div>
-		<!--/.section-header--> </section>
+			<!--/.section-header--> 
+		</section>
 	</div>
 	<!--/#services.front-page-section--> <script type="text/javascript">
 		function affVoyage() {

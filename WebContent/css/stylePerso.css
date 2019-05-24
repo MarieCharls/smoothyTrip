@@ -76,15 +76,6 @@
 	animation: notification ease 1s 1 !important;
 	
 }
-@keyframes notification{
-	
-	0%{transform:translate(0);}
-	25%{transform:translateY(20px);}
-	50%{transform:translateY(0);}
-	75%{transform:translateY(15px);}
-	100%{transform:translate(0);}
-}
-
 .onglet{
 	color:#e0cda9;
 }
@@ -112,3 +103,13 @@
 	margin-left: 25%;
 	width: 50%;
 }
+
+@keyframes notification{
+	
+	0%{transform:translate(0);}
+	25%{transform:translateY(20px);}
+	50%{transform:translateY(0);}
+	75%{transform:translateY(15px);}
+	100%{transform:translate(0);}
+}
+

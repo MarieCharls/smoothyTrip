@@ -26,10 +26,10 @@ public class Activite {
 	
 	/** Type d'activité */
 	private String type;
-
-	/** Avis sur l'activite **/
-	@OneToMany(mappedBy="act", fetch = FetchType.EAGER)
-	Set<Avis> listeAvis;
+//
+//	/** Avis sur l'activite **/
+//	@OneToMany(mappedBy="act", fetch = FetchType.EAGER)
+//	Set<Avis> listeAvis;
 	
 	/** Professionel proposant l'activite **/
 	@ManyToOne
@@ -64,12 +64,12 @@ public class Activite {
 	public String getType() {
 		return this.type;
 	}
-	public void setAvis(List<Avis> avis){
-		this.listAvis = avis;
-	}
-	public List<Avis> getAvis(){
-		return this.listAvis;
-	}	
+//	public void setAvis(List<Avis> avis){
+//		this.listAvis = avis;
+//	}
+//	public List<Avis> getAvis(){
+//		return this.listAvis;
+//	}	
 	public void setPro(Professionnel pro){
 		this.pro = pro;
 	}
