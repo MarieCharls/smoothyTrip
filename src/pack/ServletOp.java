@@ -18,12 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.amadeus.Amadeus;
 import com.amadeus.Params;
-//import com.amadeus.Amadeus;
-//import com.amadeus.Params;
+
 import com.amadeus.exceptions.ResponseException;
-//import com.amadeus.referenceData.Locations;
-//import com.amadeus.resources.HotelOffer;
-//import com.amadeus.resources.Location;
+
 import com.amadeus.resources.HotelOffer;
 
 import fi.foyt.foursquare.api.FoursquareApiException;
@@ -156,15 +153,16 @@ public class ServletOp extends HttpServlet {
 				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
 				
 				facade.associerLogement(idLogement,idVoyage);
-				// Envoyer la liste des activites
+				// Initialiser la liste des activites
 				List<Activite> listeActivites = Collections.synchronizedList(new ArrayList<Activite>());
+				// Récupérer les activités disponibles
 				try {
 					listeActivites = facade.chercherActivite(idVoyage);
 				} catch (ResponseException | ParseException | InterruptedException | FoursquareApiException e) {
 					// TODO Auto-generated catch block
 					((Throwable) e).printStackTrace();
-}
-				// Faire choisir le logement à l'utilisateur
+				}
+				// Envoyer la liste des activités
 				request.setAttribute("listeActivite", listeActivites);
 				request.setAttribute("idVoyage", idVoyage);
 				request.setAttribute("vols",facade.getVols(idVoyage));
@@ -179,7 +177,9 @@ public class ServletOp extends HttpServlet {
 		if (operation.equals("validerActivites")){
 			String validation = request.getParameter("Validation");
 			if (validation.equals("Valider")){
+				// Récupéer l'id du voyage
 				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
+				// Récupérer la liste d'activités choisies
 				String[] listId = request.getParameterValues("idActivite");
 				for(int i=0;i<listId.length;i++){
 					int idAct = Integer.parseInt(listId[i]);
@@ -201,24 +201,31 @@ public class ServletOp extends HttpServlet {
 		if (operation.equals("Nouveau Compte")){
 			int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
 			request.setAttribute("idVoyage",idVoyage);
+			// Envoyer la page d'inscription 
 			request.getRequestDispatcher("newUser.jsp").forward(request, response);
 		}
 		if (operation.equals("createUser")){
 			String validation = request.getParameter("Validation");
 			if (validation.equals("Valider")){
+				// Récupérer l'id du voyage
 				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
+				// Récupérer les informations de l'utilisateur
 				String login = request.getParameter("login");
 				String pwd = request.getParameter("pwd");
 				String nom = request.getParameter("nom");
 				String prenom = request.getParameter("prenom");
+				// Créer le compte
 				int idVoyageur = facade.creerVoyageur(login,pwd,nom,prenom);
+				// Si erreur:compte existe déjà, recommencer
 				if (idVoyageur == 0){
 					request.setAttribute("idVoyage", idVoyage);
 					request.getRequestDispatcher("identification.jsp").forward(request, response);
 				} else {
+					// sinon, associer le voyage au nouveau compte
 					if (idVoyage != 0){
 						facade.associerVoyage(idVoyageur,idVoyage);
 					}
+					// Accéder à la page personnelle
 					Voyageur voyageur = facade.accederCompte(idVoyageur);
 					request.setAttribute("voyageur", voyageur);
 					request.getRequestDispatcher("perso.jsp").forward(request, response);
@@ -236,9 +243,11 @@ public class ServletOp extends HttpServlet {
 		if (operation.equals("validerUser")){
 			String validation = request.getParameter("Validation");
 			if (validation.equals("Valider")){
-				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
+				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));`
+				// Récupérer les identifiants de connexion
 				String login = request.getParameter("login");
 				String pwd = request.getParameter("pwd");
+				// Connecter au compte et associer le voyage si possible, sinon recommencer
 				int idVoyageur = facade.getIdVoyageur(login, pwd);
 				if (idVoyageur == 0){
 					request.setAttribute("idVoyage", idVoyage);
@@ -256,7 +265,6 @@ public class ServletOp extends HttpServlet {
 				request.getRequestDispatcher("questionnaire.jsp");	
 			}
 		}
-
 	}
 
 	/**
