@@ -99,7 +99,7 @@
 			<div class="row">
 						<h2>Mon espace personnel</h2>
 						<div class="section-description" style="color: #000">
-							<h4>
+							<h4 class="voyageur-nom">
 								<%=voyageur.getPrenom()%>
 								<%=voyageur.getNom()%>
 							</h4>

@@ -26,9 +26,7 @@ public class Voyageur {
 	/** Mot de passe de l'utilisateur **/
 	private String password;
 	
-	/**
-	private List<Voyage>;*/
-	@Column
+	/**private List<Voyage>;*/
 	@OneToMany(mappedBy="voyageur", fetch = FetchType.EAGER)
 	List<Voyage> listVoyage;
 
@@ -47,13 +45,6 @@ public class Voyageur {
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
-
-	/**public List<String> getCentresInterets() {
-		return centresInterets;
-	}
-	public void setCentresInterets(List<String> centresInterets) {
-		this.centresInterets = centresInterets;
-	}*/
 
 	public List<Voyage> getListVoyage() {
 		return listVoyage;

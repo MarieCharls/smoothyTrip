@@ -139,6 +139,19 @@ public class Facade {
     	return cityCode;
     }
     
+    /** Récupérer le city code d'une ville à partir de son nom
+     * @param String cityName nom de la ville 
+     * @throws ResponseException */
+    public String toCityCodebis(String cityName) throws ResponseException{
+    	cityName.toLowerCase();
+    	Amadeus amadeus = this.initialiserAmadeusActivite();
+    	Location[] location = amadeus.referenceData.locations.get(Params
+    			.with("keyword",cityName)
+    			.and("subType",Locations.CITY));
+    	String cityCode = location[0].getAddress().getCityCode();
+    	return cityCode;
+    }
+    
     /** Initialiser une connection AmadeusHotel**/
     public Amadeus initialiserAmadeusHotel(){
     	Amadeus amadeus = Amadeus
@@ -161,10 +174,25 @@ public class Facade {
      * @param ville Nom de la ville à vérifier
      * @return booléen indiquant si la ville existe dans la base de donnée ou pas
      */
-    public boolean checkVille(String ville){
+    public boolean checkVilleOrigine(String ville){
     	boolean existe = true;
     	try{
     		String cityCode = toCityCode(ville);
+    	}catch(Exception e){
+    		existe=false;
+    	}
+    	return existe;
+    }
+    
+    /** Vérifier la validité d'une ville demandé
+     * 
+     * @param ville Nom de la ville à vérifier
+     * @return booléen indiquant si la ville existe dans la base de donnée ou pas
+     */
+    public boolean checkVilleDestination(String ville){
+    	boolean existe = true;
+    	try{
+    		String cityCode = toCityCodebis(ville);
     	}catch(Exception e){
     		existe=false;
     	}
@@ -200,13 +228,16 @@ public class Facade {
 
 
     
-    /** Initialiser une connection AmadeusActivite**/
+    /** Initialiser une connection AmadeusActivite
+     * @return connexion à amadeus
+     * **/
     public Amadeus initialiserAmadeusActivite(){
     	Amadeus amadeus = Amadeus
               .builder("jvcgO6WcMxZkKmDQYrPQ9l0XG1LBkKPy", "OIJ03moU3renCAPs")
               .build();
     	return amadeus;
     }
+    
     /** Récupérer la longitude d'une ville à partir de son nom
      * @param String cityCode code de la ville 
      * @throws ResponseException */
@@ -290,18 +321,20 @@ public class Facade {
     	return listeActivites;
 	}
     /** Faire le lien BD entre activites choisies et voyage courant. 
-     * @param idActivite
+     * @param idActivites
      * @param idVoyage
      */
-    public void associerActivite(int idActivite,int idVoyage){
+    public void associerActivite(String[] idActivites,int idVoyage){
     	// On récupère le voyage courant
     	Voyage voyage = em.find(Voyage.class, idVoyage);
     	
-    	// On récupère l'activité
-    	Activite activite = em.find(Activite.class, idActivite);
- 
-    	// On associe l'activité au voyage
-    	activite.setVoyage(voyage); 
+    	for(int i=0;i<idActivites.length;i++){
+			int idAct = Integer.parseInt(idActivites[i]);
+			// On récupère l'activité
+			Activite activite = em.find(Activite.class, idAct);
+			// On associe l'activité au voyage
+			activite.setVoyage(voyage); 
+    	}
 
     }
 	/** Initialiser une connection AmadeusVol**/
@@ -427,7 +460,6 @@ public class Facade {
     	}
 		return listeVols;
     }
-	/** Authentification du voyageur **/
 	
 	/** Creer un nouveau compte voyageur 
 	 * @param prenom 
@@ -450,7 +482,10 @@ public class Facade {
 		return idVoyageur;
     }
 
-	/** Associer un voyage a un voyageur authentifié **/
+	/** Associer un voyage a un voyageur authentifié +
+	 * @param idVoyageur
+	 * @param idvoyage
+	 * **/
 	public void associerVoyage(int idVoyageur, int idVoyage) {
 		// On récupère le voyage courant
     	Voyage voyage = em.find(Voyage.class, idVoyage);
@@ -463,12 +498,20 @@ public class Facade {
 		System.out.println("TAILLLLLLLLLEEEEEE FACADE BIS: "+voyageur.getListVoyage().size());
 	}
 
+	/** Acceder au compte voyageur d'un utilisateur
+	 * @param idVoyageur
+	 * @return Voayageur
+	 */
 	public Voyageur accederCompte(int idVoyageur) {
 		Voyageur voyageur = em.find(Voyageur.class, idVoyageur);
 		return voyageur;
 	}
 	
-	
+	/** Retrouver l'id d'un voyageur à partir de son login et mdp
+	 * @param login
+	 * @param pwd
+	 * @return
+	 */
 	public int getIdVoyageur(String login, String pwd) {
 		TypedQuery<Integer> req = em.createQuery("SELECT id FROM Voyageur v WHERE v.login = '"+login+"' and v.password= '"+pwd+"'",Integer.class);
 		int idVoyageur;

@@ -103,6 +103,9 @@
 	margin-left: 25%;
 	width: 50%;
 }
+.voyageur-nom{
+	color : #e0cda9;
+}
 @keyframes notification{
 	
 	0%{transform:translate(0);}

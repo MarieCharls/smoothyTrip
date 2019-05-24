@@ -51,10 +51,7 @@ public class ServletOp extends HttpServlet {
 			String nom= request.getParameter("nom");
 			String destination= request.getParameter("destination");
 			destination=destination.toLowerCase();
-			
-//			String destination_uk = facade.frToAnglais(destination);
-//			response.getWriter().append("Served at: "+destination+" uk version "+destination_uk);
-					
+								
 			String origine = request.getParameter("origine");
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			Date dateDepart = null;
@@ -68,8 +65,8 @@ public class ServletOp extends HttpServlet {
 			}
 
 			// Vérification de la validité des dates insérées
-			boolean villeDepartValide = facade.checkVille(origine);
-			boolean villeDestiValide = facade.checkVille(destination);
+			boolean villeDepartValide = facade.checkVilleOrigine(origine);
+			boolean villeDestiValide = facade.checkVilleDestination(destination);
 			boolean dateValide = facade.checkDate(dateDepart,dateRetour);
 
 			if (!villeDepartValide){
@@ -113,28 +110,17 @@ public class ServletOp extends HttpServlet {
 			request.setAttribute("listeVol", listeVols);
 			request.setAttribute("idVoyage", idVoyage);
 			request.getRequestDispatcher("vol.jsp").forward(request, response);
-			// Calculer le budget restant (AVOIR UN STRING POUR AMAEDUS)
-			
-			// budget_int = budget_int - prix avions
-			// budget_string = "0-"+toString(budget_int)
-			// Donner le jour de l'arrivée du vol aller, et jour départ du vol retour
-			
-			// Chercher un logement 
-			///!\ ce date départ doit être le j d'arrivée à l'aéroport
-			// /!\Date retour est le jour où le vol retour part pas celui où l'utilisateur veut etre rentre
+		
 		}
 		if (operation.equals("validerVol")) {
 			String validation = request.getParameter("Validation");
 			if (validation.equals("Valider")){
-				//response.getWriter().append("Served at: " + request.getParameter("idLogement")+" "+ request.getParameter("idVoyage"));
 				int idVol = Integer.parseInt(request.getParameter("idVol"));
 				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
 				facade.associerVol(idVol ,idVoyage);
 				
 				List<Logement> listeLogements = Collections.synchronizedList(new ArrayList<Logement>());
 				try {
-					// ------------------ DATEALLER ET DATE RETOUR  ET BUDGET A MAJ APRES APPEL DE VOLS --------------
-
 					listeLogements = facade.chercherLogement(idVoyage);
 					
 				} catch (ResponseException e) {
@@ -160,7 +146,6 @@ public class ServletOp extends HttpServlet {
 		if (operation.equals("validerLogement")){
 			String validation = request.getParameter("Validation");
 			if (validation.equals("Valider")){
-				//response.getWriter().append("Served at: " + request.getParameter("idLogement")+" "+ request.getParameter("idVoyage"));
 				int idLogement = Integer.parseInt(request.getParameter("idLogement"));
 				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
 				
@@ -193,10 +178,7 @@ public class ServletOp extends HttpServlet {
 				int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
 				// Récupérer la liste d'activités choisies
 				String[] listId = request.getParameterValues("idActivite");
-				for(int i=0;i<listId.length;i++){
-					int idAct = Integer.parseInt(listId[i]);
-					facade.associerActivite(idAct,idVoyage);
-				}
+				facade.associerActivite(listId,idVoyage);
 				Logement logementChoisi=facade.getLogement(idVoyage);
 				List<Activite> listeActivite =facade.getActivites(idVoyage);
 				Vols vols=facade.getVols(idVoyage);
@@ -235,8 +217,10 @@ public class ServletOp extends HttpServlet {
 				} else {
 					// sinon, associer le voyage au nouveau compte
 					if (idVoyage != 0){
-						System.out.println("OLEEEEEEE-----------"+facade.accederCompte(idVoyageur).getListVoyage().size());
+						System.out.println("OLEEEEEEE-----------"+idVoyage+"      "+idVoyageur);
+						System.out.println(facade.accederCompte(idVoyageur).getListVoyage().size());
 						facade.associerVoyage(idVoyageur,idVoyage);
+						System.out.println("SEEEEEERVLEEEETTTTTTT OLE--------------------"+facade.accederCompte(idVoyageur).getListVoyage().size());
 					}
 					// Accéder à la page personnelle
 					Voyageur voyageur = facade.accederCompte(idVoyageur);
@@ -268,7 +252,10 @@ public class ServletOp extends HttpServlet {
 					request.getRequestDispatcher("identification.jsp").forward(request, response);
 				} else {
 					if (idVoyage != 0){
+						System.out.println("OLEEEEEEE 2-----------"+facade.accederCompte(idVoyageur).getListVoyage().size());
 						facade.associerVoyage(idVoyageur,idVoyage);
+						System.out.println("SEEEEEERVLEEEETTTTTTT OLE2--------------------"+facade.accederCompte(idVoyageur).getListVoyage().size());
+
 					}
 					Voyageur voyageur = facade.accederCompte(idVoyageur);
 					System.out.println("SEEEEEERVLEEEETTTTTTT--------------------"+voyageur.getListVoyage().size());
