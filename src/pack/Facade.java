@@ -155,7 +155,22 @@ public class Facade {
     	Date dateCourante = new Date();
     	return dateDepart.after(dateCourante) && dateRetour.after(dateDepart);
     }
-    
+   
+     /** Vérifier la validité d'une ville demandé
+     * 
+     * @param ville Nom de la ville à vérifier
+     * @return booléen indiquant si la ville existe dans la base de donnée ou pas
+     */
+    public boolean checkVille(String ville){
+    	boolean existe = true;
+    	try{
+    		String cityCode = toCityCode(ville);
+    	}catch(Exception e){
+    		existe=false;
+    	}
+    	return existe;
+    }
+
     /** Faire le lien BD entre logement choisi et voyage courant. Et
      * maj le budget restant sur le voyage
      * @param idLogement

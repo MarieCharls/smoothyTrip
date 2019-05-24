@@ -68,10 +68,18 @@ public class ServletOp extends HttpServlet {
 			}
 			// Vérification de la validité des dates insérées
 			boolean dateValide = facade.checkDate(dateDepart,dateRetour);
-			if (dateValide==false){
-				request.setAttribute("dateInvalide", "true");
-				request.getRequestDispatcher("questionnaire.jsp").forward(request, response);
+			if (!villeDepartValide){
+				request.setAttribute("ville_demande", origine);
+				request.getRequestDispatcher("questionnairebis_erreur_ville1.jsp").forward(request, response);
 			}
+			else if (!villeDestiValide){
+				request.setAttribute("ville_demande", destination);
+				request.getRequestDispatcher("questionnairebis_erreur_ville2.jsp").forward(request, response);
+			}
+			else if (!dateValide){
+				request.getRequestDispatcher("questionnairebis_erreur_date.jsp").forward(request, response);
+			} 
+			
 			int nbJours = dateDepart.compareTo(dateRetour);
 			
 			int nbPersonnes= Integer.parseInt(request.getParameter("response5"));
